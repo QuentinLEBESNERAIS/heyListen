@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import './App.css';
+import '../App.css';
 import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import Nav from './Nav'
@@ -26,10 +26,10 @@ function ScreenDashboard(props) {
   return (
       
     <div>
-        <div className="background">
+       
         <Nav/>
 
-        </div>
+      
         
 
         <Row>
@@ -162,7 +162,7 @@ function ScreenDashboard(props) {
             <Form layout="vertical" >
 
                 <h2 className='input-listen'> 
-                {<Image width='30px' src="./logo.png" />}
+                {<Image width='30px' src="./logo-transparent.png" />}
                 Concernant Michel Dupont :
                 </h2>
 

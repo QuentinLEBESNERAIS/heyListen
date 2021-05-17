@@ -1,11 +1,11 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import ScreenLogin1 from './ScreenLogin1';
-import ScreenSignUpManager from './ScreenSignUpManager';
-import ScreenSignUpCollab from './ScreenSignUpCollab';
-import ScreenDashboard from './ScreenDashboard'
-import ScreenListen from './ScreenListen';
+import ScreenLogin1 from './views/ScreenLogin1';
+import ScreenSignUpManager from './views/ScreenSignUpManager';
+import ScreenSignUpCollab from './views/ScreenSignUpCollab';
+import ScreenDashboard from './views/ScreenDashboard'
+import ScreenListen from './views/ScreenListen';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';

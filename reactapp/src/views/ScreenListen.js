@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import './App.css';
-import {Menu, Slider,Input,Button,Form,Row,Col} from 'antd'
+import '../App.css';
+import { Slider,Input,Button,Form,Row,Col} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 
@@ -20,10 +20,10 @@ function ScreenListen(props) {
   return (
       
     <div>
-         <div className="background">
+        
         <Nav/>
 
-        </div>
+        
            
       <Row>
         <Col span={4} offset={10}>    
