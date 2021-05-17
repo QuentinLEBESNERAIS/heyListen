@@ -51,7 +51,7 @@ function ScreenDashboard(props) {
 
 // NEW CAMPAIGN
     var tokenStore = "kfelkfjslkejflskej"
-    var teamStore = []
+    var teamBDD = []
 
     var testlog = () => {
         console.log("Bonjour, je suis le testLOG !")
@@ -61,7 +61,7 @@ function ScreenDashboard(props) {
         const data = await fetch('/new-campaign', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tokenFromFront=${tokenStore}&teamFromFront=${teamStore}`
+            body: `tokenFromFront=${props.user._id}&teamFromFront=${teamBDD}`
         })
         const body = await data.json()
     }
