@@ -15,17 +15,15 @@ router.get('/', function(req, res, next) {
   Body : email (sorayacantos@gmail.com)
   Response : response(), token (1234)
 */
-router.post('/check-email', function(req, res, next) {
-  let validEmail = req.body.email
-  if(!validEmail){
-    res.json({ response: 'EmailInvalide'});
-  }
-if(validEmail){
- let emailFromBdd; // On cherche l'utilisateur en base de données à partir de son email
-  if(emailFromBdd){
-    let password; // Vérifier en bdd si cet email a un mot de passe
-    if (password){
-      res.json({response: 'login2', token: 'token'})
+router.post('/check-email', async function(req, res, next) {
+ 
+  var searchUserByEmail = await UserModel.findOne({
+    email: req.body.email
+  })
+  console.log('searchUserByEmail', searchUserByEmail)
+  if(searchUserByEmail){
+    if (searchUserByEmail.password){
+      res.json({response: 'login2'})
     } else {
       res.json({response: 'signUpCollab', token:'token'})
     }
@@ -33,7 +31,7 @@ if(validEmail){
     res.json({response: 'signUpManager'})
   }
 }   
-});
+);
 
 /*
   Check user account (sign-in)

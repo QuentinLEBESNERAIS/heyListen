@@ -24,7 +24,6 @@ function ScreenLogin1(props) {
        var resultCheckEmail = await resultRaw.json();
      console.log('resultCheckEmail', resultCheckEmail)   
     if (resultCheckEmail.response == 'login2') {
-      console.log('here--------------------------------')
       props.saveEmail(email)
       setLoginState('login2')
     } else if (resultCheckEmail.response == 'signUpCollab'){
