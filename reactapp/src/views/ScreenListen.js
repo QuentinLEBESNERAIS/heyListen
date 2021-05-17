@@ -1,8 +1,9 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import '../App.css';
 import { Slider,Input,Button,Form,Row,Col} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
+import {connect} from 'react-redux';
 
 function ScreenListen(props) {
     const[moodValue,setMoodValue] = useState(1);
@@ -16,6 +17,14 @@ function ScreenListen(props) {
    var handleChange = (value) => {
         setMoodValue(value);
       };
+     // Enregistrement du Listen Collab
+    var saveListenCollab = async (valueMood,value1,value2,value3,value4,value5) => {
+        await fetch('/save-listen', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `id=60a25b9d824d782967c67db6&mood=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
+        });
+    };
 
   return (
       
@@ -91,7 +100,7 @@ function ScreenListen(props) {
                     <Form.Item >
                         <Button htmlType="submit" className='input-button-listen'
                         style={{backgroundColor:'#3d84b8',color:'white'}}
-                        onClick={()=> console.log('test',moodValue, responseOne, responseTwo, responseThree, responseFour,responseFive) }>
+                        onClick={()=> saveListenCollab(moodValue,responseOne,responseTwo,responseThree,responseFour,responseFive) }>
                         Valider
                         </Button>
                     </Form.Item>
@@ -107,4 +116,12 @@ function ScreenListen(props) {
 }
 
 
-export default ScreenListen
+//function mapStateToProps(state) {
+ //   return { user_id: state.user._id }
+ //  }
+    
+ //  export default connect(
+  //  mapStateToProps,
+   // null
+   //)(ScreenListen);
+   export default ScreenListen

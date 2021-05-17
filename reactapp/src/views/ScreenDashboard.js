@@ -278,7 +278,7 @@ return (
 
                         <Button key="submit" 
                         style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                        onClick={()=> handleOk2() }>
+                        onClick={()=> handleOk2()}>
                         Ajouter ce collaborateur
                         </Button>
                     
