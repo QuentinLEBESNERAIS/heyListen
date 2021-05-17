@@ -264,7 +264,7 @@ return (
             footer={null}
             width={700}
             height={500}
-        >   <div>
+        >   <div style={{color:'red', display:'flex', justifyContent:'center'}}>
             {errorMessage}
         </div>
             <Form layout="inline" >
