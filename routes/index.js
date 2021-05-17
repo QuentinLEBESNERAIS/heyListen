@@ -20,13 +20,9 @@ router.get('/to-dashboard', function(req, res, next) {
  });
 
 router.post('/new-campaign', async function(req, res, next) {
-  //let token = req.query.token // du reduceur
-  //let team = req.query.team
-  var team = [{
-    manager:[],
-    collab:[],
-    }]
-    
+  let token = req.body.tokenFromFront // du reduceur
+  let team = req.body.teamFromFront
+
   // Update ancienne campagne, tous les listen dont managerId et isActive =true ==> isActive = false
   await ListenModel.updateMany(
     { manager: "token Manager", isActive: true},
@@ -34,6 +30,7 @@ router.post('/new-campaign', async function(req, res, next) {
   );
   
   // Find template default
+
   // Création listens avec managerId from team et collabId from team
   //collab: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
   //manager: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
@@ -43,8 +40,6 @@ router.post('/new-campaign', async function(req, res, next) {
       manager: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
       createdAt: new Date(),
       isActive: true,
-      completedByManagerAt: "",
-      completedByCollabAt: "",
       mood: null,
       answersCollab: [],
       answersFeedback: [],
