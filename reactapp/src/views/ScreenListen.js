@@ -3,6 +3,7 @@ import '../App.css';
 import { Slider,Input,Button,Form,Row,Col} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
+import {connect} from 'react-redux';
 
 function ScreenListen(props) {
     const[moodValue,setMoodValue] = useState(1);
@@ -21,7 +22,7 @@ function ScreenListen(props) {
         await fetch('/save-listen', {
         method: 'PUT',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `_id:${props.user._id}&mood=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
+        body: `_id:${props.user_id}&mood=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
         });
     };
 
@@ -115,4 +116,11 @@ function ScreenListen(props) {
 }
 
 
-export default ScreenListen
+function mapStateToProps(state) {
+    return { user_id: state.user._id }
+   }
+    
+   export default connect(
+    mapStateToProps,
+    null
+   )(ScreenListen);
