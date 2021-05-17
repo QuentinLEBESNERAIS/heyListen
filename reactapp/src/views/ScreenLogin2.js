@@ -28,6 +28,7 @@ function ScreenLogin2(props) {
   }
 } 
 
+
     return (
       <div className="background">
       <Row justify="center" align="middle" style={{height:'100%'}}>

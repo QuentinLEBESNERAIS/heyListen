@@ -136,6 +136,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
       createdAt:new Date(),
       company: req.body.company,
       jobTitle: req.body.jobTitle,
+      isActive:true
    })
    var newUser = await UserModel.findOne({email:req.body.email})
   

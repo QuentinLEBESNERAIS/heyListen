@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import '../App.css';
 import {Menu, Avatar, Badge} from 'antd';
 
-function Nav() {
+function Nav(props) {
+
+  useEffect(()=>{
+  },[props.user])
+
+  if(!props.user){return (<Redirect to='/'/>)}
+
 
     return (
         <Menu mode="horizontal" className="navbar">
@@ -26,13 +32,26 @@ function Nav() {
           </Menu.Item>
             <span className="rightSpans">
             <span>Michel Tichou</span>
-            <span className="rightNavElement"><Avatar className="avatar" size={33}>MT</Avatar></span>
+            <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>MT</Avatar></span>
             </span>
         </Menu>
     );
   }
 
-   export default connect(
-    null,
-    null
+  function mapDispatchToProps(dispatch){
+    return {
+      handleClickLogOut: function(){
+        dispatch({type:"logOut"})
+      }
+    }
+  }
+
+  function mapStateToProps(state){
+    return {user: state.user}
+  }
+ 
+
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
    )(Nav);
