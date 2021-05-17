@@ -94,3 +94,36 @@
   width: 200px;
 }
 
+.sign-up-inputs {
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+.sign-up-top-input-width {
+  width: 49%;
+}
+
+.sign-up-bottom-input-width {
+  width: 100%;
+}
+
+.sign-up-button {
+  border-radius: 5px;
+  margin-top: 30px;
+}
+
+.sign-up-title {
+  font-size: 2rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sign-up-input-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sign-up-button-div {
+  display: flex;
+  justify-content: flex-end;
+}
