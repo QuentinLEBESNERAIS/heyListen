@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Col, Input, Row, Alert, Space, Button} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
+import { set } from 'mongoose';
 
 function ScreenSignUpManager(props) {
 const [firstName,setFirstName] = useState("")
@@ -15,26 +16,22 @@ const [userCreated,setUserCreated] = useState(false)
 
 var handleClickSignUp = ()=>{
   async function signUp(){
-    console.log("clickdetecté")
+    
     var response = await fetch('/users/sign-up-manager',{
        method:"POST",
        headers:{'Content-Type':'application/x-www-form-urlencoded'},
        body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
      })
      response=await response.json()
-      if(response.result){setUserCreated(true);
-        console.log("token sign up",response.savedUser.token)
-        var user= response.savedUser
-        props.userToReducer(user)
-      }else{setSignUpError(response)}
-
+     console.log(response)
+     setSignUpError(response)
    }
    signUp()
    
 }
-if(userCreated){
-  return <Redirect to="/dashboard"/>
-}
+//if(userCreated){
+  //return <Redirect to="/dashboard"/>
+//}
 
     return (
       <div className="background">
@@ -82,7 +79,7 @@ if(userCreated){
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
       <Button onClick={()=>handleClickSignUp()} className="sign-up-button">S'inscrire</Button>
-      <p>{signUpError}</p>
+      {signUpError}
       </Col>
       </Row>
     </div>

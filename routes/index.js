@@ -28,6 +28,18 @@ router.get('/new-campaign', function(req, res, next) {
   res.json ({response: 'Nouvelle campagne lancée'})
  });
 
+ router.put('/save-listen', async function(req, res, next) {
+    
+    await ListenModel.updateOne({collab:req.body.id, isActive : true},{
+      mood:req.body.mood,
+      completedByCollabAt: new Date(),
+      answersCollab: [{reponse1: req.body.reponse1, reponse2: req.body.reponse2, reponse3: req.body.reponse3, reponse4: req.body.reponse4, reponse5 :req.body.reponse5}]
+   })
+   var saveNewListen = await ListenModel.findOne({collab:req.body.id, isActive : true})
+   
+  res.json ({response: saveNewListen})
+ });
+
 
 
 module.exports = router;

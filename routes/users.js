@@ -73,8 +73,9 @@ router.post('/sign-in', function(req, res, next) {
   Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) 
   Response : 
 */
-router.post('/sign-up-manager', function(req, res, next) {
+router.post('/sign-up-manager',async function(req, res, next) {
   console.log(req.body)
+  let email = 'qlebesnerais@gmail.com'
   let lastName = req.body.lastName
   let firstName = req.body.firstName
   let password = req.body.password
@@ -82,17 +83,39 @@ router.post('/sign-up-manager', function(req, res, next) {
   let company = req.body.company
   let jobTitle = req.body.jobTitle
   let type = 'manager'
-  // let token = iud2
- if(lastName && firstName && password && password2 && company && jobTitle){
+  
+ if(lastName && firstName && password && password2 && company && jobTitle && email ){
   if (password == password2){
-    let user; // Créer le user manager
+    //Création du user Manager en BDD
+    hash = bcrypt.hashSync(req.body.password,10)
+    var newUser = new UserModel({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      email: email,
+      password: hash,
+      token: uid2(32),
+      createdAt:new Date(),
+      company: req.body.company,
+      jobTitle: req.body.jobTitle,
+      isActive: true,
+      type: "manager",
+  })
+  var savedUser = await newUser.save()
+    //Création de la team en BDD
+  var newTeam = new TeamModel({
+    manager: savedUser._id
+  })
+  var savedNewTeam = await newTeam.save()
+
+  console.log(savedUser)
+  console.log(savedNewTeam)
     let team; // Créer la team
-    res.json({response: 'created account', user, team})
+    res.json( 'created account')
   } else {
-    res.json({response: 'les mots de passe ne correspondent pas'})
+    res.json( 'les mots de passe ne correspondent pas')
   } 
  } else {
-  res.json({response: 'renseigner tous les champs'})
+  res.json( 'renseigner tous les champs')
  }
 
 
@@ -106,11 +129,12 @@ router.post('/sign-up-manager', function(req, res, next) {
 
 
 
- 
+
  });
 
  router.post('/sign-up-collab', function(req, res, next) {
   let token = req.query.token // du reduceur
+  let email = "quentin@gmail.com"
   let lastName = req.body.lastName;
   let firstName = req.body.firstName;
   let password = req.body.password;
@@ -119,10 +143,10 @@ router.post('/sign-up-manager', function(req, res, next) {
   let jobTitle = req.body.jobTitle;
   let type = 'collab'
   // let token = iud2
- if(lastName && firstName && password && password2 && company && jobTitle){
+ if(lastName && firstName && password && password2 && company && jobTitle && email ){
   if (password == password2){
     // Updater le compte user Collaborateur
-    res.json({response: 'created account', user})
+    res.json({response: 'created account'})
   } else {
     res.json({response: 'les mots de passe ne correspondent pas'})
   } 
