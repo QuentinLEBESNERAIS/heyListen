@@ -8,7 +8,7 @@ function ScreenLogin1(props) {
   const [email, setEmail] = useState("")
   const [invalidEmailMessage, setinvalidEmailMessage] = useState("")
 
-  var handleSubmitSignIn = async() => {
+  var handleCheckEmail = async() => {
     if (email){
     var resultRaw = await fetch('/users/check-email', {
         method: 'POST',
@@ -55,7 +55,7 @@ function ScreenLogin1(props) {
         />
         <Button 
         style={{borderRadius: '5px'}}
-        onClick={() => handleSubmitSignIn()} 
+        onClick={() => handleCheckEmail()} 
         >Valider</Button>
         </div>
         <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
