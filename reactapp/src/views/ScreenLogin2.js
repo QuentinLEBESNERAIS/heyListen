@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Col, Row, Input, Button} from 'antd';
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons'
 
-function ScreenLogin1() {
+function ScreenLogin2() {
 
     return (
       <div className="background">
@@ -30,4 +30,4 @@ function ScreenLogin1() {
   export default connect(
    null,
    null
-  )(ScreenLogin1);
+  )(ScreenLogin2);

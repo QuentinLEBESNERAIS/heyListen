@@ -7,6 +7,7 @@ import ScreenSignUpManager from './views/ScreenSignUpManager';
 import ScreenSignUpCollab from './views/ScreenSignUpCollab';
 import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
+import ScreenMyAcount from './views/ScreenMyAcount'
 
 
 import {Provider} from 'react-redux';
@@ -24,6 +25,7 @@ function App() {
         <Route component={ScreenListen} path="/listen" exact />
         <Route component={ScreenDashboard} path="/dashboard" exact />
         <Route component={ScreenLogin2} path="/login2" exact />
+        <Route component={ScreenMyAcount} path="/myAcount" exact />
       </Switch>
     </Router>
     </Provider> 
