@@ -11,11 +11,13 @@ import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
 import ScreenHistoriqueManager from './views/ScreenHistoriqueManager';
 import ScreenMyAcount from './views/ScreenMyAcount'
 import email from './reducers/email';
+import user from './reducers/user'
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({email}));
+const store = createStore(combineReducers({email,user}));
+
 function App() {
   return (
     <Provider store={store}>

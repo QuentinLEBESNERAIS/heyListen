@@ -24,14 +24,16 @@ var handleClickSignUp = ()=>{
      })
      response=await response.json()
      console.log(response)
-     setSignUpError(response)
+     setSignUpError(response.response)
+     props.userToReducer(response.user)
+     if(response.response==="compte crée"){setUserCreated(true)}
+
    }
    signUp()
-   
 }
-//if(userCreated){
-  //return <Redirect to="/dashboard"/>
-//}
+if(userCreated){
+  return <Redirect to="/dashboard"/>
+}
 
     return (
       <div className="background">

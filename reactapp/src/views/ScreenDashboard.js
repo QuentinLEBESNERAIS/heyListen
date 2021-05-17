@@ -19,8 +19,15 @@ function ScreenDashboard(props) {
         setVisible1(true);
     };
     
-    const handleOk1 = () => {
-        console.log('test',feedbackOne)
+    const handleOk1 = async () => {
+        var saveFeedback = async () => {
+            await fetch('/save-feedback', {
+            method: 'PUT',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `id=60a25b9d824d782967c67db6&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
+            });
+        } 
+        await saveFeedback()
         setVisible1(false);
     };
 

@@ -63,6 +63,17 @@ router.post('/new-campaign', async function(req, res, next) {
   res.json ({response: saveNewListen})
  });
 
+ router.put('/save-feedback', async function(req, res, next) {
+    console.log('testfeedback',req.body.feedback1)
+  await ListenModel.updateOne({collab:req.body.id, isActive : true},{
+    completedByManagerAt: new Date(),
+    answersFeedback: [{feedback1: req.body.feedback1, feedback2: req.body.feedback2}]
+ })
+ var saveNewFeedback = await ListenModel.findOne({collab:req.body.id, isActive : true})
+ 
+res.json ({response: saveNewFeedback})
+});
+
 
 
 module.exports = router;
