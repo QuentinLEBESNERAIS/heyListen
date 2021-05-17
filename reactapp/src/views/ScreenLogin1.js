@@ -1,40 +1,52 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Input, Button} from 'antd';
-import { Redirect } from 'react-router';
+import {Redirect} from 'react-router-dom';
 
 function ScreenLogin1(props) {
 
-  const [email, setEmail] = useState("")
-  const [invalidEmailMessage, setinvalidEmailMessage] = useState("")
+  const [email, setEmail] = useState('')
+  const [invalidEmailMessage, setinvalidEmailMessage] = useState('')
+  const [loginState, setLoginState] = useState('')
 
   var handleCheckEmail = async() => {
     if (email){
+    var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+    var valid = emailReg.test(email);
+    if (!valid) {
+      setinvalidEmailMessage("Veuillez entrer un email valide")
+    } else {
     var resultRaw = await fetch('/users/check-email', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `email=${email}`
        });
        var resultCheckEmail = await resultRaw.json();
-     console.log('resultCheckEmail', resultCheckEmail)
-
-     if (resultCheckEmail.response == 'EmailInvalide'){
-      setinvalidEmailMessage("Veuillez entrer un email valide")
-    } else if (resultCheckEmail.response == 'login2') {
+     console.log('resultCheckEmail', resultCheckEmail)   
+    if (resultCheckEmail.response == 'login2') {
+      console.log('here--------------------------------')
       props.saveEmail(email)
-      return (<Redirect to='/login2' />)
+      setLoginState('login2')
     } else if (resultCheckEmail.response == 'signUpCollab'){
       props.saveEmail(email)
-      return (<Redirect to='/sign-up-collab' />)
+      setLoginState('sign-up-collab')
     } else {
       props.saveEmail(email)
-      return (<Redirect to='/sign-up-manager' />)
+      setLoginState('sign-up-manager')
     }
+  } 
   } else {
     setinvalidEmailMessage('Veuillez rentrer un email')
   }
-  } 
+} 
 
+if (loginState == 'login2') {
+ return (<Redirect to='/login2'/>)
+} else if (loginState == 'sign-up-collab'){
+  return (<Redirect to='/sign-up-collab'/>)
+} else if (loginState == 'sign-up-manager'){
+  return(<Redirect to='/sign-up-manager'/>) 
+} else {
     return (
       <div className="background">
       <Row justify="center" align="middle" style={{height:'100%'}}>
@@ -65,7 +77,7 @@ function ScreenLogin1(props) {
       </Row>
     </div>
     );
-  }
+  }}
   
   function mapDispatchToProps(dispatch) {
     return {
