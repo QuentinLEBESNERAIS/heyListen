@@ -10,11 +10,10 @@ function ScreenDashboard(props) {
     const [visible2, setVisible2] = useState(false);
     const[feedbackOne,setFeedbackOne] = useState('');
     const[feedbackTwo,setFeedbackTwo] = useState('');
-    const [collabLastName,setCollabLastName] = useState ('');
-    const [collabFirstName,setCollabFirstName] = useState ('');
     const [collabEmail,setCollabEmail] = useState ('');
+    const [errorMessage, setErrorMessage] = useState('');
     
-// Paramètres modale feedback mananger
+// Paramètres modale feedback manager
     const showModal1 = () => {
         setVisible1(true);
     };
@@ -26,8 +25,8 @@ function ScreenDashboard(props) {
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `id=60a25b9d824d782967c67db6&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
-        } 
         await saveFeedback()
+    }
         setVisible1(false);
     };
 
@@ -40,8 +39,26 @@ function ScreenDashboard(props) {
         setVisible2(true);
     };
     
-    const handleOk2 = () => {
-        setVisible2(false);
+    const handleOk2 = async () => {
+        if (collabEmail) {
+            var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+            var valid = emailReg.test(collabEmail);
+            if(!valid){
+                setErrorMessage("Veuillez entrer un email valide")
+            } else {
+                var saveCollab = async () => {
+                    var responseRaw = await fetch('/add-collab', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                    body: `collabEmail=${collabEmail}`
+                    });
+                    var response = await responseRaw.json();
+                    console.log('response', response)
+                } 
+                await saveCollab()
+                setVisible2(false);
+            }
+        }
     };
 
     const handleCancel2 = () => {
@@ -246,27 +263,15 @@ return (
             footer={null}
             width={700}
             height={500}
-        >
+        >   <div>
+            {errorMessage}
+        </div>
             <Form layout="inline" >
 
                 <h2 className='input-listen'> 
                 {<Image width='30px' src="./logo-transparent.png" />}
                 Collaborateur à ajouter :
                 </h2>
-               
-                <Form.Item layout="horizontal" style={{marginTop:30,marginLeft:20, padding:0}}>
-                    <Input placeholder='Nom du collaborateur' 
-                    onChange={(e) => setCollabLastName(e.target.value)}
-
-                    value={collabLastName}/>
-                </Form.Item>
-
-             <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                    <Input placeholder='Prénom du collaborateur' 
-                    onChange={(e) => setCollabFirstName(e.target.value)}
-
-                    value={collabFirstName}/>
-                </Form.Item>
 
                 <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
                     <Input placeholder='Email du collaborateur'

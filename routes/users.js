@@ -165,23 +165,17 @@ router.post('/sign-up-manager',async function(req, res, next) {
 
  });
 
- router.post('/add-collab', function(req, res, next) {
-  let token = req.query.token // du reduceur
-  let email = req.body.email;
-  let type = 'collab';
-  let teamId = req.body.teamId // from reduceur
-  //let token = 'uid2'
- if(lastName && firstName && email){
-   if ('email valid'){
-    // Création compte user Collaborateur
-    // Update team
-    res.json({response:'Utilisateur ajouté', team})
-  } else {
-    res.json ({response: 'email invalide'})
-  }
- } else {
-   res.json ({response: 'renseigner tous les champs'})
- }
- });
+ router.post('/add-collab', async function(req, res, next) {
+  //A partir de l'id de la personne connectée => ajouter collab à la team
+
+  var newUser = new UserModel({
+    email: req.body.collabEmail,
+    token: uid2(32),
+    isActive: false,
+    type: "collab",
+});
+var savedUser = await newUser.save()
+    res.json({response:'Utilisateur ajouté'})
+  });
 
 module.exports = router;
