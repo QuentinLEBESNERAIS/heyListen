@@ -22,7 +22,7 @@ function ScreenListen(props) {
         await fetch('/save-listen', {
         method: 'PUT',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `_id:'id'&mood='${valueMood}'&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
+        body: `id=60a25b9d824d782967c67db6&mood=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
         });
     };
 
@@ -116,11 +116,12 @@ function ScreenListen(props) {
 }
 
 
-function mapStateToProps(state) {
-    return { user_id: state.user._id }
-   }
+//function mapStateToProps(state) {
+ //   return { user_id: state.user._id }
+ //  }
     
-   export default connect(
-    mapStateToProps,
-    null
-   )(ScreenListen);
+ //  export default connect(
+  //  mapStateToProps,
+   // null
+   //)(ScreenListen);
+   export default ScreenListen
