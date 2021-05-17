@@ -118,27 +118,51 @@ router.post('/sign-up-manager',async function(req, res, next) {
 
  });
 
- router.post('/sign-up-collab', function(req, res, next) {
-  let token = req.query.token // du reduceur
-  let email = "quentin@gmail.com"
-  let lastName = req.body.lastName;
-  let firstName = req.body.firstName;
-  let password = req.body.password;
-  let password2 = req.body.password2;
-  let company = req.body.company;
-  let jobTitle = req.body.jobTitle;
-  let type = 'collab'
-  // let token = iud2
+ router.post('/sign-up-collab',async function(req, res, next) {
+  console.log(req.body)
+
+  let email = req.body.email
+  let lastName = req.body.lastName
+  let firstName = req.body.firstName
+  let password = req.body.password
+  let password2 = req.body.password2
+  let company = req.body.company
+  let jobTitle = req.body.jobTitle
+
  if(lastName && firstName && password && password2 && company && jobTitle && email ){
   if (password == password2){
-    // Updater le compte user Collaborateur
-    res.json({response: 'created account'})
+    //Création du user Collab en BDD
+    hash = bcrypt.hashSync(req.body.password,10)
+    await UserModel.updateOne({email:req.body.email},{
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      password: hash,
+      createdAt:new Date(),
+      company: req.body.company,
+      jobTitle: req.body.jobTitle,
+   })
+   var newUser = await UserModel.findOne({email:req.body.email})
+  
+    res.json({response:"compte crée",user:newUser})
   } else {
     res.json({response: 'les mots de passe ne correspondent pas'})
   } 
  } else {
-  res.json({response: 'renseigner tous les champs'})
+  res.json({response: 'Merci de renseigner tous les champs'})
  }
+
+
+
+
+
+
+
+
+
+
+
+
+
  });
 
  router.post('/add-collab', function(req, res, next) {
