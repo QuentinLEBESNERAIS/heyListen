@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Col, Row, Input, Button} from 'antd';
 import { Redirect } from 'react-router';
 
-function ScreenLogin1() {
+function ScreenLogin1(props) {
 
   const [email, setEmail] = useState("")
   const [invalidEmailMessage, setinvalidEmailMessage] = useState("")
