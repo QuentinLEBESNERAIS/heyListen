@@ -55,6 +55,17 @@ router.post('/sign-in', function(req, res, next) {
     res.json({response: 'connect', user , team})
   } else {
     res.json({response: 'mot de passe incorrect'})
+
+
+
+
+
+
+
+
+
+
+
   }
  }
 }
@@ -86,6 +97,19 @@ router.post('/sign-up-manager', function(req, res, next) {
  } else {
   res.json({response: 'renseigner tous les champs'})
  }
+
+
+
+
+
+
+
+
+
+
+
+
+ 
  });
 
  router.post('/sign-up-collab', function(req, res, next) {
