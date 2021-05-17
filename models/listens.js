@@ -11,7 +11,6 @@ var listenSchema = mongoose.Schema({
     answersCollab: Array,
     answersFeedback: Array,
     template: {type: mongoose.Schema.Types.ObjectId, ref:'templates'}
-
 })
 
 var ListenModel = mongoose.model('listens', listenSchema)

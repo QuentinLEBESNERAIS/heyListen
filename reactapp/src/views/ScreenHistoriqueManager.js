@@ -5,7 +5,6 @@ import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/
 import Nav from './Nav'
 
 function ScreenDashboard() {
-
     const {Sider, Content} = Layout;
     const {Option} = Select;
 

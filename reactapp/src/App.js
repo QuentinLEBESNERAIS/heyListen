@@ -21,19 +21,19 @@ const store = createStore(combineReducers({email, user}));
 function App() {
   return (
     <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path="/"component={ScreenLogin1} />
-        <Route path="/sign-up-manager"component={ScreenSignUpManager} />
-        <Route path="/sign-up-collab"component={ScreenSignUpCollab} />
-        <Route component={ScreenListen} path="/listen" exact />
-        <Route component={ScreenDashboard} path="/dashboard" exact />
-        <Route path="/historique-collab" component={ScreenHistoriqueCollab} />
-        <Route path="/historique-manager" component={ScreenHistoriqueManager} />
-        <Route component={ScreenLogin2} path="/login2" exact />
-        <Route component={ScreenMyAcount} path="/myAcount" exact />
-      </Switch>
-    </Router>
+      <Router>
+        <Switch>
+          <Route exact path="/"component={ScreenLogin1}/>
+          <Route path="/sign-up-manager"component={ScreenSignUpManager}/>
+          <Route path="/sign-up-collab"component={ScreenSignUpCollab}/>
+          <Route exact path="/listen" component={ScreenListen}/>
+          <Route exact path="/dashboard" component={ScreenDashboard}/>
+          <Route path="/historique-collab" component={ScreenHistoriqueCollab}/>
+          <Route path="/historique-manager" component={ScreenHistoriqueManager}/>
+          <Route exact path="/login2" component={ScreenLogin2}/>
+          <Route exact path="/myAcount" component={ScreenMyAcount}/>
+        </Switch>
+      </Router>
     </Provider> 
   );
 }
