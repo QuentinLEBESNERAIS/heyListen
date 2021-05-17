@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Col, Input, Row, Alert, Space, Button} from 'antd';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 
 function ScreenSignUpManager(props) {
 const [firstName,setFirstName] = useState("")
@@ -15,7 +15,8 @@ const [userCreated,setUserCreated] = useState(false)
 
 var handleClickSignUp = ()=>{
   async function signUp(){
-    var response = await fetch('users/sign-up-manager',{
+    console.log("clickdetecté")
+    var response = await fetch('/users/sign-up-manager',{
        method:"POST",
        headers:{'Content-Type':'application/x-www-form-urlencoded'},
        body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
@@ -30,6 +31,9 @@ var handleClickSignUp = ()=>{
    }
    signUp()
    
+}
+if(userCreated){
+  return <Redirect to="/dashboard"/>
 }
 
     return (
