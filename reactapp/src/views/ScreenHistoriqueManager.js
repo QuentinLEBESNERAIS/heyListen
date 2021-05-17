@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import {Row,Col,Input,Typography,Slider,Layout,Select,Divider} from 'antd'
+import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,Empty} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
 import Nav from './Nav'
 
@@ -12,9 +12,16 @@ function ScreenDashboard() {
     return (
 
     <div>
-        <Layout style={{backgroundColor:'#FFFFFF'}}>
+        <Layout  style={{backgroundColor:'#FFFFFF'}}>
             <Nav/>
-            <Layout style={{backgroundColor:'#FFFFFF'}}>
+            <Col span={23} offset={1} style={{marginTop:10, marginBottom:20}}>
+                <Typography.Text>Séléctioner un collaborateur :</Typography.Text>
+                <Select defaultValue="Collaborateur" style={{width: 160, marginLeft:20}}>
+                    <Option value="Michel Tichou">Michel Tichou</Option>
+                </Select>
+            </Col>
+            <Empty/>
+            <Layout style={{marginTop:20,backgroundColor:'#FFFFFF'}}>
                 <Sider style={{backgroundColor:'#D8E3E7'}}>
                     <Row>
                         <Col span={22} offset={2}>
