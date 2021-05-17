@@ -23,7 +23,6 @@ router.post('/check-email', async function(req, res, next) {
   console.log('searchUserByEmail', searchUserByEmail)
   if(searchUserByEmail){
     if (searchUserByEmail.password){
-      console.log('here')
       res.json({response: 'login2'})
     } else {
       res.json({response: 'signUpCollab'})

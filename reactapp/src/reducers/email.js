@@ -1,7 +1,7 @@
 export default function(email='', action) {
   if(action.type == 'saveEmail') {
-    console.log('action.email', action.email)
       var emailCopy = action.email;
+      console.log('email from reduceur-----', emailCopy)
       return emailCopy;
      } else {
       return email;
