@@ -36,8 +36,8 @@ router.post('/new-campaign', async function(req, res, next) {
   //manager: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
   for(i=0; i>team.collab.length; i++){
     var newListen = new ListenModel ({
-      collab: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
-      manager: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
+      collab: {},
+      manager: {},
       createdAt: new Date(),
       isActive: true,
       mood: null,
