@@ -116,12 +116,12 @@ function ScreenListen(props) {
 }
 
 
-//function mapStateToProps(state) {
- //   return { user_id: state.user._id }
- //  }
+function mapStateToProps(state) {
     
- //  export default connect(
-  //  mapStateToProps,
-   // null
-   //)(ScreenListen);
-   export default ScreenListen
+   return { userId: state.user }
+  }
+    
+  export default connect(
+    mapStateToProps,
+    null
+   )(ScreenListen);
