@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import {Col, Row, Input, Button, Form} from 'antd';
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons'
 
-function ScreenLogin2() {
+function ScreenLogin2(props) {
 
-  const [email,setEmail] = useState("")
-  const [password,setPassword]=useState('')
+  const [password, setPassword]=useState('')
 
     return (
       <div className="background">

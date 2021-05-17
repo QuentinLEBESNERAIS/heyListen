@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
 */
 router.post('/check-email', function(req, res, next) {
   let validEmail = req.body.email
+  console.log('validEmail', validEmail)
   if(!validEmail){
     res.json({ response: 'EmailInvalide'});
   }

@@ -10,7 +10,7 @@ function ScreenLogin1(props) {
 
   var handleSubmitSignIn = async() => {
     if (email){
-    var resultRaw = await fetch('/check-email', {
+    var resultRaw = await fetch('/users/check-email', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `email=${email}`
