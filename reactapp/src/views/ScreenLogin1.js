@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Input, Button} from 'antd';
 
 function ScreenLogin1() {
+
+  const [email,setEmail] = useState("")
 
     return (
       <div className="background">

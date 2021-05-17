@@ -14,7 +14,7 @@ function ScreenSignUpCollab() {
       type="warning"
       action={
         <Space>
-          <Link to={'/'}><Button size="small" type="ghost">
+          <Link to={'/ScreenLogin1'}><Button size="small" type="ghost">
             Je suis déjà inscrit
           </Button></Link>
         </Space>
