@@ -5,6 +5,10 @@ var bcrypt = require("bcrypt");
 var UserModel = require('../models/users');
 var TeamModel = require('../models/teams');
 
+/*FOnction pour passer la premiere lettre en majuscule*/
+function firstMaj(a){return (a+'').charAt(0).toUpperCase()+a.substr(1);}
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.json({ result: false });
@@ -62,12 +66,12 @@ router.post('/sign-in', async function(req, res, next) {
 router.post('/sign-up-manager',async function(req, res, next) {
   console.log(req.body)
   let email = req.body.email
-  let lastName = req.body.lastName
-  let firstName = req.body.firstName
+  let lastName = firstMaj(req.body.lastName)
+  let firstName = firstMaj(req.body.firstName)
   let password = req.body.password
   let password2 = req.body.password2
-  let company = req.body.company
-  let jobTitle = req.body.jobTitle
+  let company = firstMaj(req.body.company)
+  let jobTitle = firstMaj(req.body.jobTitle)
   let type = 'manager'
   
  if(lastName && firstName && password && password2 && company && jobTitle && email ){
@@ -75,14 +79,14 @@ router.post('/sign-up-manager',async function(req, res, next) {
     //Création du user Manager en BDD
     hash = bcrypt.hashSync(req.body.password,10)
     var newUser = new UserModel({
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
+      lastName: firstMaj(req.body.lastName),
+      firstName: firstMaj(req.body.firstName),
       email: email,
       password: hash,
       token: uid2(32),
       createdAt:new Date(),
-      company: req.body.company,
-      jobTitle: req.body.jobTitle,
+      company: firstMaj(req.body.company),
+      jobTitle: firstMaj(req.body.jobTitle),
       isActive: true,
       type: "manager",
   })
@@ -134,12 +138,12 @@ router.post('/sign-up-manager',async function(req, res, next) {
     //Création du user Collab en BDD
     hash = bcrypt.hashSync(req.body.password,10)
     await UserModel.updateOne({email:req.body.email},{
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
+      lastName: firstMaj(req.body.lastName),
+      firstName: firstMaj(req.body.firstName),
       password: hash,
       createdAt:new Date(),
-      company: req.body.company,
-      jobTitle: req.body.jobTitle,
+      company: firstMaj(req.body.company),
+      jobTitle: firstMaj(req.body.jobTitle),
       isActive:true
    })
    var newUser = await UserModel.findOne({email:req.body.email})
