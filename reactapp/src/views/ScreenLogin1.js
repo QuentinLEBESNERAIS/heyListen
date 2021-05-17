@@ -30,8 +30,10 @@ function ScreenLogin1(props) {
       props.saveEmail(email)
       return (<Redirect to='/sign-up-manager' />)
     }
+  } else {
+    setinvalidEmailMessage('Veuillez rentrer un email')
   }
-  }
+  } 
 
     return (
       <div className="background">
@@ -42,7 +44,9 @@ function ScreenLogin1(props) {
         src={'./logo-transparent.png'}
         />
         <div style={{marginTop: '20px'}}>
+          <div style={{color:'red'}}>
           {invalidEmailMessage}
+          </div>
         <Input
         style={{borderRadius: '5px', width:'18rem', marginRight:'4px'}} 
         placeholder="Votre email"
