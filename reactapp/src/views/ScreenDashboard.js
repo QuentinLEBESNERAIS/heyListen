@@ -222,6 +222,8 @@ function ScreenDashboard(props) {
             visible={visible2}
             onCancel={handleCancel2}
             footer={null}
+            width={700}
+            height={500}
         >
             <Form layout="inline" >
 
@@ -229,32 +231,32 @@ function ScreenDashboard(props) {
                 {<Image width='30px' src="./logo-transparent.png" />}
                 Collaborateur à ajouter :
                 </h2>
-
-                <Form.Item layout="horizontal" style={{marginTop:30}}>
+               
+                <Form.Item layout="horizontal" style={{marginTop:30,marginLeft:20, padding:0}}>
                     <Input placeholder='Nom du collaborateur' 
                     onChange={(e) => setCollabLastName(e.target.value)}
 
                     value={collabLastName}/>
-             </Form.Item>
+                </Form.Item>
 
-             <Form.Item layout="horizontal" style={{marginTop:30}}>
+             <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
                     <Input placeholder='Prénom du collaborateur' 
                     onChange={(e) => setCollabFirstName(e.target.value)}
 
                     value={collabFirstName}/>
                 </Form.Item>
 
-                <Form.Item layout="horizontal" style={{marginTop:30}}>
-                    <Input placeholder='Email du collaborateur' 
+                <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
+                    <Input placeholder='Email du collaborateur'
                     onChange={(e) => setCollabEmail(e.target.value)}
 
                     value={collabEmail}/>
                 </Form.Item>
-
+                
                 <Form.Item layout="horizontal" style={{marginTop:30}}>
 
                         <Button key="back" htmlType="submit" 
-                        style={{backgroundColor:'grey',color:'white',marginLeft:200}}
+                        style={{backgroundColor:'grey',color:'white',marginLeft:335}}
                         onClick={handleCancel2}>
                          Annuler
                         </Button>
