@@ -2,11 +2,14 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import ScreenLogin1 from './views/ScreenLogin1';
+import ScreenLogin2 from './views/ScreenLogin2'
 import ScreenSignUpManager from './views/ScreenSignUpManager';
 import ScreenSignUpCollab from './views/ScreenSignUpCollab';
 import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
 import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
+import ScreenMyAcount from './views/ScreenMyAcount'
+
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
@@ -23,6 +26,8 @@ function App() {
         <Route component={ScreenListen} path="/listen" exact />
         <Route component={ScreenDashboard} path="/dashboard" exact />
         <Route path="/historique-collab" component={ScreenHistoriqueCollab} />
+        <Route component={ScreenLogin2} path="/login2" exact />
+        <Route component={ScreenMyAcount} path="/myAcount" exact />
       </Switch>
     </Router>
     </Provider> 
