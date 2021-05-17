@@ -74,6 +74,10 @@ router.post('/new-campaign', async function(req, res, next) {
 res.json ({response: saveNewFeedback})
 });
 
-
+// INIT LISTEN DB
+router.post('/initListenDB', async function(req,res,next){
+  var ListenFromDB = await ListenModel.find({ token: req.body.tokenFromFront})
+  res.json(ListenFromDB)
+})
 
 module.exports = router;
