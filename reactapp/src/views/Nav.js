@@ -27,7 +27,7 @@ function Nav(props) {
   
           <Menu.Item key="listen">
           <Badge dot >
-            <Link to="/" >Faire mon Listen</Link>
+            <Link to="/listen" >Faire mon Listen</Link>
             </Badge>
           </Menu.Item>
             <span className="rightSpans">

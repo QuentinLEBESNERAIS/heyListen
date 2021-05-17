@@ -4,6 +4,7 @@ import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Moda
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
+import {connect} from 'react-redux';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -24,7 +25,7 @@ function ScreenDashboard(props) {
             await fetch('/save-feedback', {
             method: 'PUT',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `id=60a25b9d824d782967c67db6&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
+            body: `id=${props.user._id}=${feedbackOne}&feedback2=${feedbackTwo}`
             });
         } 
         await saveFeedback()
@@ -50,7 +51,7 @@ function ScreenDashboard(props) {
 
 // NEW CAMPAIGN
     var tokenStore = "kfelkfjslkejflskej"
-    var teamStore = []
+    var teamBDD = []
 
     var testlog = () => {
         console.log("Bonjour, je suis le testLOG !")
@@ -60,7 +61,7 @@ function ScreenDashboard(props) {
         const data = await fetch('/new-campaign', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tokenFromFront=${tokenStore}&teamFromFront=${teamStore}`
+            body: `tokenFromFront=${props.user._id}&teamFromFront=${teamBDD}`
         })
         const body = await data.json()
     }
@@ -298,4 +299,12 @@ return (
   );
 }
 
-export default ScreenDashboard;
+function mapStateToProps(state) {
+    console.log('test userStore',state.user._id)
+   return { userId: state.user }
+  }
+    
+  export default connect(
+    mapStateToProps,
+    null
+   )(ScreenDashboard);

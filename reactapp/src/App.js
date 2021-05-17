@@ -16,7 +16,7 @@ import user from './reducers/user'
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({email,user}));
+const store = createStore(combineReducers({email, user}));
 
 function App() {
   return (

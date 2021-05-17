@@ -43,8 +43,12 @@ router.post('/sign-in', async function(req, res, next) {
   email: req.body.email
 })
   console.log('searchUserByEmail', searchUserByEmail)
-  if(searchUserByEmail.password === req.body.password){
-    res.json({response: 'connect'})
+  var result = false
+  if(searchUserByEmail && bcrypt.compareSync(req.body.password, searchUserByEmail.password)){
+    result = true
+  }
+  if(result){
+    res.json({response: 'connect', user: searchUserByEmail})
   } else {
     res.json({response: 'mot de passe incorrect'})
 }
@@ -92,7 +96,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
   console.log(savedUser)
   console.log(savedNewTeam)
     
-    res.json({response:"compte crée",user:savedUser,team:savedNewTeam})
+    res.json({response:"compte crée", user:savedUser, team:savedNewTeam})
   } else {
     res.json({response: 'les mots de passe ne correspondent pas'})
   } 

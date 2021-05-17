@@ -1,34 +1,37 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Input, Button, Form} from 'antd';
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons'
+import {Redirect} from 'react-router-dom';
 
 function ScreenLogin2(props) {
 
   const [password, setPassword] = useState('')
   const [invalidPasswordMessage, setinvalidPasswordMessage] = useState('')
+  const [loginState, setLoginState] = useState('')
 
   var handleClickSignIn = async() => {
     if (password){
-    var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
-    var valid = passwordReg.test(password);
-    if (!valid) {
-      setinvalidPasswordMessage("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
-    } else {
     var resultRaw = await fetch('/users/sign-in', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `email=${props.email}&password=${password}`
        });
-       var resultSignIn = await resultRaw.json();
+    var resultSignIn = await resultRaw.json();
      console.log('resultSignIn', resultSignIn)   
-  } 
+    if (resultSignIn.response == 'connect'){
+      props.saveUser(resultSignIn.user)
+      setLoginState('dashboard')
+    } else {
+      setinvalidPasswordMessage('Le mot de passe est incorrect')
+    }
   } else {
     setinvalidPasswordMessage('Veuillez entrer un mot de passe')
   }
 } 
 
-
+if (loginState == 'dashboard') {
+  return (<Redirect to='/dashboard'/>)
+ } else {
     return (
       <div className="background">
       <Row justify="center" align="middle" style={{height:'100%'}}>
@@ -61,12 +64,20 @@ function ScreenLogin2(props) {
     </div>
     );
   }
-
+}
   function mapStateToProps(state){
     return {email: state.email}
   }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      saveUser: function(user) {
+          dispatch( {type: 'logUser', user: user} )
+      }
+    }
+   }
   
   export default connect(
    mapStateToProps,
-   null
+   mapDispatchToProps
   )(ScreenLogin2);
