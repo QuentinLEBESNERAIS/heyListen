@@ -6,6 +6,7 @@ import ScreenSignUpManager from './views/ScreenSignUpManager';
 import ScreenSignUpCollab from './views/ScreenSignUpCollab';
 import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
+import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
@@ -21,6 +22,7 @@ function App() {
         <Route path="/sign-up-collab"component={ScreenSignUpCollab} />
         <Route component={ScreenListen} path="/listen" exact />
         <Route component={ScreenDashboard} path="/dashboard" exact />
+        <Route path="/historique-collab" component={ScreenHistoriqueCollab} />
       </Switch>
     </Router>
     </Provider> 
