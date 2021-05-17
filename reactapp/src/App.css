@@ -1,0 +1,54 @@
+@import '~antd/dist/antd.css';
+
+.avatar {
+  background-color: #344fa1;
+}
+
+.ant-badge-count, .ant-badge-dot, .ant-badge .ant-scroll-number-custom-component {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    transform-origin: 100% 0%;
+}
+
+.ant-badge-dot {
+    z-index: auto;
+    width: 6px;
+    min-width: 6px;
+    height: 6px;
+    background: #ff4d4f;
+    border-radius: 100%;
+    box-shadow: 0 0 0 1px #ff4d4f;
+}
+
+.ant-scroll-number {
+  overflow: hidden;
+}
+
+.background {
+  background-color: #d8e3e7;
+  height: 100vh;
+}
+
+.navbar {
+  background-color: #d8e3e7;
+  text-align: left;
+}
+
+.navLogo {
+  width: 25px;
+  height: 27px;
+  margin-left: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.rightNavElement {
+  padding-left: 0.7rem;
+  padding-right: 2rem;
+} 
+
+.rightSpans {
+  float: right;
+}
+
