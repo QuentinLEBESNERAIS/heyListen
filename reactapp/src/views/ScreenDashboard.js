@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import '../App.css';
 import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
+import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 
 function ScreenDashboard(props) {
@@ -40,14 +41,28 @@ function ScreenDashboard(props) {
         setVisible2(false);
     };
 
-  return (
-      
-    <div>
-       
-        <Nav/>
+// NEW CAMPAIGN
 
-      
-        
+    var testlog = () => {
+        console.log("Bonjour, je suis le testLOG !")
+    }
+
+    var newCampaignLaunch = async () => {
+    
+        const data = await fetch('/new-campaign', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: ``
+        })
+    
+        const body = await data.json()
+      }
+
+return (
+
+    <div>
+
+        <Nav/>
 
         <Row>
             <Col span={8} offset={1}>
@@ -162,7 +177,7 @@ function ScreenDashboard(props) {
                 </h4>
             </Col>
 
-            <Col span={6} offset={6} >
+            <Col onClick={() => testlog()} span={6} offset={6} >
                 <h4>Lancer une nouvelle campagne de Listens
                 <PlusOutlined 
                 style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
