@@ -31,7 +31,7 @@ function Nav(props) {
             </Badge>
           </Menu.Item>
             <span className="rightSpans">
-            <span>Michel Tichou</span>
+            <span>Bonjour {props.user.firstName}</span>
             <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>MT</Avatar></span>
             </span>
         </Menu>
