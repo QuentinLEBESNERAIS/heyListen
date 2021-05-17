@@ -8,12 +8,12 @@ import ScreenSignUpCollab from './views/ScreenSignUpCollab';
 import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
 import ScreenMyAcount from './views/ScreenMyAcount'
-
+import email from './reducers/email';
 
 import {Provider} from 'react-redux';
-import {createStore, combineReducers}  from 'redux';
+import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({}));
+const store = createStore(combineReducers({email}));
 function App() {
   return (
     <Provider store={store}>
