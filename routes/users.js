@@ -134,8 +134,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
  });
 
  router.post('/sign-up-collab', function(req, res, next) {
-  let token = req.query.token // du reduceur
-  let email = "quentin@gmail.com"
+  let email = req.body.email
   let lastName = req.body.lastName;
   let firstName = req.body.firstName;
   let password = req.body.password;
