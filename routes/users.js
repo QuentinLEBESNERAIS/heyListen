@@ -23,15 +23,15 @@ router.post('/check-email', async function(req, res, next) {
   console.log('searchUserByEmail', searchUserByEmail)
   if(searchUserByEmail){
     if (searchUserByEmail.password){
-      console.log('here')
       res.json({response: 'login2'})
     } else {
-      res.json({response: 'signUpCollab'})
+      res.json({response: 'signUpCollab', token:'token'})
     }
   } else {
     res.json({response: 'signUpManager'})
-  }  
-});
+  }
+}   
+);
 
 /*
   Check user account (sign-in)
@@ -63,6 +63,7 @@ router.post('/sign-in', function(req, res, next) {
 
 
 
+
   }
  }
 }
@@ -75,7 +76,7 @@ router.post('/sign-in', function(req, res, next) {
 */
 router.post('/sign-up-manager',async function(req, res, next) {
   console.log(req.body)
-  let email = 'qlebesnerais@gmail.com'
+  let email = req.body.email
   let lastName = req.body.lastName
   let firstName = req.body.firstName
   let password = req.body.password
@@ -109,13 +110,13 @@ router.post('/sign-up-manager',async function(req, res, next) {
 
   console.log(savedUser)
   console.log(savedNewTeam)
-    let team; // Créer la team
-    res.json( 'created account')
+    
+    res.json({response:"compte crée",user:savedUser,team:savedNewTeam})
   } else {
-    res.json( 'les mots de passe ne correspondent pas')
+    res.json({response: 'les mots de passe ne correspondent pas'})
   } 
  } else {
-  res.json( 'renseigner tous les champs')
+  res.json({response: 'Merci de renseigner tous les champs'})
  }
 
 
