@@ -15,6 +15,10 @@ const [signUpError,setSignUpError] = useState("")
 const [userCreated,setUserCreated] = useState(false)
 
 var handleClickSignUp = ()=>{
+  var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
+  var valid = passwordReg.test(password);
+  if(!valid){setSignUpError("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
+}else{
   async function signUp(){
     
     var response = await fetch('/users/sign-up-manager',{
@@ -30,6 +34,7 @@ var handleClickSignUp = ()=>{
 
    }
    signUp()
+  }
 }
 if(userCreated){
   return <Redirect to="/dashboard"/>
@@ -62,6 +67,9 @@ if(userCreated){
         </Row>
         <Row justify="center" align="top">
         <Col span={16}>
+      <div style={{color:'red'}}>
+        {signUpError}
+       </div>
       <div className="sign-up-input-group"> 
       <Input value={lastName} onChange={(e)=>setLastName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Nom" />
       <Input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Prénom" />
@@ -81,7 +89,7 @@ if(userCreated){
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
       <Button onClick={()=>handleClickSignUp()} className="sign-up-button">S'inscrire</Button>
-      {signUpError}
+  
       </Col>
       </Row>
     </div>

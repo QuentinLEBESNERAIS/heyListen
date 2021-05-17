@@ -15,6 +15,10 @@ const [signUpError,setSignUpError] = useState("")
 const [userCreated,setUserCreated] = useState(false)
 
 var handleClickSignUp = ()=>{
+  var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
+  var valid = passwordReg.test(password);
+  if(!valid){setSignUpError("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
+}else{
   async function signUp(){
     
     var response = await fetch('/users/sign-up-collab',{
@@ -30,6 +34,7 @@ var handleClickSignUp = ()=>{
 
    }
    signUp()
+  }
 }
 if(userCreated){
   return <Redirect to="/historique-collab"/>
