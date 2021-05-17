@@ -16,8 +16,7 @@ function App() {
       <Switch>
         <Route exact path="/"component={ScreenLogin1} />
         <Route path="/sign-up-manager"component={ScreenSignUpManager} />
-        <Route path="/sign-up-collab"component={ScreenSignUpCollab} />
-      
+        <Route path="/sign-up-collab"component={ScreenSignUpCollab} /> 
       </Switch>
     </Router>
     </Provider> 
