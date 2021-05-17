@@ -30,14 +30,14 @@ router.get('/new-campaign', function(req, res, next) {
 
  router.put('/save-listen', async function(req, res, next) {
     let _id = req.body._id 
+    let mood=req.body.mood
+    console.log('testBack', mood)
 
-    var saveNewListen = await ListenModel.updateOne({collab : _id, isActive : true},{
-      mood:req.body.mood,
-      answersCollab: [{reponse1: req.body.reponse1, reponse2: req.body.reponse2, reponse3: req.body.reponse3, reponse4: req.body.reponse4, reponse5 :req.body.reponse5}]
-    })
-    
-
-  res.json ({response: saveNewListen})
+  //  var saveNewListen = await ListenModel.updateOne({collab : _id, isActive : true},{
+  //    mood:req.body.mood,
+  //    answersCollab: [{reponse1: req.body.reponse1, reponse2: req.body.reponse2, reponse3: req.body.reponse3, reponse4: req.body.reponse4, reponse5 :req.body.reponse5}]
+   // })
+  res.json ({response: 'youhou'})
  });
 
 

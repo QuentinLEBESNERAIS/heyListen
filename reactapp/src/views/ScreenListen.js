@@ -18,11 +18,11 @@ function ScreenListen(props) {
         setMoodValue(value);
       };
      // Enregistrement du Listen Collab
-    var saveListenCollab = (valueMood,value1,value2,value3,value4,value5) => {
+    var saveListenCollab = async (valueMood,value1,value2,value3,value4,value5) => {
         await fetch('/save-listen', {
         method: 'PUT',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `_id:${props.user_id}&mood=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
+        body: `_id:'id'&mood='${valueMood}'&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
         });
     };
 
