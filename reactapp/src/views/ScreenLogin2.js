@@ -13,28 +13,18 @@ function ScreenLogin2(props) {
     var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
     var valid = passwordReg.test(password);
     if (!valid) {
-      setinvalidPasswordMessage("Le mot de passe doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
+      setinvalidPasswordMessage("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
     } else {
-    var resultRaw = await fetch('/users/check-email', {
+    var resultRaw = await fetch('/users/sign-in', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `email=${email}`
+        body: `email=${props.email}&password=${password}`
        });
-       var resultCheckEmail = await resultRaw.json();
-     console.log('resultCheckEmail', resultCheckEmail)   
-    if (resultCheckEmail.response == 'login2') {
-      props.saveEmail(email)
-      setLoginState('login2')
-    } else if (resultCheckEmail.response == 'signUpCollab'){
-      props.saveEmail(email)
-      setLoginState('sign-up-collab')
-    } else {
-      props.saveEmail(email)
-      setLoginState('sign-up-manager')
-    }
+       var resultSignIn = await resultRaw.json();
+     console.log('resultSignIn', resultSignIn)   
   } 
   } else {
-    setinvalidEmailMessage('Veuillez rentrer un email')
+    setinvalidPasswordMessage('Veuillez entrer un mot de passe')
   }
 } 
 
@@ -59,7 +49,7 @@ function ScreenLogin2(props) {
         <Input.Password style={{borderRadius: '5px', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
         </Form.Item>
 
-        <Button style={{marginLeft:172, borderRadius: '5px'}}  onClick={() => handleClickSignIn(props.email, password)} >Me connecter</Button>
+        <Button style={{marginLeft:172, borderRadius: '5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
         
         </Form>
         <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>

@@ -38,34 +38,15 @@ router.post('/check-email', async function(req, res, next) {
   Body : email (sorayacantos@gmail.com), password (1234)
   Response : response(), user, team
 */
-router.post('/sign-in', function(req, res, next) {
-  let token = req.query.token // du reduceur
-
-  if (token) {
- let password = req.body.password;
- let email = req.body.email;
- if (!password){
-  res.json({response: 'renseigner mot de passe'})
- } else {
-  let user; //on cherche le user dans la bdd
-  let bddPassword; // Regarder si user a un MdP
-  if(bddPassword === req.body.password){
-    res.json({response: 'connect', user , team})
+router.post('/sign-in', async function(req, res, next) { 
+ var searchUserByEmail = await UserModel.findOne({
+  email: req.body.email
+})
+  console.log('searchUserByEmail', searchUserByEmail)
+  if(searchUserByEmail.password === req.body.password){
+    res.json({response: 'connect'})
   } else {
     res.json({response: 'mot de passe incorrect'})
-
-
-
-
-
-
-
-
-
-
-
-  }
- }
 }
 });
 
@@ -134,8 +115,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
  });
 
  router.post('/sign-up-collab', function(req, res, next) {
-  let token = req.query.token // du reduceur
-  let email = "quentin@gmail.com"
+  let email = req.body.email
   let lastName = req.body.lastName;
   let firstName = req.body.firstName;
   let password = req.body.password;
