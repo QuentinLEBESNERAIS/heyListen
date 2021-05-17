@@ -52,3 +52,45 @@
   float: right;
 }
 
+.icon-wrapper {
+  position: relative;
+  padding: 0px 30px;
+  margin: 50px;
+}
+
+.icon-wrapper .anticon {
+  position: absolute;
+  top: -2px;
+  width: 16px;
+  height: 16px;
+  color: #344fa1;
+  font-size: 16px;
+  line-height: 1;
+}
+
+
+.icon-wrapper .anticon:first-child {
+  left: 0;
+}
+
+.icon-wrapper .anticon:last-child {
+  right: 0;
+}
+
+.form-listen {
+    width:40%;
+    padding-bottom: 15px;
+    margin: 40px;
+}
+
+.input-listen{
+  margin: 20px;
+  width: 400px;
+}
+
+.input-button-listen{
+  margin-top: 35px;
+  margin-left: 220px;
+  width: 200px;
+}
+
