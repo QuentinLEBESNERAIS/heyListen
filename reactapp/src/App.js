@@ -7,13 +7,15 @@ import ScreenSignUpManager from './views/ScreenSignUpManager';
 import ScreenSignUpCollab from './views/ScreenSignUpCollab';
 import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
+import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
+import ScreenHistoriqueManager from './views/ScreenHistoriqueManager';
 import ScreenMyAcount from './views/ScreenMyAcount'
-
+import email from './reducers/email';
 
 import {Provider} from 'react-redux';
-import {createStore, combineReducers}  from 'redux';
+import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({}));
+const store = createStore(combineReducers({email}));
 function App() {
   return (
     <Provider store={store}>
@@ -24,6 +26,8 @@ function App() {
         <Route path="/sign-up-collab"component={ScreenSignUpCollab} />
         <Route component={ScreenListen} path="/listen" exact />
         <Route component={ScreenDashboard} path="/dashboard" exact />
+        <Route path="/historique-collab" component={ScreenHistoriqueCollab} />
+        <Route path="/historique-manager" component={ScreenHistoriqueManager} />
         <Route component={ScreenLogin2} path="/login2" exact />
         <Route component={ScreenMyAcount} path="/myAcount" exact />
       </Switch>
