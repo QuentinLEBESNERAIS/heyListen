@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Col, Row, Input, Button} from 'antd';
 import { Redirect } from 'react-router';
 
-function ScreenLogin1() {
+function ScreenLogin1(props) {
 
   const [email, setEmail] = useState("")
   const [invalidEmailMessage, setinvalidEmailMessage] = useState("")
@@ -30,8 +30,10 @@ function ScreenLogin1() {
       props.saveEmail(email)
       return (<Redirect to='/sign-up-manager' />)
     }
+  } else {
+    setinvalidEmailMessage('Veuillez rentrer un email')
   }
-  }
+  } 
 
     return (
       <div className="background">
@@ -42,7 +44,9 @@ function ScreenLogin1() {
         src={'./logo-transparent.png'}
         />
         <div style={{marginTop: '20px'}}>
+          <div style={{color:'red'}}>
           {invalidEmailMessage}
+          </div>
         <Input
         style={{borderRadius: '5px', width:'18rem', marginRight:'4px'}} 
         placeholder="Votre email"

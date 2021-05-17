@@ -66,7 +66,7 @@ router.post('/sign-in', function(req, res, next) {
   Response : 
 */
 router.post('/sign-up-manager', function(req, res, next) {
-  let token = req.query.token // creer le token ici
+  console.log(req.body)
   let lastName = req.body.lastName
   let firstName = req.body.firstName
   let password = req.body.password
