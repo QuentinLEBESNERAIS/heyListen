@@ -7,8 +7,10 @@ import {Menu, Avatar, Badge} from 'antd';
 function Nav(props) {
   useEffect(()=>{
   },[props.user])
-
   if(!props.user){return (<Redirect to='/'/>)}
+  let inactive
+  if(props.user.type==="collab"){inactive="disabled"}
+
 
   return (
     <Menu mode="horizontal" className="navbar">
