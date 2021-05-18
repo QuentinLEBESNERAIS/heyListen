@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
-import {Row,Col,Input,Typography,Slider,Layout,Select,Divider, Modal} from 'antd'
+import {Row,Col,Input,Typography,Slider,Layout,Select,Divider, Modal, Button} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
 import Nav from './Nav';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom'
 
 function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
@@ -13,14 +14,20 @@ function ScreenHistoriqueCollab(props) {
 
 //Affichage modale de rappel du listen à remplir
 useEffect( async () => {
-    if (props.shownModal == true){
-        var rawResponse = await fetch(`/find-listen?collab=${props.user._id}`);
+    if (props.shownModal == false){
+        var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
         var foundListen = await rawResponse.json();
-        if (foundListen.response == true)
-        props.modalState()
+        if (foundListen.response == true){
+        console.log('foundListen.response', foundListen.response)
         setVisibleModal(true)
+        }
     }
     },[])
+
+    const handleCancel = () => {
+        props.modalState()
+        setVisibleModal(false);
+    };
 
     return (
 
@@ -144,7 +151,9 @@ useEffect( async () => {
                         </Col>
                     </Row>
                 </Content>
-                <Modal visible={visibleModal} footer={null} width={700} height={500}>
+                <Modal visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
+              Remplir mon listen
+            </Button></Link>} width={700} height={500}>
                 <div style={{color:'red', display:'flex', justifyContent:'center'}}>
                     Bonjour, veuillez remplir votre Listen !
                 </div>

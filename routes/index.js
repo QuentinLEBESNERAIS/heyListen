@@ -82,7 +82,7 @@ router.get('/find-listen', async function(req,res,next){
 
   var isListenToComplete = await ListenModel.findOne({collab: req.query.id});
   console.log('isListenToComplete',isListenToComplete)
-  if (isListenToComplete.answersCollab == null) {
+  if (isListenToComplete.answersCollab == null && isListenToComplete.isActive == true) {
     res.json({response: true})
   } else {
     res.json({response: false})
