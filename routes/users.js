@@ -155,4 +155,25 @@ router.post('/add-collab', async function(req, res, next) {
   res.json({response:'Collaborateur ajouté'})
 });
 
+router.post('/modification-infos', async function(req, res, next) {
+  hash = bcrypt.hashSync(req.body.password,10)
+
+  await UserModel.updateOne({token: req.body.token},{
+    lastName: firstMaj(req.body.lastName),
+    firstName: firstMaj(req.body.firstName),
+    password: hash,
+    company: firstMaj(req.body.company),
+    jobTitle: firstMaj(req.body.jobTitle),
+    isActive: true
+  })
+  var modifiedUser = await UserModel.findOne({
+    token: req.body.token
+  })
+  console.log('modifiedUser', modifiedUser)
+  
+  res.json({response:'Informations modifiées', user: modifiedUser})
+});
+
+
+
 module.exports = router;

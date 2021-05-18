@@ -9,7 +9,9 @@ import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
 import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
 import ScreenHistoriqueManager from './views/ScreenHistoriqueManager';
-import ScreenMyAcount from './views/ScreenMyAcount'
+import ScreenMyAcount from './views/ScreenMyAcount';
+import ScreenInfosPersonnelles from './views/ScreenInfosPersonnelles';
+
 import email from './reducers/email';
 import user from './reducers/user'
 
@@ -32,6 +34,7 @@ function App() {
           <Route path="/historique-manager" component={ScreenHistoriqueManager}/>
           <Route exact path="/login2" component={ScreenLogin2}/>
           <Route exact path="/myAcount" component={ScreenMyAcount}/>
+          <Route exact path="/informations-personnelles" component={ScreenInfosPersonnelles}/>
         </Switch>
       </Router>
     </Provider> 

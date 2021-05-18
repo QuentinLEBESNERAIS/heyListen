@@ -35,7 +35,7 @@ function Nav(props) {
             <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
         }>
             <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
-            <Menu.Item key="informations personnelles">Informations personnelles</Menu.Item>
+            <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
         </SubMenu>
     </Menu>
 
