@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image} from 'antd'
+import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
@@ -49,13 +49,17 @@ function ScreenDashboard(props) {
                 setErrorMessage("Veuillez entrer un email valide")
             } else {
                 var saveCollab = async () => {
-                    var responseRaw = await fetch('/add-collab', {
+                    var responseRaw = await fetch('/users/add-collab', {
                         method: 'POST',
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                        body: `collabEmail=${collabEmail}`
+                        body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
                     console.log('response', response)
+                    const info = () => {
+                        message.info(response.response);
+                      }
+                      info();
                 } 
                 await saveCollab()
                 setVisible2(false);
@@ -83,6 +87,7 @@ function ScreenDashboard(props) {
         })
         const body = await data.json()
     }
+<<<<<<< HEAD
 
     const state = {
         labels: ['January', 'February', 'March',
@@ -101,6 +106,9 @@ function ScreenDashboard(props) {
       }
     
 
+=======
+    if(props.userId.type==="manager"){
+>>>>>>> 4e5e5abad938e7b623d74d15ec8d066482248b5e
     return (
         <div>
             <Nav/>
@@ -273,7 +281,8 @@ function ScreenDashboard(props) {
                 </Form>
             </Modal>
         </div>
-    );
+    )}
+    else{return <Redirect to='/historique-collab'/> };
 }
 
 function mapStateToProps(state) {

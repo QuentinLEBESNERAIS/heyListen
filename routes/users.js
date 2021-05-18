@@ -79,7 +79,8 @@ router.post('/sign-up-manager',async function(req, res, next) {
       var savedUser = await newUser.save()
       //Création de la team en BDD
       var newTeam = new TeamModel({
-        manager: savedUser._id
+        manager: savedUser._id,
+        collab: []
       })
       var savedNewTeam = await newTeam.save()
 
@@ -130,7 +131,7 @@ router.post('/sign-up-collab',async function(req, res, next) {
 });
 
 router.post('/add-collab', async function(req, res, next) {
-  //A partir de l'id de la personne connectée => ajouter collab à la team
+  
   var newUser = new UserModel({
     email: req.body.collabEmail,
     token: uid2(32),
@@ -138,7 +139,20 @@ router.post('/add-collab', async function(req, res, next) {
     type: "collab",
   });
   var savedUser = await newUser.save()
-  res.json({response:'Utilisateur ajouté'})
+  console.log('savedUser', savedUser)
+
+  var managerTeam = await TeamModel.findOne({
+    manager: req.body.userId
+  })
+  console.log('managerTeam', managerTeam);
+  var tabOfCollabs = managerTeam.collab;
+  tabOfCollabs.push(savedUser._id)
+
+  await TeamModel.updateOne({manager: req.body.userId},{
+    collab: tabOfCollabs
+  })
+  
+  res.json({response:'Collaborateur ajouté'})
 });
 
 module.exports = router;
