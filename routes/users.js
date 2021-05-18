@@ -175,5 +175,13 @@ router.post('/modification-infos', async function(req, res, next) {
 });
 
 
+router.get('/find-collab/', async function(req,res,next){
+
+  var team = await TeamModel.findOne({ manager:req.query.manager});
+  var collabs = team.collab
+console.log('team',team)
+console.log('collabs',collabs)
+res.json({collabs})
+})
 
 module.exports = router;
