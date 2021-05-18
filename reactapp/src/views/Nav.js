@@ -30,8 +30,8 @@ function Nav(props) {
           <Link to="/listen" >Faire mon Listen</Link>
         </Badge>
       </Menu.Item>
-      <span style={{marginLeft: '55%'}}>Bonjour {props.user.firstName}</span>
-        <SubMenu key="SubMenu" title={
+        <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
+        icon={
             <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
         }>
             <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
