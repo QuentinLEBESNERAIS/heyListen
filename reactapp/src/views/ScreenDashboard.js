@@ -15,7 +15,8 @@ function ScreenDashboard(props) {
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
     const [team,setTeam] = useState([])
-    
+    const[listenfromBack,setListenfromBack] = useState([])
+    const [feedbackfromBack,setFeedbackFromBack] = useState([])
 // Paramètres modale feedback manager
     const showModal1 = () => {
         setVisible1(true);
@@ -107,16 +108,59 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-      var collabs =[]
+      
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-      collabs = await rawResponse.json();
+      var collabs = await rawResponse.json();
       setTeam(collabs.collabs)
+      setListenfromBack(collabs.collabsListen)
+      setFeedbackFromBack(collabs.collabFeedback)
      }
-     getBddCollab()
-    console.log('team',team)
+     if(props.userId.type == 'manager'){getBddCollab()}
       },[])
+    //Initiales avatar liste collab
+    var firstMaj = (a) =>{
+        return ( 
+            (a+'').charAt(0).toUpperCase()
+            );
+    }
+//changement couleur Tab collab
+var tabGlobalListen = []
+
+for(var i=0; i<listenfromBack.length;i++){
+   var color
+   var text
+    if(listenfromBack[i] === false){
+        color = 'red';
+        text = "Ce collaborateur n'a pas rempli son Listen"
+    }else{
+        color = 'green'
+        text = "Ce collaborateur a rempli son Listen"
+    }
+   
+    tabGlobalListen.push(<Tag color={color}
+    style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+        {text}
+    </Tag>)
+}
+//changement couleur Tab collab
+var tabGlobalFeedback = []
+for(var i=0; i<feedbackfromBack.length;i++){
+    var colorFeedback
+    var textFeedback
+     if(feedbackfromBack[i] === false){
+        colorFeedback = 'red'
+        textFeedback = "Vous n'avez pas rempli votre partie"
+     }else{
+        colorFeedback = 'green'
+        textFeedback = "Vous avez rempli votre partie"
+     }
     
+     tabGlobalFeedback.push(<Tag color={colorFeedback}
+     style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+         {textFeedback}
+     </Tag>)
+}
 
     if(props.userId.type==="manager"){
     return (
@@ -174,18 +218,12 @@ function ScreenDashboard(props) {
                         <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
-                            MD
+                            {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                             </Avatar>
                             <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
                             <div>
-                                <Tag color='#A62626' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    {item.firstName} n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
+                            {tabGlobalListen[i]}
+                            {tabGlobalFeedback[i]}
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
@@ -248,9 +286,10 @@ function ScreenDashboard(props) {
               <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
                 <Col onClick={showModal2} span={8} offset={2}>
                 <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
-                Ajouter un collaborateur à mon équipe
+                Ajouter un collaborateur
                 </Button>
                 </Col>
+                </Popover>
                 <Col span={6} offset={8} >
                 <Popconfirm
                     placement="topRight"
@@ -262,7 +301,7 @@ function ScreenDashboard(props) {
                     <Button>Lancer une nouvelle campagne Listen</Button>
                 </Popconfirm>
                 </Col>
-                </Popover>
+                
             </Row>
 
             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
