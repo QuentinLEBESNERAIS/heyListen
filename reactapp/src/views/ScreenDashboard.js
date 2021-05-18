@@ -72,19 +72,16 @@ function ScreenDashboard(props) {
     };
 
 // NEW CAMPAIGN
-    var tokenStore = "kfelkfjslkejflskej"
-    var teamBDD = []
-
-    var testlog = () => {
-        console.log("Bonjour, je suis le testLOG !")
-    }
-
     var newCampaignLaunch = async () => {
         const data = await fetch('/new-campaign', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tokenFromFront=${props.user._id}&teamFromFront=${teamBDD}`
+            body: `idFromFront=${props.userId._id}`
         })
+        const info = () => {
+            message.info('Nouvelle campagne lancée avec succés !');
+        }
+        info();
         const body = await data.json()
     }
 
@@ -213,7 +210,7 @@ function ScreenDashboard(props) {
                     />
                     </h4>
                 </Col>
-                <Col onClick={() => testlog()} span={6} offset={6} >
+                <Col onClick={() => newCampaignLaunch()} span={6} offset={6} >
                     <h4>Lancer une nouvelle campagne de Listens
                     <PlusOutlined 
                     style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
@@ -281,6 +278,7 @@ function ScreenDashboard(props) {
                     </Form.Item>
                 </Form>
             </Modal>
+            
         </div>
     )}
     else{return <Redirect to='/historique-collab'/> };

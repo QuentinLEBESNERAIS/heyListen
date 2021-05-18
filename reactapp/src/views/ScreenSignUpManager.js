@@ -28,17 +28,27 @@ function ScreenSignUpManager(props) {
         response=await response.json()
         console.log(response)
         setSignUpError(response.response)
-        props.userToReducer(response.user)
+        if(response.user)
+        {props.userToReducer(response.user)
         if(response.response==="compte crée"){
           setUserCreated(true)
           const info = () => {
             message.info('Compte crée avec succès');
           }
-          info();}
+          info();}}
       }
       signUp()
     }
   }
+
+/*Alerte signUp*/
+let alerte 
+if(signUpError){alerte=<Alert style={{borderRadius: '5px'}}
+message={signUpError}
+type="error"
+closable
+/>}
+
   if(userCreated){
     return <Redirect to="/dashboard"/>
   }
@@ -46,6 +56,7 @@ function ScreenSignUpManager(props) {
     <div className="background">
       <Row justify="center" align="middle" style={{height:'20%'}}>
         <Col span={16}>
+          
           <Alert style={{borderRadius: '5px'}}
             message="Bienvenu ! Veuillez remplir les informations ci-dessous pour vous inscrire."
             type="warning"
@@ -60,6 +71,7 @@ function ScreenSignUpManager(props) {
             }
             closable
           />
+          
         </Col>
       </Row>
       <Row justify="center" align="middle">
@@ -70,7 +82,7 @@ function ScreenSignUpManager(props) {
       <Row justify="center" align="top">
         <Col span={16}>
           <div style={{color:'red'}}>
-            {signUpError}
+          {alerte}
           </div>
           <div className="sign-up-input-group"> 
             <Input value={lastName} onChange={(e)=>setLastName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Nom" />

@@ -20,34 +20,34 @@ router.get('/to-dashboard', function(req, res, next) {
 });
 
 router.post('/new-campaign', async function(req, res, next) {
-  let token = req.body.tokenFromFront // du reduceur
-  let team = req.body.teamFromFront
+  let userId = req.body.idFromFront // du reduceur
+  console.log("mon userId =",userId)
+
+  let team = await TeamModel.find({manager: userId})
+  console.log("ma Team =",team)
+  console.log("mes Collabs =",team[0].collab)
+  console.log("combien de Collabs ? ", team[0].collab.length)
 
   // Update ancienne campagne, tous les listen dont managerId et isActive =true ==> isActive = false
   await ListenModel.updateMany(
-    { manager: "token Manager", isActive: true},
+    { manager: userId, isActive: true},
     { isActive: false }
-  );
+  ); 
   
-  // Find template default
-
   // Création listens avec managerId from team et collabId from team
-  //collab: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
-  //manager: {type: mongoose.Schema.Types.ObjectId, ref:'users'},
-  for(i=0; i>team.collab.length; i++){
+  for(i=0; i<team[0].collab.length; i++){
     var newListen = new ListenModel ({
-      collab: {},
-      manager: {},
+      collab: team[0].collab[i],
+      manager: userId,
       createdAt: new Date(),
       isActive: true,
       mood: null,
-      answersCollab: [],
-      answersFeedback: [],
-      //template: {type: mongoose.Schema.Types.ObjectId, ref:'templates'}
+      answersCollab: null,
+      answersFeedback: null,
     });
     var listenSaved = await newListen.save();
   }
-  
+
   res.json ({response: 'Nouvelle campagne lancée'})
 });
 

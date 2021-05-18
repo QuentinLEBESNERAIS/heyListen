@@ -48,7 +48,7 @@ router.post('/sign-in', async function(req, res, next) {
   }
 });
 
-/*Create user account (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
+/*Create user account type manager (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
 router.post('/sign-up-manager',async function(req, res, next) {
   console.log(req.body)
   let email = req.body.email
@@ -95,7 +95,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
     res.json({response: 'Merci de renseigner tous les champs'})
   }
 });
-
+/*Create user account type collab préinscrit (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
 router.post('/sign-up-collab',async function(req, res, next) {
   console.log(req.body)
 
@@ -129,7 +129,7 @@ router.post('/sign-up-collab',async function(req, res, next) {
     res.json({response: 'Merci de renseigner tous les champs'})
   }
 });
-
+/*Ajout d'un collab par le manager */
 router.post('/add-collab', async function(req, res, next) {
   
   var newUser = new UserModel({
