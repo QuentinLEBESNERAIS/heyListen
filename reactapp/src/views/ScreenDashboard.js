@@ -87,28 +87,8 @@ function ScreenDashboard(props) {
         })
         const body = await data.json()
     }
-<<<<<<< HEAD
 
-    const state = {
-        labels: ['January', 'February', 'March',
-                 'April', 'May','June'],
-        datasets: [
-          {
-            label: 'Rainfall',
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderWidth: 2,
-            fill: true,
-            lineTension: 0.4,
-            data: [3, 5, 4, 1, 3, 2]
-          }
-        ]
-      }
-    
-
-=======
     if(props.userId.type==="manager"){
->>>>>>> 4e5e5abad938e7b623d74d15ec8d066482248b5e
     return (
         <div>
             <Nav/>
@@ -280,6 +260,7 @@ function ScreenDashboard(props) {
                     </Form.Item>
                 </Form>
             </Modal>
+            
         </div>
     )}
     else{return <Redirect to='/historique-collab'/> };
