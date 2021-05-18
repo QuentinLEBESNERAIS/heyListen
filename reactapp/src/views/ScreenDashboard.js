@@ -124,8 +124,43 @@ function ScreenDashboard(props) {
             (a+'').charAt(0).toUpperCase()
             );
     }
+//changement couleur Tab collab
+var tabGlobalListen = []
 
-   var colorTagCollab ='green'
+for(var i=0; i<listenfromBack.length;i++){
+   var color
+   var text
+    if(listenfromBack[i] === false){
+        color = 'red';
+        text = "Ce collaborateur n'a pas rempli son Listen"
+    }else{
+        color = 'green'
+        text = "Ce collaborateur a rempli son Listen"
+    }
+   
+    tabGlobalListen.push(<Tag color={color}
+    style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+        {text}
+    </Tag>)
+}
+//changement couleur Tab collab
+var tabGlobalFeedback = []
+for(var i=0; i<feedbackfromBack.length;i++){
+    var colorFeedback
+    var textFeedback
+     if(feedbackfromBack[i] === false){
+        colorFeedback = 'red'
+        textFeedback = "Vous n'avez pas rempli votre partie"
+     }else{
+        colorFeedback = 'green'
+        textFeedback = "Vous avez rempli votre partie"
+     }
+    
+     tabGlobalFeedback.push(<Tag color={colorFeedback}
+     style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+         {textFeedback}
+     </Tag>)
+}
 
     if(props.userId.type==="manager"){
     return (
@@ -187,14 +222,8 @@ function ScreenDashboard(props) {
                             </Avatar>
                             <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
                             <div>
-                                <Tag color='red'
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Ce collaborateur n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='green'
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
+                            {tabGlobalListen[i]}
+                            {tabGlobalFeedback[i]}
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
