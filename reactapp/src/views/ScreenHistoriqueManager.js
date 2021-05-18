@@ -2,14 +2,16 @@ import React from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,Empty} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
+import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
+import {connect} from 'react-redux'
 
-function ScreenDashboard() {
+function ScreenHistoriqueManager(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
 
+    if(props.userId.type==="manager"){
     return (
-
     <div>
         <Layout  style={{backgroundColor:'#FFFFFF'}}>
             <Nav/>
@@ -140,7 +142,16 @@ function ScreenDashboard() {
             </Layout>
         </Layout>
     </div>
-    );
+    )}else{return <Redirect to='/historique-collab'/> }
+    ;
 }
 
-export default ScreenDashboard;
+function mapStateToProps(state) {
+    console.log('test userStore',state.user._id)
+    return { userId: state.user }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(ScreenHistoriqueManager);

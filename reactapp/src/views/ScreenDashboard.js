@@ -82,7 +82,7 @@ function ScreenDashboard(props) {
         })
         const body = await data.json()
     }
-
+    if(props.userId.type==="manager"){
     return (
         <div>
             <Nav/>
@@ -238,7 +238,8 @@ function ScreenDashboard(props) {
                 </Form>
             </Modal>
         </div>
-    );
+    )}
+    else{return <Redirect to='/historique-collab'/> };
 }
 
 function mapStateToProps(state) {
