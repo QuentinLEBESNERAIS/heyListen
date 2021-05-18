@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
+import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
@@ -85,6 +85,10 @@ function ScreenDashboard(props) {
         info();
         const body = await data.json()
     }
+
+    function confirm() {
+        newCampaignLaunch()
+      }
 // Charts
     const state = {
         labels: ['January', 'February', 'March',
@@ -242,19 +246,20 @@ function ScreenDashboard(props) {
             </Row> 
             <Row style={{marginTop:20}}>
                 <Col onClick={showModal2} span={8} offset={2}>
-                    <h4 >Ajouter un collaborateur
-                    <UserAddOutlined 
-                    onClick={showModal2}
-                    style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
-                    />
-                    </h4>
+                <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
+                Ajouter un collaborateur à mon équipe
+                </Button>
                 </Col>
-                <Col onClick={() => newCampaignLaunch()} span={6} offset={6} >
-                    <h4>Lancer une nouvelle campagne de Listens
-                    <PlusOutlined 
-                    style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
-                    />
-                    </h4> 
+                <Col span={6} offset={8} >
+                <Popconfirm
+                    placement="topRight"
+                    title="Attention : Tous les Listen non complétés seront archivés"
+                    onConfirm={confirm}
+                    okText="Je lance une nouvelle campagne"
+                    cancelText="No"
+                    >
+                    <Button>Lancer une nouvelle campagne Listen</Button>
+                </Popconfirm>
                 </Col>
             </Row>
 
