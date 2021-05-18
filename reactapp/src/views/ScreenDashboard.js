@@ -72,27 +72,44 @@ function ScreenDashboard(props) {
     };
 
 // NEW CAMPAIGN
-    var tokenStore = "kfelkfjslkejflskej"
-    var teamBDD = []
-
-    var testlog = () => {
-        console.log("Bonjour, je suis le testLOG !")
-    }
-
     var newCampaignLaunch = async () => {
         const data = await fetch('/new-campaign', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tokenFromFront=${props.user._id}&teamFromFront=${teamBDD}`
+            body: `idFromFront=${props.userId._id}`
         })
+        const info = () => {
+            message.info('Nouvelle campagne lancée avec succés !');
+        }
+        info();
         const body = await data.json()
     }
 
+<<<<<<< HEAD
+=======
+    const state = {
+        labels: ['January', 'February', 'March',
+                 'April', 'May', 'June'],
+        datasets: [
+          {
+            label: 'Humeur',
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderWidth: 2,
+            fill: true,
+            lineTension: 0.4,
+            data: [3, 5, 4, 1, 3, 2],
+          }
+        ]
+      }
+    
+
+>>>>>>> 792d88ed08ad9023e454770ea5b60f244fbd9d3e
     if(props.userId.type==="manager"){
     return (
         <div>
             <Nav/>
-            <Row style={{height:50}}>
+            <Row style={{height:65}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
                     <Progress percent={50} size="small" status="active" />
@@ -105,16 +122,20 @@ function ScreenDashboard(props) {
               height={50}
                data={state}
                options={{
+
                  title:{
-                   display:true,
-                   text:'Average Rainfall per month',
-                   fontSize:8
+                   display:false,
                  },
                  legend:{
-                   display:false,
-                 }
-               }}>
+                   display:true,
+                 },
+                 plugins:{
+                     legend:{
+                         display:false
+                     }
+               }}}>
                </Line>
+
             </Col>
             </Row>
             <Row style={{marginTop:20}}>
@@ -192,7 +213,7 @@ function ScreenDashboard(props) {
                     />
                     </h4>
                 </Col>
-                <Col onClick={() => testlog()} span={6} offset={6} >
+                <Col onClick={() => newCampaignLaunch()} span={6} offset={6} >
                     <h4>Lancer une nouvelle campagne de Listens
                     <PlusOutlined 
                     style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
