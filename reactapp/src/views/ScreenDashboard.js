@@ -85,6 +85,8 @@ function ScreenDashboard(props) {
         const body = await data.json()
     }
 
+<<<<<<< HEAD
+=======
     const state = {
         labels: ['January', 'February', 'March',
                  'April', 'May', 'June'],
@@ -102,6 +104,7 @@ function ScreenDashboard(props) {
       }
     
 
+>>>>>>> 792d88ed08ad9023e454770ea5b60f244fbd9d3e
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -278,6 +281,7 @@ function ScreenDashboard(props) {
                     </Form.Item>
                 </Form>
             </Modal>
+            
         </div>
     )}
     else{return <Redirect to='/historique-collab'/> };
