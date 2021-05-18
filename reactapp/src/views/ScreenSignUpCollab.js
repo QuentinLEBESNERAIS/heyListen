@@ -28,17 +28,26 @@ function ScreenSignUpCollab(props) {
         response=await response.json()
         console.log(response)
         setSignUpError(response.response)
-        props.userToReducer(response.user)
+        if(response.user)
+        {props.userToReducer(response.user)
         if(response.response==="compte crée"){
           setUserCreated(true)
           const info = () => {
             message.info('Compte crée avec succès');
           }
-          info();}
+          info();}}
       }
     signUp()
     }
   }
+
+  /*Alerte signUp*/
+let alerte 
+if(signUpError){alerte=<Alert style={{borderRadius: '5px'}}
+message={signUpError}
+type="error"
+closable
+/>}
 
   if(userCreated){
     return <Redirect to="/historique-collab"/>
@@ -68,8 +77,11 @@ function ScreenSignUpCollab(props) {
       </Row>
       <Row justify="center" align="top">
         <Col span={16}>
+          <div style={{color:'red'}}>
+          {alerte}
+          </div>
           <div className="sign-up-input-group"> 
-            <Input value={lastName} onChange={(e)=>setLastName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Nom" />
+            <Input rules={[{ required: true, message: 'Please input your username!' }]} value={lastName} onChange={(e)=>setLastName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Nom" />
             <Input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Prénom" />
           </div>
           <div className="sign-up-input-group"> 
@@ -87,7 +99,7 @@ function ScreenSignUpCollab(props) {
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
           <Button onClick={()=>handleClickSignUp()} className="sign-up-button">S'inscrire</Button>
-          {signUpError}
+          
         </Col>
       </Row>
     </div>
