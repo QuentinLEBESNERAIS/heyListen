@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import { Slider,Input,Button,Form,Row,Col} from 'antd'
+import { Slider,Input,Button,Form,Row,Col,Modal,Image} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -12,18 +12,35 @@ function ScreenListen(props) {
     const[responseThree,setResponseThree] = useState('');
     const[responseFour,setResponseFour] = useState('');
     const[responseFive,setResponseFive] = useState('');
+    const [visible,setVisible] = useState(false)
 
 // Set du Slider
     var handleChange = (value) => {
         setMoodValue(value);
     };
 // Enregistrement du Listen Collab
-    var saveListenCollab = async (valueMood,value1,value2,value3,value4,value5) => {
-        await fetch('/save-listen', {
-            method: 'PUT',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `id=${props.user._id}=${valueMood}&reponse1=${value1}&reponse2=${value2}&reponse3=${value3}&reponse4=${value4}&reponse5=${value5}`
-        });
+    
+
+    const showModal = () => {
+        setVisible(true);
+    };
+    
+    const handleOk = async () => {
+        var saveListenCollab = async () => {
+            await fetch('/save-listen', {
+                method: 'PUT',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: `id=${props.userId._id}=${moodValue}&reponse1=${responseOne}&reponse2=${responseTwo}&reponse3=${responseThree}&reponse4=${responseFour}&reponse5=${responseFive}`
+            }); 
+            await saveListenCollab()
+        };
+        setVisible(false);
+        }
+        
+    
+
+    const handleCancel = () => {
+        setVisible(false);
     };
 
     return (
@@ -67,13 +84,41 @@ function ScreenListen(props) {
                         <Form.Item >
                             <Button htmlType="submit" className='input-button-listen'
                             style={{backgroundColor:'#3d84b8',color:'white'}}
-                            onClick={()=> saveListenCollab(moodValue,responseOne,responseTwo,responseThree,responseFour,responseFive) }>
+                            onClick={showModal}>
                                 Valider
                             </Button>
                         </Form.Item>
                     </Col>
                 </Row>
             </Form>  
+            <Modal visible={visible} onCancel={handleCancel} footer={null}>
+            <h2 className='input-listen'> 
+                {<Image width='30px' src="./logo-transparent.png" />}
+                Souhaitez-vous envoyer ce listen :
+            </h2>
+            <h4>Question 1:</h4>
+            <p>{responseOne}</p>
+            <h4>Question 2:</h4>
+            <p>{responseTwo}</p>
+            <h4>Question 3:</h4>
+            <p>{responseThree}</p>
+            <h4>Question 4:</h4>
+            <p>{responseFour}</p>
+            <h4>Question 5:</h4>
+            <p>{responseFive}</p>
+            <div style={{display:'inline'}}>
+            <Button key="back" htmlType="submit" 
+            style={{backgroundColor:'grey',color:'white',marginLeft:220}}
+            onClick={handleCancel}>
+                Annuler
+            </Button>
+            <Button key="submit" 
+            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+            onClick={()=> handleOk()}>
+                Envoyer le listen
+            </Button>
+            </div>
+            </Modal>
         </div>
     );
 }
