@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../App.css';
-import {Row,Col,Input,Typography,Slider,Layout,Select,Divider} from 'antd'
+import {Row,Col,Input,Typography,Slider,Layout,Select,Divider, Modal} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
 import Nav from './Nav';
 import {connect} from 'react-redux';
@@ -9,12 +9,18 @@ function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
 
+    const [visibleModal, setVisibleModal] = useState(false);
+
 //Affichage modale de rappel du listen à remplir
-useEffect(()=> {
-
- 
-    },[props.showModal])
-
+useEffect( async () => {
+    if (props.shownModal == true){
+        var rawResponse = await fetch(`/find-listen?collab=${props.user._id}`);
+        var foundListen = await rawResponse.json();
+        if (foundListen.response == true)
+        props.modalState()
+        setVisibleModal(true)
+    }
+    },[])
 
     return (
 
@@ -138,6 +144,12 @@ useEffect(()=> {
                         </Col>
                     </Row>
                 </Content>
+                <Modal visible={visibleModal} footer={null} width={700} height={500}>
+                <div style={{color:'red', display:'flex', justifyContent:'center'}}>
+                    Bonjour, veuillez remplir votre Listen !
+                </div>
+
+            </Modal>
             </Layout>
         </Layout>
     </div>
@@ -145,10 +157,18 @@ useEffect(()=> {
 }
 
 function mapStateToProps(state) {
-    return { shownModal: state.shownModal }
+    return { shownModal: state.shownModal, user: state.user}
 }
+
+function mapDispatchToProps(dispatch){
+    return {
+      modalState: function(){
+        dispatch({type:"modalState"})
+      }
+    }
+  }
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(ScreenHistoriqueCollab);

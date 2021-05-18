@@ -14,7 +14,7 @@ import ScreenInfosPersonnelles from './views/ScreenInfosPersonnelles';
 
 import email from './reducers/email';
 import user from './reducers/user';
-import shownModal from './reducers/shownModal'
+import shownModal from './reducers/shownModal';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';

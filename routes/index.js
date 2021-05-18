@@ -77,4 +77,16 @@ router.post('/initListenDB', async function(req,res,next){
   res.json(ListenFromDB)
 })
 
+
+router.get('/find-listen', async function(req,res,next){
+
+  var isListenToComplete = await ListenModel.findOne({collab: req.query.id});
+  console.log('isListenToComplete',isListenToComplete)
+  if (isListenToComplete.answersCollab == null) {
+    res.json({response: true})
+  } else {
+    res.json({response: false})
+  }
+})
+
 module.exports = router;

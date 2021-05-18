@@ -1,6 +1,6 @@
 export default function(shownModal = false, action) {
     if(action.type == 'modalState') {
-      var shownModalCopy = action.shownModal;
+      var shownModalCopy = true;
       return shownModalCopy;
     } else {
       return shownModal;
