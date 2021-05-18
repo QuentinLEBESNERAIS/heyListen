@@ -1,12 +1,22 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Row,Col,Input,Typography,Slider,Layout,Select,Divider} from 'antd'
+import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
+import {connect} from 'react-redux';
 import Nav from './Nav'
 
-function ScreenDashboard() {
+function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
+
+    var testLaunch = async () => {
+        const data = await fetch('/test', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `idFromFront=${props.userId._id}`
+        })
+        const body = await data.json()
+    }
 
     return (
 
@@ -28,7 +38,7 @@ function ScreenDashboard() {
                     <Row type="flex" align-item="center">
                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
                             <Typography.Text>Janvier</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
+                            <EyeOutlined onClick={() => testLaunch()} style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
                         </Col>
                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
                             <Typography.Text>Février</Typography.Text>
@@ -136,4 +146,12 @@ function ScreenDashboard() {
     );
 }
 
-export default ScreenDashboard;
+function mapStateToProps(state) {
+    console.log('test userStore',state.user._id)
+    return { userId: state.user }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(ScreenHistoriqueCollab);

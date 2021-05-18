@@ -3,6 +3,9 @@ var router = express.Router();
 var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
 var TemplateModel = require('../models/templates');
+var moment = require('moment');
+var _ = require('lodash');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -76,5 +79,80 @@ router.post('/initListenDB', async function(req,res,next){
   var ListenFromDB = await ListenModel.find({ token: req.body.tokenFromFront})
   res.json(ListenFromDB)
 })
+
+// TEST ZONE MATRIOCHKA
+router.post('/test', async function(req, res, next) {
+  let matriochka = []
+
+  let userId = req.body.idFromFront
+  let listens = await ListenModel.find({collab: userId, isActive: false})
+
+  console.log("mon userId = ",userId)
+  //console.log("mes listens = ",listens)
+  console.log("Listen n°1 = ",listens[0])
+  //console.log("Mon Listen n°1 à été créé le = ",listens[0].createdAt)
+  //console.log("Test = ", moment(listens[0].createdAt).format('YYYY'))
+
+  let years = []
+    for(i=0; i<listens.length; i++){
+      years.push(moment(listens[i].createdAt).format('YYYY'))
+    }
+  //console.log(years)
+  let yearsUniq = _.uniq(years)
+  //console.log(yearsUniq)
+
+  let yearsCreate = []
+    for(i=0; i<yearsUniq.length; i++){
+      let temp = {}
+      temp[yearsUniq[i]]=[]
+      yearsCreate.push(
+        temp
+      )
+    }
+  matriochka.push(...yearsCreate)
+  
+  for(i=0; i<matriochka.length; i++){
+    let yearLoop = _.findKey(matriochka[i])
+    //console.log(yearLoop)
+
+    let listensByYear = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-01-01`, $lte: `${yearLoop}-12-31`}})
+    //console.log(listensByYear)
+
+    let months = []
+    for(o=0; o<listensByYear.length; o++){
+      months.push(moment(listensByYear[o].createdAt).format('MM'))
+    }
+    let monthsUniq = _.uniq(months)
+    //console.log(yearLoop," : ",monthsUniq)
+
+    let monthsCreate = []
+    for(p=0; p<monthsUniq.length; p++){
+      let temp = {}
+      temp[monthsUniq[p]]=[]
+      monthsCreate.push(
+        temp
+      )
+    }
+
+    //console.log(monthsCreate)
+
+    let matriochkaTemp = matriochka[i]
+    //console.log("MATRIOCHKA TEMP = ",matriochkaTemp);
+    matriochkaTemp[_.findKey(matriochka[i])].push(...monthsCreate)
+
+    //console.log("MATRIOCHKA =",matriochka)
+    console.log("MATRIOCHKA",_.findKey(matriochka[i])," = ", matriochka[i])
+  }
+
+
+
+
+
+
+
+
+
+  res.json ({response: 'Test'})
+});
 
 module.exports = router;
