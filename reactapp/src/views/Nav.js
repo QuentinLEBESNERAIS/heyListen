@@ -14,10 +14,10 @@ function Nav(props) {
     <Menu mode="horizontal" className="navbar">
       <img src={'./logo-transparent.png'} className='navLogo'></img>
       <Menu.Item key="équipe">
-        <Link to="/" >Mon équipe</Link>
+        <Link to="/dashboard" >Mon équipe</Link>
       </Menu.Item>
       <Menu.Item key="historique">
-        <Link to="/" >Historique</Link>
+        <Link to="/historique-manager" >Historique</Link>
       </Menu.Item>
       <Menu.Item key="listen">
         <Badge dot >
