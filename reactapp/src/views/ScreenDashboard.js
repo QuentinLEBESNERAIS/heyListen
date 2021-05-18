@@ -15,7 +15,8 @@ function ScreenDashboard(props) {
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
     const [team,setTeam] = useState([])
-    
+    const[listenfromBack,setListenfromBack] = useState([])
+    const [feedbackfromBack,setFeedbackFromBack] = useState([])
 // Paramètres modale feedback manager
     const showModal1 = () => {
         setVisible1(true);
@@ -103,16 +104,24 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-      var collabs =[]
+      
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-      collabs = await rawResponse.json();
+      var collabs = await rawResponse.json();
       setTeam(collabs.collabs)
+      setListenfromBack(collabs.collabsListen)
+      setFeedbackFromBack(collabs.collabFeedback)
      }
-     getBddCollab()
-    console.log('team',team)
+     if(props.userId.type == 'manager'){getBddCollab()}
       },[])
-    
+    //Initiales avatar liste collab
+    var firstMaj = (a) =>{
+        return ( 
+            (a+'').charAt(0).toUpperCase()
+            );
+    }
+
+   var colorTagCollab ='green'
 
     if(props.userId.type==="manager"){
     return (
@@ -170,15 +179,15 @@ function ScreenDashboard(props) {
                         <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
-                            MD
+                            {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                             </Avatar>
                             <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
                             <div>
-                                <Tag color='#A62626' 
+                                <Tag color='red'
                                 style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    {item.firstName} n'a pas rempli son Listen
+                                    Ce collaborateur n'a pas rempli son Listen
                                 </Tag>
-                                <Tag color='#448f30' 
+                                <Tag color='green'
                                 style={{borderRadius:'10px',width:200,textAlign:'center'}}>
                                     Vous avez rempli votre partie
                                 </Tag>
