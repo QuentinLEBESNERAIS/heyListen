@@ -12,10 +12,8 @@ function Nav(props) {
   useEffect(()=>{
   },[props.user])
   if(!props.user){return (<Redirect to='/'/>)}
-  let inactive
-  if(props.user.type==="collab"){inactive="disabled"}
-
-
+  
+  if(props.user.type==="manager"){
   return (
     <Menu mode="horizontal" className="navbar">
       <img src={'./logo-transparent.png'} className='navLogo'></img>
@@ -38,8 +36,29 @@ function Nav(props) {
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
         </SubMenu>
     </Menu>
-
-  );
+  )
+  }else{
+    return (
+      <Menu mode="horizontal" className="navbar">
+        <img src={'./logo-transparent.png'} className='navLogo'></img>
+        <Menu.Item key="historique">
+          <Link to="/historique-manager" >Historique</Link>
+        </Menu.Item>
+        <Menu.Item key="listen">
+          <Badge dot >
+            <Link to="/listen" >Faire mon Listen</Link>
+          </Badge>
+        </Menu.Item>
+          <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
+          icon={
+              <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
+          }>
+              <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
+              <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
+          </SubMenu>
+      </Menu>
+    )
+  };
 }
 
 function mapDispatchToProps(dispatch){

@@ -286,9 +286,10 @@ for(var i=0; i<feedbackfromBack.length;i++){
               <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
                 <Col onClick={showModal2} span={8} offset={2}>
                 <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
-                Ajouter un collaborateur à mon équipe
+                Ajouter un collaborateur
                 </Button>
                 </Col>
+                </Popover>
                 <Col span={6} offset={8} >
                 <Popconfirm
                     placement="topRight"
@@ -300,7 +301,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
                     <Button>Lancer une nouvelle campagne Listen</Button>
                 </Popconfirm>
                 </Col>
-                </Popover>
+                
             </Row>
 
             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
