@@ -6,6 +6,7 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+import { set } from 'mongoose';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -17,21 +18,36 @@ function ScreenDashboard(props) {
     const [team,setTeam] = useState([])
     const[listenfromBack,setListenfromBack] = useState([])
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
+    const [collabIDFeedback,setCollabIDFeedback] = useState('')
+    
+
 // Paramètres modale feedback manager
     const showModal1 = () => {
+        
         setVisible1(true);
     };
     
-    const handleOk1 = async () => {
+    const handleOk1 =  () => {
+       
         var saveFeedback = async () => {
+            console.log('ekgknzlemgzopezo',collabIDFeedback)
             await fetch('/save-feedback', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                body: `id=${props.user._id}=${feedbackOne}&feedback2=${feedbackTwo}`
+                body: `id=${collabIDFeedback}&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
-            await saveFeedback()
+            
         }
+        saveFeedback();
         setVisible1(false);
+        var getBddCollab = async () => {
+            var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+            var collabs = await rawResponse.json();
+            setTeam(collabs.collabs)
+            setListenfromBack(collabs.collabsListen)
+            setFeedbackFromBack(collabs.collabFeedback)
+           }
+           if(props.userId.type == 'manager'){getBddCollab()}
     };
 
     const handleCancel1 = () => {
@@ -108,7 +124,7 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-      
+        
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
       var collabs = await rawResponse.json();
@@ -126,6 +142,7 @@ function ScreenDashboard(props) {
     }
 //changement couleur Tab collab
 var tabGlobalListen = []
+
 
 for(var i=0; i<listenfromBack.length;i++){
    var color
@@ -145,6 +162,7 @@ for(var i=0; i<listenfromBack.length;i++){
 }
 //changement couleur Tab collab
 var tabGlobalFeedback = []
+
 for(var i=0; i<feedbackfromBack.length;i++){
     var colorFeedback
     var textFeedback
@@ -229,9 +247,39 @@ for(var i=0; i<feedbackfromBack.length;i++){
                             <div>
                                 <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
                                 />
-                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={{ fontSize: '24px' }}/>
                             </div>
                         </List.Item>
+                        <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
+                <Form layout="vertical" >
+                    <h2 className='input-listen'> 
+                        {<Image width='30px' src="./logo-transparent.png" />}
+                        Concernant Michel Dupont :
+                    </h2>
+                    <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                    className='input-listen' >
+                        <Input onChange={(e) => setFeedbackOne(e.target.value)}
+                        value={feedbackOne}/>
+                    </Form.Item>
+                    <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                    className='input-listen'>
+                        <Input onChange={(e) => setFeedbackTwo(e.target.value)}
+                        value={feedbackTwo}/>
+                    </Form.Item>
+                    <Form.Item layout="horizontal" style={{marginTop:30}}>
+                            <Button key="back" htmlType="submit" 
+                            style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                            onClick={handleCancel1}>
+                                Annuler
+                            </Button>
+                            <Button key="submit" 
+                            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                            onClick={()=> handleOk1() }>
+                            Valider
+                            </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
                         </div>
                     ))}
                       {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
@@ -304,36 +352,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
                 
             </Row>
 
-            <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
-                <Form layout="vertical" >
-                    <h2 className='input-listen'> 
-                        {<Image width='30px' src="./logo-transparent.png" />}
-                        Concernant Michel Dupont :
-                    </h2>
-                    <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
-                    className='input-listen' >
-                        <Input onChange={(e) => setFeedbackOne(e.target.value)}
-                        value={feedbackOne}/>
-                    </Form.Item>
-                    <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
-                    className='input-listen'>
-                        <Input onChange={(e) => setFeedbackTwo(e.target.value)}
-                        value={feedbackTwo}/>
-                    </Form.Item>
-                    <Form.Item layout="horizontal" style={{marginTop:30}}>
-                            <Button key="back" htmlType="submit" 
-                            style={{backgroundColor:'grey',color:'white',marginLeft:240}}
-                            onClick={handleCancel1}>
-                                Annuler
-                            </Button>
-                            <Button key="submit" 
-                            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                            onClick={()=> handleOk1() }>
-                            Valider
-                            </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+            
 
             <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={700} height={500}>
                 <div style={{color:'red', display:'flex', justifyContent:'center'}}>
