@@ -87,16 +87,16 @@ function ScreenDashboard(props) {
 
     const state = {
         labels: ['January', 'February', 'March',
-                 'April', 'May','June'],
+                 'April', 'May', 'June'],
         datasets: [
           {
-            label: 'Rainfall',
+            label: 'Humeur',
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
             borderWidth: 2,
             fill: true,
             lineTension: 0.4,
-            data: [3, 5, 4, 1, 3, 2]
+            data: [3, 5, 4, 1, 3, 2],
           }
         ]
       }
@@ -106,7 +106,7 @@ function ScreenDashboard(props) {
     return (
         <div>
             <Nav/>
-            <Row style={{height:50}}>
+            <Row style={{height:65}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
                     <Progress percent={50} size="small" status="active" />
@@ -119,16 +119,20 @@ function ScreenDashboard(props) {
               height={50}
                data={state}
                options={{
+
                  title:{
-                   display:true,
-                   text:'Average Rainfall per month',
-                   fontSize:8
+                   display:false,
                  },
                  legend:{
-                   display:false,
-                 }
-               }}>
+                   display:true,
+                 },
+                 plugins:{
+                     legend:{
+                         display:false
+                     }
+               }}}>
                </Line>
+
             </Col>
             </Row>
             <Row style={{marginTop:20}}>
