@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
@@ -14,6 +14,7 @@ function ScreenDashboard(props) {
     const[feedbackTwo,setFeedbackTwo] = useState('');
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [team,setTeam] = useState([])
     
 // Paramètres modale feedback manager
     const showModal1 = () => {
@@ -84,7 +85,7 @@ function ScreenDashboard(props) {
         info();
         const body = await data.json()
     }
-
+// Charts
     const state = {
         labels: ['January', 'February', 'March',
                  'April', 'May', 'June'],
@@ -100,6 +101,17 @@ function ScreenDashboard(props) {
           }
         ]
       }
+//Affichage collab 
+      useEffect(()=> {
+      var collabs =[]
+      var getBddCollab = async () => {
+      var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+      collabs = await rawResponse.json();
+      setTeam(collabs.collabs)
+     }
+     getBddCollab()
+    console.log('team',team)
+      },[])
     
 
     if(props.userId.type==="manager"){
@@ -153,7 +165,34 @@ function ScreenDashboard(props) {
             <Row>
                 <Col span={22} offset={1}>
                     <List itemLayout="horizontal">
+                    {team.map((item,i) => (
+                        <div key={i}>
                         <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
+                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
+                            size="large">
+                            MD
+                            </Avatar>
+                            <Typography.Text>Michel Dupont</Typography.Text>
+                            <div>
+                                <Tag color='#A62626' 
+                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
+                                    Michel n'a pas rempli son Listen
+                                </Tag>
+                                <Tag color='#448f30' 
+                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
+                                    Vous avez rempli votre partie
+                                </Tag>
+                            </div>
+                            <HistoryOutlined style={{ fontSize: '24px' }}/>
+                            <div>
+                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
+                                />
+                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
+                            </div>
+                        </List.Item>
+                        </div>
+                    ))}
+                      {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
                             MD
@@ -197,7 +236,7 @@ function ScreenDashboard(props) {
                                 <EyeOutlined style={{ fontSize: '24px',marginRight:5 }}/>
                                 <LockOutlined style={{ fontSize: '24px' }}/>
                             </div>
-                        </List.Item>
+            </List.Item> */}
                     </List>  
                 </Col>
             </Row> 
@@ -285,7 +324,7 @@ function ScreenDashboard(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('test userStore',state.user._id)
+    
     return { userId: state.user }
 }
 
