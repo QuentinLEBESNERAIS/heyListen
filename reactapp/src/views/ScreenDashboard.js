@@ -202,8 +202,8 @@ function ScreenDashboard(props) {
                 </Col>
             </Row> 
             <Row style={{marginTop:20}}>
-                <Col span={8} offset={2}>
-                    <h4>Ajouter un collaborateur
+                <Col onClick={showModal2} span={8} offset={2}>
+                    <h4 >Ajouter un collaborateur
                     <UserAddOutlined 
                     onClick={showModal2}
                     style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
