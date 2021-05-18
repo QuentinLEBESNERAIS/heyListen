@@ -4,6 +4,7 @@ import {Col, Input, Row, Alert, Space, Button,message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 
 function ScreenInfosPersonnelles(props) {
+
   const [firstName,setFirstName] = useState(props.user.firstName)
   const [lastName,setLastName] = useState(props.user.lastName)
   const [password,setPassword] = useState("")
@@ -13,14 +14,21 @@ function ScreenInfosPersonnelles(props) {
   const [messageError,setMessageError] = useState("")
   const [userModified, setUserModified] = useState(false)
 
+// Fonction qui se déclenche lors de l'appui sur le bouton modifier
   var handleClickModifInfos = ()=> {
+    // On vérifie que tous les champs sont remplis
     if (firstName, lastName, password, password2, company, jobTitle){
+
+    // On vérifie que le mot de passe respecte les standards de sécurité
     var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
     var valid = passwordReg.test(password);
+
+    // On vérifie que les 2 champs password sont identiques
     if(password != password2){ setMessageError('Les mots de passe ne correspondent pas')
     } else if (!valid) {
         setMessageError("Le mot de passe doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
     } else {
+    // si toutes les conditions sont remplies, on envoie une requête au backend pour modifier les informations personnelles
       async function userChanges(){
         var response = await fetch('/users/modification-infos',{
           method:"POST",
@@ -28,9 +36,12 @@ function ScreenInfosPersonnelles(props) {
           body:`token=${props.user.token}&email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         response = await response.json()
-        console.log('response.user', response.user)
+
+    // Le user est également enregistré dans le store
         props.userToReducer(response.user)
         if(response.response==='Informations modifiées'){
+    
+    // Un message de validation de l'enregistrement est affiché
             setUserModified(true)
           const info = () => {
             message.info(response.response);
@@ -43,6 +54,7 @@ function ScreenInfosPersonnelles(props) {
         setMessageError('Merci de remplir tous les champs')
     }
     }
+// Une fois le user modifié, l'utilisateur est renvoyé vers le dashboard
   if(userModified){
     return <Redirect to="/dashboard"/>
   }
@@ -77,7 +89,8 @@ function ScreenInfosPersonnelles(props) {
       </Row>
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
-          <Button onClick={()=>handleClickModifInfos()} className="sign-up-button">Modifier</Button>
+          <Link to='/dashboard'><Button className="sign-up-button">Retour</Button></Link>
+          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} className="sign-up-button">Modifier</Button>
         </Col>
       </Row>
     </div>

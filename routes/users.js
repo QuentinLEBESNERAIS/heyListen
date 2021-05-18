@@ -4,8 +4,9 @@ var uid2 = require("uid2");
 var bcrypt = require("bcrypt");
 var UserModel = require('../models/users');
 var TeamModel = require('../models/teams');
+var ListenModel = require('../models/listens');
 
-/*FOnction pour passer la premiere lettre en majuscule*/
+/*Fonction pour passer la premiere lettre en majuscule*/
 function firstMaj(a){return (a+'').charAt(0).toUpperCase()+a.substr(1);}
 
 /* GET users listing. */
@@ -178,10 +179,28 @@ router.post('/modification-infos', async function(req, res, next) {
 router.get('/find-collab/', async function(req,res,next){
 
   var team = await TeamModel.findOne({ manager:req.query.manager}).populate('collab').exec();;
-  
-console.log('team',team)
-
-res.json({collabs : team.collab})
+ var collab=[]
+ for (let i=0 ; i<team.collab.length; i++){
+   collab.push(team.collab[i]._id)
+ }
+ var listen=[]
+ var feedback=[]
+ for (let i=0; i<collab.length;i++){
+   var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
+   if (listensSearch.answersCollab == null){
+     listen.push(listensSearch.answersCollab = false)
+   }else{
+    listen.push(listensSearch.answersCollab = true)
+   }
+   if (listensSearch.answersFeedback == null){
+    feedback.push(listensSearch.answersFeedback = false)
+  }else{
+    feedback.push(listensSearch.answersFeedback = true)
+  }
+ }
+ 
+res.json({collabs: team.collab, collabsListen:listen, collabFeedback:feedback})
 })
+
 
 module.exports = router;

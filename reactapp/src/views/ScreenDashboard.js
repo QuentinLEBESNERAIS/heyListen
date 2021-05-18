@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
+import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+import { set } from 'mongoose';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -15,22 +16,38 @@ function ScreenDashboard(props) {
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
     const [team,setTeam] = useState([])
+    const[listenfromBack,setListenfromBack] = useState([])
+    const [feedbackfromBack,setFeedbackFromBack] = useState([])
+    const [collabIDFeedback,setCollabIDFeedback] = useState('')
     
+
 // Paramètres modale feedback manager
     const showModal1 = () => {
+        
         setVisible1(true);
     };
     
-    const handleOk1 = async () => {
+    const handleOk1 =  () => {
+       
         var saveFeedback = async () => {
+            console.log('ekgknzlemgzopezo',collabIDFeedback)
             await fetch('/save-feedback', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                body: `id=${props.user._id}=${feedbackOne}&feedback2=${feedbackTwo}`
+                body: `id=${collabIDFeedback}&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
-            await saveFeedback()
+            
         }
+        saveFeedback();
         setVisible1(false);
+        var getBddCollab = async () => {
+            var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+            var collabs = await rawResponse.json();
+            setTeam(collabs.collabs)
+            setListenfromBack(collabs.collabsListen)
+            setFeedbackFromBack(collabs.collabFeedback)
+           }
+           if(props.userId.type == 'manager'){getBddCollab()}
     };
 
     const handleCancel1 = () => {
@@ -85,6 +102,10 @@ function ScreenDashboard(props) {
         info();
         const body = await data.json()
     }
+
+    function confirm() {
+        newCampaignLaunch()
+      }
 // Charts
     const state = {
         labels: ['January', 'February', 'March',
@@ -103,16 +124,61 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-      var collabs =[]
+        
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-      collabs = await rawResponse.json();
+      var collabs = await rawResponse.json();
       setTeam(collabs.collabs)
+      setListenfromBack(collabs.collabsListen)
+      setFeedbackFromBack(collabs.collabFeedback)
      }
-     getBddCollab()
-    console.log('team',team)
+     if(props.userId.type == 'manager'){getBddCollab()}
       },[])
+    //Initiales avatar liste collab
+    var firstMaj = (a) =>{
+        return ( 
+            (a+'').charAt(0).toUpperCase()
+            );
+    }
+//changement couleur Tab collab
+var tabGlobalListen = []
+
+
+for(var i=0; i<listenfromBack.length;i++){
+   var color
+   var text
+    if(listenfromBack[i] === false){
+        color = 'red';
+        text = "Ce collaborateur n'a pas rempli son Listen"
+    }else{
+        color = 'green'
+        text = "Ce collaborateur a rempli son Listen"
+    }
+   
+    tabGlobalListen.push(<Tag color={color}
+    style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+        {text}
+    </Tag>)
+}
+//changement couleur Tab collab
+var tabGlobalFeedback = []
+
+for(var i=0; i<feedbackfromBack.length;i++){
+    var colorFeedback
+    var textFeedback
+     if(feedbackfromBack[i] === false){
+        colorFeedback = 'red'
+        textFeedback = "Vous n'avez pas rempli votre partie"
+     }else{
+        colorFeedback = 'green'
+        textFeedback = "Vous avez rempli votre partie"
+     }
     
+     tabGlobalFeedback.push(<Tag color={colorFeedback}
+     style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+         {textFeedback}
+     </Tag>)
+}
 
     if(props.userId.type==="manager"){
     return (
@@ -170,26 +236,50 @@ function ScreenDashboard(props) {
                         <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
-                            MD
+                            {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                             </Avatar>
                             <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
                             <div>
-                                <Tag color='#A62626' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    {item.firstName} n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
+                            {tabGlobalListen[i]}
+                            {tabGlobalFeedback[i]}
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
                                 <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
                                 />
-                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={{ fontSize: '24px' }}/>
                             </div>
                         </List.Item>
+                        <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
+                <Form layout="vertical" >
+                    <h2 className='input-listen'> 
+                        {<Image width='30px' src="./logo-transparent.png" />}
+                        Concernant Michel Dupont :
+                    </h2>
+                    <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                    className='input-listen' >
+                        <Input onChange={(e) => setFeedbackOne(e.target.value)}
+                        value={feedbackOne}/>
+                    </Form.Item>
+                    <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                    className='input-listen'>
+                        <Input onChange={(e) => setFeedbackTwo(e.target.value)}
+                        value={feedbackTwo}/>
+                    </Form.Item>
+                    <Form.Item layout="horizontal" style={{marginTop:30}}>
+                            <Button key="back" htmlType="submit" 
+                            style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                            onClick={handleCancel1}>
+                                Annuler
+                            </Button>
+                            <Button key="submit" 
+                            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                            onClick={()=> handleOk1() }>
+                            Valider
+                            </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
                         </div>
                     ))}
                       {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
@@ -241,53 +331,28 @@ function ScreenDashboard(props) {
                 </Col>
             </Row> 
             <Row style={{marginTop:20}}>
+              <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
                 <Col onClick={showModal2} span={8} offset={2}>
-                    <h4 >Ajouter un collaborateur
-                    <UserAddOutlined 
-                    onClick={showModal2}
-                    style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
-                    />
-                    </h4>
+                <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
+                Ajouter un collaborateur
+                </Button>
                 </Col>
-                <Col onClick={() => newCampaignLaunch()} span={6} offset={6} >
-                    <h4>Lancer une nouvelle campagne de Listens
-                    <PlusOutlined 
-                    style={{color:'#3d84b8', paddingLeft:5,fontSize: '20px',fontWeight:'bold'}} 
-                    />
-                    </h4> 
+                </Popover>
+                <Col span={6} offset={8} >
+                <Popconfirm
+                    placement="topRight"
+                    title="Attention : Tous les Listen non complétés seront archivés"
+                    onConfirm={confirm}
+                    okText="Je lance une nouvelle campagne"
+                    cancelText="No"
+                    >
+                    <Button>Lancer une nouvelle campagne Listen</Button>
+                </Popconfirm>
                 </Col>
+                
             </Row>
 
-            <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
-                <Form layout="vertical" >
-                    <h2 className='input-listen'> 
-                        {<Image width='30px' src="./logo-transparent.png" />}
-                        Concernant Michel Dupont :
-                    </h2>
-                    <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
-                    className='input-listen' >
-                        <Input onChange={(e) => setFeedbackOne(e.target.value)}
-                        value={feedbackOne}/>
-                    </Form.Item>
-                    <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
-                    className='input-listen'>
-                        <Input onChange={(e) => setFeedbackTwo(e.target.value)}
-                        value={feedbackTwo}/>
-                    </Form.Item>
-                    <Form.Item layout="horizontal" style={{marginTop:30}}>
-                            <Button key="back" htmlType="submit" 
-                            style={{backgroundColor:'grey',color:'white',marginLeft:240}}
-                            onClick={handleCancel1}>
-                                Annuler
-                            </Button>
-                            <Button key="submit" 
-                            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                            onClick={()=> handleOk1() }>
-                            Valider
-                            </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+            
 
             <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={700} height={500}>
                 <div style={{color:'red', display:'flex', justifyContent:'center'}}>
@@ -320,7 +385,7 @@ function ScreenDashboard(props) {
             
         </div>
     )}
-    else{return <Redirect to='/historique-collab'/> };
+    else {return <Redirect to='/historique-collab'/> };
 }
 
 function mapStateToProps(state) {

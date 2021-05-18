@@ -17,6 +17,24 @@ function ScreenHistoriqueCollab(props) {
         })
         const body = await data.json()
     }
+    const [visibleModal, setVisibleModal] = useState(false);
+
+//Affichage modale de rappel du listen à remplir
+useEffect( async () => {
+    if (props.shownModal == false){
+        var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
+        var foundListen = await rawResponse.json();
+        if (foundListen.response == true){
+        console.log('foundListen.response', foundListen.response)
+        setVisibleModal(true)
+        }
+    }
+    },[])
+
+    const handleCancel = () => {
+        props.modalState()
+        setVisibleModal(false);
+    };
 
     return (
 
@@ -140,6 +158,14 @@ function ScreenHistoriqueCollab(props) {
                         </Col>
                     </Row>
                 </Content>
+                <Modal visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
+              Remplir mon listen
+            </Button></Link>} width={700} height={500}>
+                <div style={{color:'red', display:'flex', justifyContent:'center'}}>
+                    Bonjour, veuillez remplir votre Listen !
+                </div>
+
+            </Modal>
             </Layout>
         </Layout>
     </div>
@@ -151,7 +177,15 @@ function mapStateToProps(state) {
     return { userId: state.user }
 }
 
+function mapDispatchToProps(dispatch){
+    return {
+      modalState: function(){
+        dispatch({type:"modalState"})
+      }
+    }
+  }
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(ScreenHistoriqueCollab);

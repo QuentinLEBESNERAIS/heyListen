@@ -13,12 +13,13 @@ import ScreenMyAcount from './views/ScreenMyAcount';
 import ScreenInfosPersonnelles from './views/ScreenInfosPersonnelles';
 
 import email from './reducers/email';
-import user from './reducers/user'
+import user from './reducers/user';
+import shownModal from './reducers/shownModal';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({email, user}));
+const store = createStore(combineReducers({email, user, shownModal}));
 
 function App() {
   return (
