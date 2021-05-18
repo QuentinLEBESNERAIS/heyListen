@@ -37,7 +37,7 @@ function ScreenDashboard(props) {
         setVisible1(false);
     };
 
-// Paramètres modale feedback mananger
+// Paramètres modale ajout de collab
     const showModal2 = () => {
         setVisible2(true);
     };
@@ -172,11 +172,11 @@ function ScreenDashboard(props) {
                             size="large">
                             MD
                             </Avatar>
-                            <Typography.Text>Michel Dupont</Typography.Text>
+                            <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
                             <div>
                                 <Tag color='#A62626' 
                                 style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michel n'a pas rempli son Listen
+                                    {item.firstName} n'a pas rempli son Listen
                                 </Tag>
                                 <Tag color='#448f30' 
                                 style={{borderRadius:'10px',width:200,textAlign:'center'}}>
