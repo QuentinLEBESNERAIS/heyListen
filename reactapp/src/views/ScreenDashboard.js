@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image} from 'antd'
+import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
@@ -55,6 +55,10 @@ function ScreenDashboard(props) {
                     });
                     var response = await responseRaw.json();
                     console.log('response', response)
+                    const info = () => {
+                        message.info(response.response);
+                      }
+                      info();
                 } 
                 await saveCollab()
                 setVisible2(false);
