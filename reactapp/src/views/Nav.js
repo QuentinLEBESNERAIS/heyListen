@@ -26,7 +26,7 @@ function Nav(props) {
       </Menu.Item>
       <span className="rightSpans">
       <span>Bonjour {props.user.firstName}</span>
-      <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>MT</Avatar></span>
+      <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar></span>
       </span>
     </Menu>
   );
