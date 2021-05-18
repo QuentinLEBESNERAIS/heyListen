@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message} from 'antd'
+import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popover} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
@@ -241,6 +241,7 @@ function ScreenDashboard(props) {
                 </Col>
             </Row> 
             <Row style={{marginTop:20}}>
+              <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
                 <Col onClick={showModal2} span={8} offset={2}>
                     <h4 >Ajouter un collaborateur
                     <UserAddOutlined 
@@ -249,6 +250,7 @@ function ScreenDashboard(props) {
                     />
                     </h4>
                 </Col>
+              </Popover>
                 <Col onClick={() => newCampaignLaunch()} span={6} offset={6} >
                     <h4>Lancer une nouvelle campagne de Listens
                     <PlusOutlined 

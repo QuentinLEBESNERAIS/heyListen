@@ -1,12 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
-import Nav from './Nav'
+import Nav from './Nav';
+import {connect} from 'react-redux';
 
-function ScreenDashboard() {
+function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
+
+//Affichage modale de rappel du listen à remplir
+useEffect(()=> {
+
+ 
+    },[props.showModal])
+
 
     return (
 
@@ -136,4 +144,11 @@ function ScreenDashboard() {
     );
 }
 
-export default ScreenDashboard;
+function mapStateToProps(state) {
+    return { shownModal: state.shownModal }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(ScreenHistoriqueCollab);
