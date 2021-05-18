@@ -320,7 +320,7 @@ function ScreenDashboard(props) {
             
         </div>
     )}
-    else{return <Redirect to='/historique-collab'/> };
+    else {return <Redirect to='/historique-collab'/> };
 }
 
 function mapStateToProps(state) {

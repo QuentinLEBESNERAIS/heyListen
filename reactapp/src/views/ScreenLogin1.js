@@ -9,20 +9,27 @@ function ScreenLogin1(props) {
   const [invalidEmailMessage, setinvalidEmailMessage] = useState('')
   const [loginState, setLoginState] = useState('')
 
+// Fonction qui vérifie si l'email existe déjà ou pas
   var handleCheckEmail = async() => { 
+  
     if (email){
+
+  // On vérifie que l'email correspond bien à un email de type : domaine@domaine.com
       var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
       var valid = emailReg.test(email);
       if (!valid) {
         setinvalidEmailMessage("Veuillez entrer un email valide")
       } else {
+
+  // Requête à la base de données
         var resultRaw = await fetch('/users/check-email', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `email=${email}`
         });
         var resultCheckEmail = await resultRaw.json();
-        console.log('resultCheckEmail', resultCheckEmail)   
+
+  // Changement de l'état login en fonction de la réponse ce qui permettra de faire des redirections
         if (resultCheckEmail.response == 'login2') {
           props.saveEmail(email)
           setLoginState('login2')
