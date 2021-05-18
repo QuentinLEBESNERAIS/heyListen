@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Col, Input, Row, Alert, Space, Button} from 'antd';
+import {Col, Input, Row, Alert, Space, Button,message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 import { set } from 'mongoose';
 
@@ -29,7 +29,12 @@ function ScreenSignUpManager(props) {
         console.log(response)
         setSignUpError(response.response)
         props.userToReducer(response.user)
-        if(response.response==="compte crée"){setUserCreated(true)}
+        if(response.response==="compte crée"){
+          setUserCreated(true)
+          const info = () => {
+            message.info('Compte crée avec succès');
+          }
+          info();}
       }
       signUp()
     }
@@ -72,8 +77,8 @@ function ScreenSignUpManager(props) {
             <Input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Prénom" />
           </div>
           <div className="sign-up-input-group"> 
-            <Input value={password} onChange={(e)=>setPassword(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Mot de passe" />
-            <Input value={password2} onChange={(e)=>setPassword2(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Confirmation du mot de passe" />
+            <Input.Password value={password} onChange={(e)=>setPassword(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Mot de passe" />
+            <Input.Password value={password2} onChange={(e)=>setPassword2(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Confirmation du mot de passe" />
           </div>
           <div>
             <Input value={company} onChange={(e)=>setCompany(e.target.value)} className="sign-up-inputs sign-up-bottom-input-width" placeholder="Entreprise" />
