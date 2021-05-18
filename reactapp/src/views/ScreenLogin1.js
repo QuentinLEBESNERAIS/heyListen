@@ -70,6 +70,9 @@ function ScreenLogin1(props) {
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
               <div style={{fontStyle: 'italic'}}>Hey Listen, l'application pour les managers VRAIMENT bienveillants !</div>
             </div>
+            <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
+            powered by <img style={{height: '20%', display: 'flex', alignItems: 'flex-end'}} width={100} src={"./uptoo.svg"}/>
+            </div>
           </Col>
         </Row>
       </div>
