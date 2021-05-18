@@ -151,7 +151,7 @@ router.post('/add-collab', async function(req, res, next) {
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
-
+  
   res.json({response:'Collaborateur ajouté'})
 });
 
