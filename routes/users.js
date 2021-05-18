@@ -155,4 +155,13 @@ router.post('/add-collab', async function(req, res, next) {
   res.json({response:'Collaborateur ajouté'})
 });
 
+router.get('/find-collab/', async function(req,res,next){
+
+  var team = await TeamModel.findOne({ manager:req.query.manager});
+  var collabs = team.collab
+console.log('team',team)
+console.log('collabs',collabs)
+res.json({collabs})
+})
+
 module.exports = router;
