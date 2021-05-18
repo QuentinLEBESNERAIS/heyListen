@@ -9,15 +9,18 @@ function ScreenLogin2(props) {
   const [invalidPasswordMessage, setinvalidPasswordMessage] = useState('')
   const [loginState, setLoginState] = useState('')
 
+// Fonction gestion du sign-in 
   var handleClickSignIn = async() => {
     if (password){
+  // S'il y a un mot de passe, requête vers la base de données
       var resultRaw = await fetch('/users/sign-in', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `email=${props.email}&password=${password}`
       });
       var resultSignIn = await resultRaw.json();
-      console.log('resultSignIn', resultSignIn)   
+  
+  // Retour backend, si mot de passe correct, user enregistré dans le reduceur
       if (resultSignIn.response == 'connect'){
         props.saveUser(resultSignIn.user)
         setLoginState('dashboard')

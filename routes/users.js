@@ -6,7 +6,7 @@ var UserModel = require('../models/users');
 var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
 
-/*FOnction pour passer la premiere lettre en majuscule*/
+/*Fonction pour passer la premiere lettre en majuscule*/
 function firstMaj(a){return (a+'').charAt(0).toUpperCase()+a.substr(1);}
 
 /* GET users listing. */
