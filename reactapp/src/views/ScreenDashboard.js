@@ -5,6 +5,7 @@ import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,Plus
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
+import {Line} from 'react-chartjs-2';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -86,18 +87,56 @@ function ScreenDashboard(props) {
         })
         const body = await data.json()
     }
+<<<<<<< HEAD
+
+    const state = {
+        labels: ['January', 'February', 'March',
+                 'April', 'May','June'],
+        datasets: [
+          {
+            label: 'Rainfall',
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderWidth: 2,
+            fill: true,
+            lineTension: 0.4,
+            data: [3, 5, 4, 1, 3, 2]
+          }
+        ]
+      }
+    
+
+=======
     if(props.userId.type==="manager"){
+>>>>>>> 4e5e5abad938e7b623d74d15ec8d066482248b5e
     return (
         <div>
             <Nav/>
-            <Row>
+            <Row style={{height:50}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
                     <Progress percent={50} size="small" status="active" />
                     </h4> 
                 </Col>
             </Row>
-            <Empty/>
+            <Row >
+            <Col span={22} offset={1} height={50}>
+              <Line 
+              height={50}
+               data={state}
+               options={{
+                 title:{
+                   display:true,
+                   text:'Average Rainfall per month',
+                   fontSize:8
+                 },
+                 legend:{
+                   display:false,
+                 }
+               }}>
+               </Line>
+            </Col>
+            </Row>
             <Row style={{marginTop:20}}>
                 <Col span={8} offset={2}>
                     <h4 style={{paddingRight:8}}>
