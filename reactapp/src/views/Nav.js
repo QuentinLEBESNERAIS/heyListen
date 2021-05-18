@@ -2,7 +2,7 @@ import React,{useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import '../App.css';
-import {Menu, Avatar, Badge} from 'antd';
+import {Menu, Avatar, Badge, Dropdown, menu} from 'antd';
 
 function Nav(props) {
   useEffect(()=>{
@@ -26,9 +26,13 @@ function Nav(props) {
       </Menu.Item>
       <span className="rightSpans">
       <span>Bonjour {props.user.firstName}</span>
-      <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar></span>
+      <Dropdown overlay={menu} placement="bottomRight">
+        <span onClick={() => props.handleClickLogOut()} className="rightNavElement"><Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar></span>
+      </Dropdown>
+     
       </span>
     </Menu>
+
   );
 }
 
