@@ -48,10 +48,10 @@ function ScreenDashboard(props) {
                 setErrorMessage("Veuillez entrer un email valide")
             } else {
                 var saveCollab = async () => {
-                    var responseRaw = await fetch('/add-collab', {
+                    var responseRaw = await fetch('/users/add-collab', {
                         method: 'POST',
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                        body: `collabEmail=${collabEmail}`
+                        body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
                     console.log('response', response)
