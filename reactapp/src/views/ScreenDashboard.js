@@ -87,7 +87,6 @@ function ScreenDashboard(props) {
         })
         const body = await data.json()
     }
-<<<<<<< HEAD
 
     const state = {
         labels: ['January', 'February', 'March',
@@ -106,9 +105,7 @@ function ScreenDashboard(props) {
       }
     
 
-=======
     if(props.userId.type==="manager"){
->>>>>>> 4e5e5abad938e7b623d74d15ec8d066482248b5e
     return (
         <div>
             <Nav/>
