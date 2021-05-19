@@ -6,6 +6,7 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -19,7 +20,29 @@ function ScreenDashboard(props) {
     const[listenfromBack,setListenfromBack] = useState([])
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
+    const [search,setSearch] = useState('')
+    const [filterdedTeam,setFilteredTeam] = useState(team)
+
+useEffect(()=> {
+        console.log('test id manager',props.userId._id)
+          var getBddCollab = async () => {
+          var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+          var collabs = await rawResponse.json();
+          setTeam(collabs.collabs)
+          setListenfromBack(collabs.collabsListen)
+          setFeedbackFromBack(collabs.collabFeedback)
+         }
+         if(props.userId.type == 'manager'){getBddCollab()}
+         console.log('test',team,listenfromBack,feedbackfromBack)
+          },[])
+// Recherche collab
+useEffect(()=> {
     
+    const results = team.filter(person =>
+        person.firstName.toLowerCase().includes(search.toLocaleLowerCase())
+      );
+    setFilteredTeam(results)
+  },[search])
 
 // Paramètres modale feedback manager
     const showModal1 = () => {
@@ -137,18 +160,7 @@ function ScreenDashboard(props) {
         ]
       }
 //Affichage collab 
-      useEffect(()=> {
-        console.log('test id manager',props.userId._id)
-      var getBddCollab = async () => {
-      var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-      var collabs = await rawResponse.json();
-      setTeam(collabs.collabs)
-      setListenfromBack(collabs.collabsListen)
-      setFeedbackFromBack(collabs.collabFeedback)
-     }
-     if(props.userId.type == 'manager'){getBddCollab()}
-     console.log('test',team,listenfromBack,feedbackfromBack)
-      },[])
+
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
         return ( 
@@ -272,7 +284,7 @@ console.log('completion',completion)
                 <Col span={6} offset={6}>
                     <Form>
                         <Form.Item label="Rechercher:" style={{fontWeight:'500'}} >
-                            <Input placeholder="Collaborateur" style={{ width: 200 }} />
+                            <Input onChange={(e) => setSearch(e.target.value)} placeholder="Collaborateur" style={{ width: 200 }} />
                         </Form.Item>
                     </Form>
                 </Col>
@@ -280,7 +292,7 @@ console.log('completion',completion)
             <Row>
                 <Col span={22} offset={1}>
                     <List itemLayout="horizontal">
-                    {team.map((item,i) => (
+                    {filterdedTeam.map((item,i) => (
                         <div key={i}>
                         <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete() }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
