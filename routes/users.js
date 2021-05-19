@@ -177,28 +177,31 @@ router.post('/modification-infos', async function(req, res, next) {
 
 
 router.get('/find-collab/', async function(req,res,next){
-
+  console.log('test reception id manager', req.query.manager )
   var team = await TeamModel.findOne({ manager:req.query.manager}).populate('collab').exec();;
  var collab=[]
  for (let i=0 ; i<team.collab.length; i++){
    collab.push(team.collab[i]._id)
  }
+ console.log('test collab', collab)
  var listen=[]
  var feedback=[]
  for (let i=0; i<collab.length;i++){
+   console.log('testtest',collab[i])
    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
-   if (listensSearch.answersCollab === null){
-     listen.push(listensSearch.answersCollab = false)
+   
+   if (listensSearch.answersCollab != null){
+     listen.push(listensSearch.answersCollab = true)
    }else{
-    listen.push(listensSearch.answersCollab = true)
+    listen.push(listensSearch.answersCollab = false)
    }
-   if (listensSearch.answersFeedback === null){
-    feedback.push(listensSearch.answersFeedback = false)
-  }else{
+   if (listensSearch.answersFeedback != null){
     feedback.push(listensSearch.answersFeedback = true)
+  }else{
+    feedback.push(listensSearch.answersFeedback = false)
   }
  }
- 
+ console.log('test teamcollab',team.collab)
 res.json({collabs: team.collab, collabsListen:listen, collabFeedback:feedback})
 })
 

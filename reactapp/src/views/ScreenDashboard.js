@@ -124,7 +124,7 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-        
+        console.log('test id manager',props.userId._id)
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
       var collabs = await rawResponse.json();
@@ -133,6 +133,7 @@ function ScreenDashboard(props) {
       setFeedbackFromBack(collabs.collabFeedback)
      }
      if(props.userId.type == 'manager'){getBddCollab()}
+     console.log('test',team,listenfromBack,feedbackfromBack)
       },[])
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
