@@ -29,8 +29,7 @@ router.post('/check-email', async function(req, res, next) {
   } else {
     res.json({response: 'signUpManager'})
   }
-}   
-);
+});
 
 /* Check user account (sign-in) | Body : email (sorayacantos@gmail.com), password (1234) | Response : response(), user, team */
 router.post('/sign-in', async function(req, res, next) { 
@@ -60,7 +59,6 @@ router.post('/sign-up-manager',async function(req, res, next) {
   let company = firstMaj(req.body.company)
   let jobTitle = firstMaj(req.body.jobTitle)
   let type = 'manager'
-  
   if(lastName && firstName && password && password2 && company && jobTitle && email ){
     if (password == password2){
       //Création du user Manager en BDD
@@ -84,10 +82,8 @@ router.post('/sign-up-manager',async function(req, res, next) {
         collab: []
       })
       var savedNewTeam = await newTeam.save()
-
       console.log(savedUser)
       console.log(savedNewTeam)
-      
       res.json({response:"compte crée", user:savedUser, team:savedNewTeam})
     } else {
       res.json({response: 'les mots de passe ne correspondent pas'})
@@ -96,10 +92,10 @@ router.post('/sign-up-manager',async function(req, res, next) {
     res.json({response: 'Merci de renseigner tous les champs'})
   }
 });
+
 /*Create user account type collab préinscrit (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
 router.post('/sign-up-collab',async function(req, res, next) {
   console.log(req.body)
-
   let email = req.body.email
   let lastName = req.body.lastName
   let firstName = req.body.firstName
@@ -107,7 +103,6 @@ router.post('/sign-up-collab',async function(req, res, next) {
   let password2 = req.body.password2
   let company = req.body.company
   let jobTitle = req.body.jobTitle
-
   if(lastName && firstName && password && password2 && company && jobTitle && email ){
     if (password == password2){
       //Création du user Collab en BDD
@@ -130,9 +125,9 @@ router.post('/sign-up-collab',async function(req, res, next) {
     res.json({response: 'Merci de renseigner tous les champs'})
   }
 });
+
 /*Ajout d'un collab par le manager */
 router.post('/add-collab', async function(req, res, next) {
-  
   var newUser = new UserModel({
     email: req.body.collabEmail,
     token: uid2(32),
@@ -141,29 +136,25 @@ router.post('/add-collab', async function(req, res, next) {
   });
   var savedUser = await newUser.save()
   console.log('savedUser', savedUser)
-
   var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
   console.log('managerTeam', managerTeam);
   var tabOfCollabs = managerTeam.collab;
   tabOfCollabs.push(savedUser._id)
-
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
-  
   var listens = await ListenModel.find({
     manager: req.body.userId
   })
   console.log('listens', listens)
-
   res.json({response:'Collaborateur ajouté'})
 });
 
+/*A ANNOTER */
 router.post('/modification-infos', async function(req, res, next) {
   hash = bcrypt.hashSync(req.body.password,10)
-
   await UserModel.updateOne({token: req.body.token},{
     lastName: firstMaj(req.body.lastName),
     firstName: firstMaj(req.body.firstName),
@@ -176,60 +167,54 @@ router.post('/modification-infos', async function(req, res, next) {
     token: req.body.token
   })
   console.log('modifiedUser', modifiedUser)
-  
   res.json({response:'Informations modifiées', user: modifiedUser})
 });
 
-
+/*A ANNOTER */
 router.get('/find-collab', async function(req,res,next){
-
   var team = await TeamModel.findOne({ manager:req.query.manager}).populate('collab').exec();
   var filteredTeam = team.collab.filter( e => e.isActive == true)
   console.log('filteredTeam', filteredTeam)
- var collab=[]
- for (let i=0 ; i<filteredTeam.length; i++){
-   collab.push(filteredTeam[i]._id)
- }
- console.log('test collab', collab)
- var listen=[]
- var feedback=[]
- console.log('collab', collab)
- for (let i=0; i<collab.length;i++){
-   console.log('testtest',collab[i])
-   var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
-   console.log('listensSearch', listensSearch)
-   if(listensSearch){
-   if (listensSearch.answersCollab != null){
-     listen.push(listensSearch.answersCollab = true)
-   }else{
-    listen.push(listensSearch.answersCollab = false)
-   }
-   if (listensSearch.answersFeedback != null){
-    feedback.push(listensSearch.answersFeedback = true)
-  }else{
-    feedback.push(listensSearch.answersFeedback = false)
+  var collab=[]
+  for (let i=0 ; i<filteredTeam.length; i++){
+    collab.push(filteredTeam[i]._id)
   }
- }
- }
-
+  console.log('test collab', collab)
+  var listen=[]
+  var feedback=[]
+  console.log('collab', collab)
+  for (let i=0; i<collab.length;i++){
+    console.log('testtest',collab[i])
+    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
+    console.log('listensSearch', listensSearch)
+    if(listensSearch){
+      if (listensSearch.answersCollab != null){
+        listen.push(listensSearch.answersCollab = true)
+      }else{
+        listen.push(listensSearch.answersCollab = false)
+      }
+      if (listensSearch.answersFeedback != null){
+        feedback.push(listensSearch.answersFeedback = true)
+      }else{
+        feedback.push(listensSearch.answersFeedback = false)
+      }
+    }
+  }
 res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
 })
 
-
+/*A ANNOTER */
 router.put('/delete-collab', async function(req,res,next){
   console.log('req.body.idCollab', req.body.idCollab)
   console.log('req.body.idManager', req.body.idManager)
-var managerTeam = await TeamModel.findOne({
-  manager: req.body.idManager
-})
-console.log('managerTeam', managerTeam)
-var filteredTeam = managerTeam.collab.filter(element => element != req.body.idCollab);
-console.log('filteredTeam', filteredTeam)
-
-var managerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
-
+  var managerTeam = await TeamModel.findOne({
+    manager: req.body.idManager
+  })
+  console.log('managerTeam', managerTeam)
+  var filteredTeam = managerTeam.collab.filter(element => element != req.body.idCollab);
+  console.log('filteredTeam', filteredTeam)
+  var managerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
 res.json({result : true})
 })
-
 
 module.exports = router;

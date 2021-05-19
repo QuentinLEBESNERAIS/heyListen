@@ -7,7 +7,6 @@ import { SettingOutlined} from '@ant-design/icons';
 
 function Nav(props) {
   const [listenToDo,setListenToDo] = useState(false)
-
   const { SubMenu } = Menu;
 
   useEffect( async () => {
@@ -23,34 +22,30 @@ function Nav(props) {
 
   useEffect(()=>{
   },[props.user])
-  if(!props.user){return (<Redirect to='/'/>)}
 
+  if(!props.user){return (<Redirect to='/'/>)}
   var badge
   if(listenToDo===false){badge={display:"none"}}
   
-  
-  
-  
   if(props.user.type==="manager"){
-  return (
-    <Menu mode="horizontal" className="navbar">
-      <img src={'./logo-transparent.png'} className='navLogo'></img>
-      <Menu.Item key="équipe">
-        <Link to="/dashboard" >Mon équipe</Link>
-      </Menu.Item>
-      <Menu.Item key="historique">
-        <Link to="/historique-manager" >Historique</Link>
-      </Menu.Item>
+    return (
+      <Menu mode="horizontal" className="navbar">
+        <img src={'./logo-transparent.png'} className='navLogo'></img>
+        <Menu.Item key="équipe">
+          <Link to="/dashboard" >Mon équipe</Link>
+        </Menu.Item>
+        <Menu.Item key="historique">
+          <Link to="/historique-manager" >Historique</Link>
+        </Menu.Item>
         <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-        icon={
-            <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
-        }>
-            <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
-            <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
+          icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+        >
+          <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
+          <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
         </SubMenu>
-    </Menu>
-  )
-  }else{
+      </Menu>
+    )
+  } else {
     return (
       <Menu mode="horizontal" className="navbar">
         <img src={'./logo-transparent.png'} className='navLogo'></img>
@@ -63,11 +58,10 @@ function Nav(props) {
           </Badge>
         </Menu.Item>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-          icon={
-              <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
-          }>
-              <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
-              <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
+            icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+          >
+            <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
+            <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
           </SubMenu>
       </Menu>
     )
