@@ -187,12 +187,12 @@ router.get('/find-collab/', async function(req,res,next){
  var feedback=[]
  for (let i=0; i<collab.length;i++){
    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
-   if (listensSearch.answersCollab == null){
+   if (listensSearch.answersCollab === null){
      listen.push(listensSearch.answersCollab = false)
    }else{
     listen.push(listensSearch.answersCollab = true)
    }
-   if (listensSearch.answersFeedback == null){
+   if (listensSearch.answersFeedback === null){
     feedback.push(listensSearch.answersFeedback = false)
   }else{
     feedback.push(listensSearch.answersFeedback = true)
