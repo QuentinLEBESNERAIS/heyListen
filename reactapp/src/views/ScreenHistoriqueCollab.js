@@ -48,13 +48,10 @@ useEffect(() => {
         setVisibleModal(false);
     };
 
-<<<<<<< HEAD
     function handleChange(value) {
         console.log("year = ", year)
         setYear(value);
     }
-=======
->>>>>>> 369f9ecfc60eaac9622ef4857bbb83c288235331
 
     return (
 
@@ -80,16 +77,16 @@ useEffect(() => {
                             </Col>
                         }    
 
-                        {dataCollabFromBack.matriochka.map((years, i) => (
-                                year === i &&
-                                {
-                                    dataCollabFromBack.matriochka.map((years, i) => 
-                                    <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                                        <Typography.Text>TEST {_.findKey(years)}</Typography.Text>
-                                        <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                                    </Col>
-                                )}
-                            ))}
+                        {dataCollabFromBack.matriochka.map((years, i) => {
+                                if (year === i) {
+                                    return dataCollabFromBack.matriochka[2021].map((years, i) => (
+                                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
+                                            <Typography.Text>TEST</Typography.Text>
+                                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
+                                        </Col>
+                                    )) 
+                                }    
+                        })}
 
                     </Row>
                 </Sider>
