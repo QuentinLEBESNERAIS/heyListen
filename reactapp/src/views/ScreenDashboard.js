@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined} from '@ant-design/icons';
+import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -10,6 +10,7 @@ import {Line} from 'react-chartjs-2';
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
+    const [visible3, setVisible3] = useState(false);
     const[feedbackOne,setFeedbackOne] = useState('');
     const[feedbackTwo,setFeedbackTwo] = useState('');
     const [collabEmail,setCollabEmail] = useState ('');
@@ -22,7 +23,6 @@ function ScreenDashboard(props) {
 
 // Paramètres modale feedback manager
     const showModal1 = () => {
-        
         setVisible1(true);
     };
     
@@ -105,6 +105,21 @@ function ScreenDashboard(props) {
     function confirm() {
         newCampaignLaunch()
       }
+
+      const handleDelete = () => {
+        setVisible3(true);
+        ;
+    };
+
+    const handleCancelDelete = () => {
+        setVisible3(false);
+        ;
+    };
+    
+    const suppressionCollab = () => {
+        
+        ;
+    };
 // Charts
     const state = {
         labels: ['January', 'February', 'March',
@@ -191,9 +206,6 @@ for(var i=0; i<feedbackfromBack.length;i++){
      iconStyle.push(iconDisplay)
      iconStyleCadena.push(iconDisplayCadena)
 }
-<<<<<<< HEAD
-    
-=======
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
@@ -206,7 +218,6 @@ for (var i=0; i<listenfromBack.length;i++){
     }
     iconStyleEye.push(iconDisplayEye)}
 
->>>>>>> 9ed08a20aca95c032d268232eee8e44d42f60fad
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -260,7 +271,7 @@ for (var i=0; i<listenfromBack.length;i++){
                     <List itemLayout="horizontal">
                     {team.map((item,i) => (
                         <div key={i}>
-                        <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
+                        <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete() }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
                             {firstMaj(item.firstName)}{firstMaj(item.lastName)}
@@ -410,7 +421,11 @@ for (var i=0; i<listenfromBack.length;i++){
                     </Form.Item>
                 </Form>
             </Modal>
-            
+            <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button type="link" key="delete" onClick={suppressionCollab()}>
+              Confirmer
+            </Button></Link>}>
+        <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
+      </Modal>
         </div>
     )}
     else {return <Redirect to='/historique-collab'/> };
