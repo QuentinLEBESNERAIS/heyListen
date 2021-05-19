@@ -193,14 +193,15 @@ for(var i=0; i<feedbackfromBack.length;i++){
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
-    if (listenfromBack[i]===true){
-        for(var j=0; j<feedbackfromBack.length;j++){
-            if (feedbackfromBack[j] === true){
-                iconDisplayEye = { fontSize: '24px'}
-        }}}else{
+    if (listenfromBack[i]===true && feedbackfromBack[i]===true){
+         iconDisplayEye = { fontSize: '24px'}
+    }else{
         iconDisplayEye = { fontSize: '24px', display:'none' }
     }
-    iconStyleEye.push(iconDisplayEye)}
+    iconStyleEye.push(iconDisplayEye)
+    console.log( iconStyleEye)
+    
+    }
 
 // Taux de complétion 
 var listenCompleted = 0
