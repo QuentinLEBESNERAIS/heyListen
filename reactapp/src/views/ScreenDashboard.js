@@ -191,9 +191,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
      iconStyle.push(iconDisplay)
      iconStyleCadena.push(iconDisplayCadena)
 }
-<<<<<<< HEAD
     
-=======
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
@@ -206,7 +204,6 @@ for (var i=0; i<listenfromBack.length;i++){
     }
     iconStyleEye.push(iconDisplayEye)}
 
->>>>>>> 9ed08a20aca95c032d268232eee8e44d42f60fad
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -310,51 +307,6 @@ for (var i=0; i<listenfromBack.length;i++){
             </Modal>
                         </div>
                     ))}
-                      {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                            MD
-                            </Avatar>
-                            <Typography.Text>Michel Dupont</Typography.Text>
-                            <div>
-                                <Tag color='#A62626' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michel n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
-                                />
-                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
-                            </div>
-                        </List.Item>
-                        <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                                MD
-                            </Avatar>
-                            <Typography.Text>Michele Dupon</Typography.Text>
-                            <div>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michele a rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5 }}/>
-                                <LockOutlined style={{ fontSize: '24px' }}/>
-                            </div>
-            </List.Item> */}
                     </List>  
                 </Col>
             </Row> 
