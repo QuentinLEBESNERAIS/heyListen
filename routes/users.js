@@ -199,8 +199,8 @@ router.get('/find-collab', async function(req,res,next){
    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
    console.log('listensSearch', listensSearch)
    if(listensSearch){
-   if (listensSearch.answersCollab == null){
-     listen.push(listensSearch.answersCollab = false)
+   if (listensSearch.answersCollab != null){
+     listen.push(listensSearch.answersCollab = true)
    }else{
     listen.push(listensSearch.answersCollab = false)
    }

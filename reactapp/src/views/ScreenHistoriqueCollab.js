@@ -5,32 +5,40 @@ import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
+import _ from 'lodash';
 
 function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[]});
 
-    var testLaunch = async () => {
+//Affichage modale de rappel du listen à remplir
+useEffect(() => {
+    const startPage = ( async () => {
+        if (props.shownModal == false){
+            var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
+            var foundListen = await rawResponse.json();
+            if (foundListen.response == true){
+            console.log('foundListen.response', foundListen.response)
+            setVisibleModal(true)
+            }
+        }
         const data = await fetch('/test', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `idFromFront=${props.userId._id}`
         })
         const body = await data.json()
-    }
-    const [visibleModal, setVisibleModal] = useState(false);
-
-//Affichage modale de rappel du listen à remplir
-useEffect( async () => {
-    if (props.shownModal == false){
-        var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
-        var foundListen = await rawResponse.json();
-        if (foundListen.response == true){
-        console.log('foundListen.response', foundListen.response)
-        setVisibleModal(true)
-        }
-    }
+        console.log(body)
+        setDataCollabFromBack(body)
+    })
+    startPage();
     },[])
+
+    console.log("MATRIOCHKA = ",dataCollabFromBack)
+    console.log("Test 2 = ", dataCollabFromBack.matriochka)
+    console.log("Test 3 = ", _.findKey(dataCollabFromBack.matriochka[0]))
 
     const handleCancel = () => {
         props.modalState()
@@ -47,17 +55,17 @@ useEffect( async () => {
                     <Row>
                         <Col span={22} offset={2}>
                             <Select defaultValue="Année" style={{width: 160, marginTop:20}}>
-                                <Option value="2021">2021</Option>
-                                <Option value="2020">2020</Option>
-                                <Option value="2019">2019</Option>
-                                <Option value="2018">2018</Option>
+                            {dataCollabFromBack.matriochka.map((years, i) => (
+                                <Option value={_.findKey(years)}>{_.findKey(years)}</Option>
+                            ))}
                             </Select>
                         </Col>
                     </Row>
+
                     <Row type="flex" align-item="center">
                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
                             <Typography.Text>Janvier</Typography.Text>
-                            <EyeOutlined onClick={() => testLaunch()} style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
+                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
                         </Col>
                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
                             <Typography.Text>Février</Typography.Text>
