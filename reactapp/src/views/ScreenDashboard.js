@@ -163,22 +163,26 @@ for(var i=0; i<listenfromBack.length;i++){
 }
 //changement couleur Tab collab
 var tabGlobalFeedback = []
-
+var iconStyle = []
 for(var i=0; i<feedbackfromBack.length;i++){
     var colorFeedback
     var textFeedback
+    var iconDisplay
      if(feedbackfromBack[i] === false){
         colorFeedback = 'red'
         textFeedback = "Vous n'avez pas rempli votre partie"
+        iconDisplay = { fontSize: '24px' }
      }else{
         colorFeedback = 'green'
         textFeedback = "Vous avez rempli votre partie"
+        iconDisplay = { fontSize: '24px',display:'none' }
      }
     
      tabGlobalFeedback.push(<Tag color={colorFeedback}
      style={{borderRadius:'10px',width:300,textAlign:'center'}}>
          {textFeedback}
      </Tag>)
+     iconStyle.push(iconDisplay)
 }
 
     if(props.userId.type==="manager"){
@@ -246,9 +250,10 @@ for(var i=0; i<feedbackfromBack.length;i++){
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
+                                <EyeOutlined style={iconStyle}
                                 />
-                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={{ fontSize: '24px' }}/>
+                                <LockOutlined style={iconStyle}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle}/>
                             </div>
                         </List.Item>
                         <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
