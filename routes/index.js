@@ -144,7 +144,6 @@ router.post('/test', async function(req, res, next) {
     console.log("MATRIOCHKA",_.findKey(matriochka[i])," = ", matriochka[i])
   }
 
-  console.log("NAVIGATION TEST 2020/12 =",matriochka[1][_.findKey(matriochka[1])][2][_.findKey(matriochka[1][_.findKey(matriochka[1])][2])])
   console.log("MATRIOCHKA FINALE = ",matriochka)
 
   res.json ({matriochka})
