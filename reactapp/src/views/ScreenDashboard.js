@@ -142,8 +142,6 @@ function ScreenDashboard(props) {
     }
 //changement couleur Tab collab
 var tabGlobalListen = []
-
-console.log('listenfromBack',listenfromBack)
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
@@ -191,7 +189,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
      iconStyle.push(iconDisplay)
      iconStyleCadena.push(iconDisplayCadena)
 }
-    
+//changement icon oeil
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
@@ -204,6 +202,17 @@ for (var i=0; i<listenfromBack.length;i++){
     }
     iconStyleEye.push(iconDisplayEye)}
 
+// Taux de complétion 
+var listenCompleted = 0
+for (var i=0; i<listenfromBack.length;i++){ 
+    if (listenfromBack[i]===true){
+        listenCompleted += 1
+    }
+}
+
+var completion = (listenCompleted / listenfromBack.length) * 100
+console.log('completion',completion)
+
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -211,7 +220,7 @@ for (var i=0; i<listenfromBack.length;i++){
             <Row style={{height:65}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
-                    <Progress percent={50} size="small" status="active" />
+                    <Progress percent={completion} size="small" status="active" />
                     </h4> 
                 </Col>
             </Row>
