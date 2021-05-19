@@ -3,7 +3,7 @@ export default function(user=null, action) {
     var userCopy = action.user;
     return userCopy;
   } else if(action.type=="logOut") {
-    return null
+    return ""
   } else {
     return user;
   }

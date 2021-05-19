@@ -32,6 +32,8 @@ function Nav(props) {
   useEffect(()=>{
   },[props.user])
   if(!props.user){return (<Redirect to='/'/>)}
+
+ 
   
   if(props.user.type==="manager"){
   return (
