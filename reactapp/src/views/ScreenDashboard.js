@@ -405,8 +405,25 @@ const handleCancel4 = () => {
             </Button></Link>}>
         <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
       </Modal>
-      <Modal title="Suppression" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
-      
+      <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+            <h3>Votre feedback</h3>
+            <h4>Feedback 1:</h4>
+            <p></p>
+            <h4>Feedback 2:</h4>
+            <p></p>
+            <h3>Son Listen</h3>
+            <h4>Humeur:</h4>
+            <p></p>
+            <h4>Reponse 1:</h4>
+            <p></p>
+            <h4>Reponse 2:</h4>
+            <p></p>
+            <h4>Reponse 3:</h4>
+            <p></p>
+            <h4>Reponse 4:</h4>
+            <p></p>
+            <h4>Reponse 5:</h4>
+            <p></p>
       </Modal>
         </div>
     )}
