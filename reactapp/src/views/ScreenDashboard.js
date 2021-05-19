@@ -148,10 +148,12 @@ var tabGlobalListen = []
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
+   var iconDisplayEye 
     if(listenfromBack[i] === false){
         color = 'red';
         text = "Ce collaborateur n'a pas rempli son Listen"
     }else{
+
         color = 'green'
         text = "Ce collaborateur a rempli son Listen"
     }
@@ -161,21 +163,26 @@ for(var i=0; i<listenfromBack.length;i++){
         {text}
     </Tag>)
 }
-//changement couleur Tab collab
+//changement couleur et icon cadena/edit Tab collab
 var tabGlobalFeedback = []
 var iconStyle = []
+var iconStyleCadena =[]
 for(var i=0; i<feedbackfromBack.length;i++){
     var colorFeedback
     var textFeedback
     var iconDisplay
+    var iconDisplayCadena
      if(feedbackfromBack[i] === false){
         colorFeedback = 'red'
         textFeedback = "Vous n'avez pas rempli votre partie"
         iconDisplay = { fontSize: '24px' }
+        iconDisplayCadena = { fontSize: '24px',display:'none' }
+    
      }else{
         colorFeedback = 'green'
         textFeedback = "Vous avez rempli votre partie"
         iconDisplay = { fontSize: '24px',display:'none' }
+        iconDisplayCadena = { fontSize: '24px' }
      }
     
      tabGlobalFeedback.push(<Tag color={colorFeedback}
@@ -183,7 +190,19 @@ for(var i=0; i<feedbackfromBack.length;i++){
          {textFeedback}
      </Tag>)
      iconStyle.push(iconDisplay)
+     iconStyleCadena.push(iconDisplayCadena)
 }
+var iconStyleEye =[]
+for (var i=0; i<listenfromBack.length;i++){
+    var iconDisplayEye  
+    if (listenfromBack[i]==true){
+        for(var j=0; j<feedbackfromBack.length;j++){
+            if (feedbackfromBack[j] === true){
+                iconDisplayEye = { fontSize: '24px'}
+        }}}else{
+        iconDisplayEye = { fontSize: '24px', display:'none' }
+    }
+    iconStyleEye.push(iconDisplayEye)}
 
     if(props.userId.type==="manager"){
     return (
@@ -250,10 +269,10 @@ for(var i=0; i<feedbackfromBack.length;i++){
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={iconStyle}
+                                <EyeOutlined style={iconStyleEye[i]}
                                 />
-                                <LockOutlined style={iconStyle}/>
-                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle}/>
+                                <LockOutlined style={iconStyleCadena[i]}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
                             </div>
                         </List.Item>
                         <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
