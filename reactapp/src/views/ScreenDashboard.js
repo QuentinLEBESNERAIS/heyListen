@@ -142,8 +142,6 @@ function ScreenDashboard(props) {
     }
 //changement couleur Tab collab
 var tabGlobalListen = []
-
-console.log('listenfromBack',listenfromBack)
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
@@ -191,6 +189,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
      iconStyle.push(iconDisplay)
      iconStyleCadena.push(iconDisplayCadena)
 }
+//changement icon oeil
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
@@ -203,6 +202,17 @@ for (var i=0; i<listenfromBack.length;i++){
     }
     iconStyleEye.push(iconDisplayEye)}
 
+// Taux de complétion 
+var listenCompleted = 0
+for (var i=0; i<listenfromBack.length;i++){ 
+    if (listenfromBack[i]===true){
+        listenCompleted += 1
+    }
+}
+
+var completion = (listenCompleted / listenfromBack.length) * 100
+console.log('completion',completion)
+
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -210,7 +220,7 @@ for (var i=0; i<listenfromBack.length;i++){
             <Row style={{height:65}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
-                    <Progress percent={50} size="small" status="active" />
+                    <Progress percent={completion} size="small" status="active" />
                     </h4> 
                 </Col>
             </Row>
@@ -306,51 +316,6 @@ for (var i=0; i<listenfromBack.length;i++){
             </Modal>
                         </div>
                     ))}
-                      {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                            MD
-                            </Avatar>
-                            <Typography.Text>Michel Dupont</Typography.Text>
-                            <div>
-                                <Tag color='#A62626' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michel n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
-                                />
-                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
-                            </div>
-                        </List.Item>
-                        <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                                MD
-                            </Avatar>
-                            <Typography.Text>Michele Dupon</Typography.Text>
-                            <div>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michele a rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5 }}/>
-                                <LockOutlined style={{ fontSize: '24px' }}/>
-                            </div>
-            </List.Item> */}
                     </List>  
                 </Col>
             </Row> 
