@@ -27,7 +27,7 @@ router.post('/new-campaign', async function(req, res, next) {
   let userId = req.body.idFromFront // du reduceur
   console.log("mon userId =",userId)
 
-  let team = await TeamModel.find({manager: userId})
+  let team = await TeamModel.find({manager: userId}).populate('collab').exec()
   console.log("ma Team =",team)
   console.log("mes Collabs =",team[0].collab)
   console.log("combien de Collabs ? ", team[0].collab.length)
@@ -39,7 +39,9 @@ router.post('/new-campaign', async function(req, res, next) {
   ); 
   
   // Création listens avec managerId from team et collabId from team
-  for(i=0; i<team[0].collab.length; i++){
+  
+   for(i=0; i<team[0].collab.length; i++){
+    //if (team[i].collab.isActive) {
     var newListen = new ListenModel ({
       collab: team[0].collab[i],
       manager: userId,
@@ -50,8 +52,8 @@ router.post('/new-campaign', async function(req, res, next) {
       answersFeedback: null,
     });
     var listenSaved = await newListen.save();
+  //}
   }
-
   res.json ({response: 'Nouvelle campagne lancée'})
 });
 
@@ -150,9 +152,9 @@ router.post('/test', async function(req, res, next) {
 
 router.get('/find-listen', async function(req,res,next){
 
-  var isListenToComplete = await ListenModel.findOne({collab: req.query.id});
-  console.log('isListenToComplete',isListenToComplete)
-  if (isListenToComplete.answersCollab == null && isListenToComplete.isActive == true) {
+  var isListenToComplete = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
+ 
+  if (isListenToComplete) {
     res.json({response: true})
   } else {
     res.json({response: false})

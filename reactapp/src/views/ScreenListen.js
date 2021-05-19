@@ -27,13 +27,14 @@ function ScreenListen(props) {
     
     const handleOk = async () => {
         var saveListenCollab = async () => {
+            console.log('testid',props.userId._id)
             await fetch('/save-listen', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                body: `id=${props.userId._id}=${moodValue}&reponse1=${responseOne}&reponse2=${responseTwo}&reponse3=${responseThree}&reponse4=${responseFour}&reponse5=${responseFive}`
+                body: `id=${props.userId._id}&mood=${moodValue}&reponse1=${responseOne}&reponse2=${responseTwo}&reponse3=${responseThree}&reponse4=${responseFour}&reponse5=${responseFive}`
             }); 
-            await saveListenCollab()
         };
+        await saveListenCollab()
         setVisible(false);
         }
         
@@ -114,7 +115,7 @@ function ScreenListen(props) {
             </Button>
             <Button key="submit" 
             style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-            onClick={()=> handleOk()}>
+            onClick={handleOk}>
                 Envoyer le listen
             </Button>
             </div>
@@ -123,7 +124,7 @@ function ScreenListen(props) {
     );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state) {console.log('testStore',state.user._id )
     return { userId: state.user }
 }
 

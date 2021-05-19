@@ -6,7 +6,6 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-import { set } from 'mongoose';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
@@ -124,7 +123,7 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-        
+        console.log('test id manager',props.userId._id)
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
       var collabs = await rawResponse.json();
@@ -133,6 +132,7 @@ function ScreenDashboard(props) {
       setFeedbackFromBack(collabs.collabFeedback)
      }
      if(props.userId.type == 'manager'){getBddCollab()}
+     console.log('test',team,listenfromBack,feedbackfromBack)
       },[])
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
@@ -142,15 +142,15 @@ function ScreenDashboard(props) {
     }
 //changement couleur Tab collab
 var tabGlobalListen = []
-
-
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
+   var iconDisplayEye 
     if(listenfromBack[i] === false){
-        color = 'red';
+        color = 'red'
         text = "Ce collaborateur n'a pas rempli son Listen"
-    }else{
+    }else if (listenfromBack[i] === true){
+
         color = 'green'
         text = "Ce collaborateur a rempli son Listen"
     }
@@ -160,25 +160,58 @@ for(var i=0; i<listenfromBack.length;i++){
         {text}
     </Tag>)
 }
-//changement couleur Tab collab
+//changement couleur et icon cadena/edit Tab collab
 var tabGlobalFeedback = []
-
+var iconStyle = []
+var iconStyleCadena =[]
 for(var i=0; i<feedbackfromBack.length;i++){
     var colorFeedback
     var textFeedback
+    var iconDisplay
+    var iconDisplayCadena
      if(feedbackfromBack[i] === false){
         colorFeedback = 'red'
         textFeedback = "Vous n'avez pas rempli votre partie"
+        iconDisplay = { fontSize: '24px' }
+        iconDisplayCadena = { fontSize: '24px',display:'none' }
+    
      }else{
         colorFeedback = 'green'
         textFeedback = "Vous avez rempli votre partie"
+        iconDisplay = { fontSize: '24px',display:'none' }
+        iconDisplayCadena = { fontSize: '24px' }
      }
     
      tabGlobalFeedback.push(<Tag color={colorFeedback}
      style={{borderRadius:'10px',width:300,textAlign:'center'}}>
          {textFeedback}
      </Tag>)
+     iconStyle.push(iconDisplay)
+     iconStyleCadena.push(iconDisplayCadena)
 }
+//changement icon oeil
+var iconStyleEye =[]
+for (var i=0; i<listenfromBack.length;i++){
+    var iconDisplayEye  
+    if (listenfromBack[i]===true){
+        for(var j=0; j<feedbackfromBack.length;j++){
+            if (feedbackfromBack[j] === true){
+                iconDisplayEye = { fontSize: '24px'}
+        }}}else{
+        iconDisplayEye = { fontSize: '24px', display:'none' }
+    }
+    iconStyleEye.push(iconDisplayEye)}
+
+// Taux de complétion 
+var listenCompleted = 0
+for (var i=0; i<listenfromBack.length;i++){ 
+    if (listenfromBack[i]===true){
+        listenCompleted += 1
+    }
+}
+
+var completion = (listenCompleted / listenfromBack.length) * 100
+console.log('completion',completion)
 
     if(props.userId.type==="manager"){
     return (
@@ -187,7 +220,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
             <Row style={{height:65}}>
                 <Col span={8} offset={1}>
                     <h4 style={{marginTop:20}}>Taux de complétion :        
-                    <Progress percent={50} size="small" status="active" />
+                    <Progress percent={completion} size="small" status="active" />
                     </h4> 
                 </Col>
             </Row>
@@ -245,9 +278,10 @@ for(var i=0; i<feedbackfromBack.length;i++){
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
+                                <EyeOutlined style={iconStyleEye[i]}
                                 />
-                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={{ fontSize: '24px' }}/>
+                                <LockOutlined style={iconStyleCadena[i]}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
                             </div>
                         </List.Item>
                         <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
@@ -282,51 +316,6 @@ for(var i=0; i<feedbackfromBack.length;i++){
             </Modal>
                         </div>
                     ))}
-                      {/*  <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                            MD
-                            </Avatar>
-                            <Typography.Text>Michel Dupont</Typography.Text>
-                            <div>
-                                <Tag color='#A62626' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michel n'a pas rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
-                                />
-                                <EditOutlined onClick={showModal1} style={{ fontSize: '24px' }}/>
-                            </div>
-                        </List.Item>
-                        <List.Item style={{border:'1px solid black',padding:10,margin:5}}>
-                            <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
-                            size="large">
-                                MD
-                            </Avatar>
-                            <Typography.Text>Michele Dupon</Typography.Text>
-                            <div>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Michele a rempli son Listen
-                                </Tag>
-                                <Tag color='#448f30' 
-                                style={{borderRadius:'10px',width:200,textAlign:'center'}}>
-                                    Vous avez rempli votre partie
-                                </Tag>
-                            </div>
-                            <HistoryOutlined style={{ fontSize: '24px' }}/>
-                            <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5 }}/>
-                                <LockOutlined style={{ fontSize: '24px' }}/>
-                            </div>
-            </List.Item> */}
                     </List>  
                 </Col>
             </Row> 

@@ -6,26 +6,18 @@ import {Menu, Avatar, Badge} from 'antd';
 import { SettingOutlined} from '@ant-design/icons';
 
 function Nav(props) {
-  const [listenToDo,setListenToDo] = useState("")
+  const [listenToDo,setListenToDo] = useState(false)
 
   const { SubMenu } = Menu;
 
   useEffect( async () => {
-    if (props.shownModal == false){
+    console.log("chargementnavbar")
         var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
         var foundListen = await rawResponse.json();
-        var badge
         if (foundListen.response == true){
-          badge = <Menu.Item key="listen">
-                    <Badge dot >
-                      <Link to="/listen" >Faire mon Listen</Link>
-                    </Badge>
-                  </Menu.Item>
-        }else{
-          badge = <Menu.Item key="listen">
-                    <Link to="/listen" >Faire mon Listen</Link>
-                  </Menu.Item>
-        }
+        console.log('foundListen.response', foundListen.response)
+        setListenToDo(true)
+        
     }
     },[])
 
@@ -33,7 +25,11 @@ function Nav(props) {
   },[props.user])
   if(!props.user){return (<Redirect to='/'/>)}
 
- 
+  var badge
+  if(listenToDo===false){badge={display:"none"}}
+  
+  
+  
   
   if(props.user.type==="manager"){
   return (
@@ -44,11 +40,6 @@ function Nav(props) {
       </Menu.Item>
       <Menu.Item key="historique">
         <Link to="/historique-manager" >Historique</Link>
-      </Menu.Item>
-      <Menu.Item key="listen">
-        <Badge dot >
-          <Link to="/listen" >Faire mon Listen</Link>
-        </Badge>
       </Menu.Item>
         <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
         icon={
@@ -66,11 +57,11 @@ function Nav(props) {
         <Menu.Item key="historique">
           <Link to="/historique-manager" >Historique</Link>
         </Menu.Item>
-        {<Menu.Item key="listen">
-          <Badge dot >
+        <Menu.Item disabled={!listenToDo} key="listen" >
+          <Badge dot style={badge} >
             <Link to="/listen" >Faire mon Listen</Link>
           </Badge>
-        </Menu.Item>}
+        </Menu.Item>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
           icon={
               <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
