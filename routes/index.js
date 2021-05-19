@@ -91,10 +91,6 @@ router.post('/test', async function(req, res, next) {
   let listens = await ListenModel.find({collab: userId, isActive: false})
 
   console.log("mon userId = ",userId)
-  //console.log("mes listens = ",listens)
-  console.log("Listen n°1 = ",listens[0])
-  //console.log("Mon Listen n°1 à été créé le = ",listens[0].createdAt)
-  //console.log("Test = ", moment(listens[0].createdAt).format('YYYY'))
 
   let years = []
     for(i=0; i<listens.length; i++){
@@ -119,11 +115,12 @@ router.post('/test', async function(req, res, next) {
     //console.log(yearLoop)
 
     let listensByYear = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-01-01`, $lte: `${yearLoop}-12-31`}})
-    console.log(listensByYear)
+    //console.log(listensByYear)
 
     let months = []
     for(o=0; o<listensByYear.length; o++){
       months.push(moment(listensByYear[o].createdAt).format('MM'))
+      months.sort()
     }
     let monthsUniq = _.uniq(months)
     //console.log(yearLoop," : ",monthsUniq)
@@ -131,7 +128,9 @@ router.post('/test', async function(req, res, next) {
     let monthsCreate = []
     for(p=0; p<monthsUniq.length; p++){
       let temp = {}
-      temp[monthsUniq[p]]=[]
+      let listensByMonths = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-${monthsUniq[p]}-01`, $lte: `${yearLoop}-${monthsUniq[p]}-31`}})
+      //console.log("LISTENBYMONTHS TEST =", listensByMonths)
+      temp[monthsUniq[p]]=[listensByMonths]
       monthsCreate.push(
         temp
       )
@@ -142,32 +141,20 @@ router.post('/test', async function(req, res, next) {
     let matriochkaDown = matriochka[i]
     matriochkaDown[_.findKey(matriochka[i])].push(...monthsCreate)
 
-    for(k=0; k<monthsUniq; k++){
-      matriochkaDownDown.push(...listensByYear)
-    }
-
-    let matriochkaDownDown = matriochkaDown[_.findKey(matriochka[i])][i]
-
-    //console.log("MATRIOCHKA =",matriochka)
     console.log("MATRIOCHKA",_.findKey(matriochka[i])," = ", matriochka[i])
   }
 
+  console.log("NAVIGATION TEST 2020/12 =",matriochka[1][_.findKey(matriochka[1])][2][_.findKey(matriochka[1][_.findKey(matriochka[1])][2])])
+  console.log("MATRIOCHKA FINALE = ",matriochka)
 
-
-
-
-
-
-
-
-  res.json ({response: 'Test'})
+  res.json ({matriochka})
 });
 
 router.get('/find-listen', async function(req,res,next){
 
-  var isListenToComplete = await ListenModel.findOne({collab: req.query.id});
-  console.log('isListenToComplete',isListenToComplete)
-  if (isListenToComplete.answersCollab == null && isListenToComplete.isActive == true) {
+  var isListenToComplete = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
+ 
+  if (isListenToComplete) {
     res.json({response: true})
   } else {
     res.json({response: false})

@@ -11,13 +11,13 @@ function Nav(props) {
   const { SubMenu } = Menu;
 
   useEffect( async () => {
-    if (props.shownModal == false){
+    console.log("chargementnavbar")
         var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
         var foundListen = await rawResponse.json();
         if (foundListen.response == true){
         console.log('foundListen.response', foundListen.response)
         setListenToDo(true)
-        }
+        
     }
     },[])
 
