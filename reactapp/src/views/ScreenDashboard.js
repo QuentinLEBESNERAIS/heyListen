@@ -12,16 +12,17 @@ function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
+    const [visible4, setVisible4] = useState(false);
     const[feedbackOne,setFeedbackOne] = useState('');
     const[feedbackTwo,setFeedbackTwo] = useState('');
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [team,setTeam] = useState([])
-    const[listenfromBack,setListenfromBack] = useState([])
+    const [team,setTeam] = useState([]);
+    const[listenfromBack,setListenfromBack] = useState([]);
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [search,setSearch] = useState('')
-    const [filterdedTeam,setFilteredTeam] = useState(team)
+    const [filterdedTeam,setFilteredTeam] = useState([])
 
 useEffect(()=> {
         console.log('test id manager',props.userId._id)
@@ -29,15 +30,16 @@ useEffect(()=> {
           var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
           var collabs = await rawResponse.json();
           setTeam(collabs.collabs)
+          setFilteredTeam(collabs.collabs)
           setListenfromBack(collabs.collabsListen)
           setFeedbackFromBack(collabs.collabFeedback)
          }
          if(props.userId.type == 'manager'){getBddCollab()}
          console.log('test',team,listenfromBack,feedbackfromBack)
+         
           },[])
 // Recherche collab
 useEffect(()=> {
-    
     const results = team.filter(person =>
         person.firstName.toLowerCase().includes(search.toLocaleLowerCase())
       );
@@ -52,7 +54,6 @@ useEffect(()=> {
     const handleOk1 =  () => {
        
         var saveFeedback = async () => {
-            console.log('ekgknzlemgzopezo',collabIDFeedback)
             await fetch('/save-feedback', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -159,7 +160,6 @@ useEffect(()=> {
           }
         ]
       }
-//Affichage collab 
 
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
@@ -241,6 +241,18 @@ for (var i=0; i<listenfromBack.length;i++){
 var completion = (listenCompleted / listenfromBack.length) * 100
 console.log('completion',completion)
 
+const showModal4 = () => {
+    setVisible4(true);
+};
+
+const handleOk4 =  () => {
+    setVisible4(false);
+}
+
+const handleCancel4 = () => {
+    setVisible4(false);
+};
+
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -306,7 +318,7 @@ console.log('completion',completion)
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={iconStyleEye[i]}
+                                <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4()}}
                                 />
                                 <LockOutlined style={iconStyleCadena[i]}/>
                                 <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -403,6 +415,9 @@ console.log('completion',completion)
               Confirmer
             </Button></Link>}>
         <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
+      </Modal>
+      <Modal title="Suppression" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+      
       </Modal>
         </div>
     )}
