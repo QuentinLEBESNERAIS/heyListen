@@ -216,4 +216,17 @@ res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
 })
 
 
+router.delete('/delete-collab', async function(req,res,next){
+
+var userToDelete = await UserModel.findOne({ token:req.body.token});
+var tempTab=user.userArticle
+var articleFilter = tempTab.filter(article => article.title !== req.body.title);
+ 
+user.userArticle = articleFilter
+
+await user.save()
+
+res.json({result:true})
+})
+
 module.exports = router;

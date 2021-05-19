@@ -54,7 +54,7 @@ function ScreenListen(props) {
             </Row>
             <div className="icon-wrapper">
                 <FrownOutlined style={{color:'#A62626'}}/>
-                <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value ={moodValue} min={1} max={5} onChange={(value) => handleChange(value)}/>
+                <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={moodValue} min={1} max={5} onChange={(value) => handleChange(value)}/>
                 <SmileOutlined style={{color:'#448f30'}}/>
             </div>
             <Form layout="vertical" >
