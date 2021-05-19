@@ -31,6 +31,7 @@ useEffect(()=> {
           var collabs = await rawResponse.json();
           setTeam(collabs.collabs)
           setFilteredTeam(collabs.collabs)
+          console.log(collabs.collabs)
           setListenfromBack(collabs.collabsListen)
           setFeedbackFromBack(collabs.collabFeedback)
          }
