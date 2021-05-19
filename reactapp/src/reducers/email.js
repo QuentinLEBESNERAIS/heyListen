@@ -3,7 +3,9 @@ export default function(email='', action) {
     var emailCopy = action.email;
     console.log('email from reduceur-----', emailCopy)
     return emailCopy;
-  } else {
+  } else if(action.type=="logOut") {
+    return ""
+  }else {
     return email;
   }
 }
