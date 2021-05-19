@@ -5,6 +5,7 @@ var ListenModel = require('../models/listens');
 var TemplateModel = require('../models/templates');
 var moment = require('moment');
 var _ = require('lodash');
+const { kebabCase } = require('lodash');
 
 
 /* GET home page. */
@@ -118,7 +119,7 @@ router.post('/test', async function(req, res, next) {
     //console.log(yearLoop)
 
     let listensByYear = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-01-01`, $lte: `${yearLoop}-12-31`}})
-    //console.log(listensByYear)
+    console.log(listensByYear)
 
     let months = []
     for(o=0; o<listensByYear.length; o++){
@@ -138,9 +139,14 @@ router.post('/test', async function(req, res, next) {
 
     //console.log(monthsCreate)
 
-    let matriochkaTemp = matriochka[i]
-    //console.log("MATRIOCHKA TEMP = ",matriochkaTemp);
-    matriochkaTemp[_.findKey(matriochka[i])].push(...monthsCreate)
+    let matriochkaDown = matriochka[i]
+    matriochkaDown[_.findKey(matriochka[i])].push(...monthsCreate)
+
+    for(k=0; k<monthsUniq; k++){
+      matriochkaDownDown.push(...listensByYear)
+    }
+
+    let matriochkaDownDown = matriochkaDown[_.findKey(matriochka[i])][i]
 
     //console.log("MATRIOCHKA =",matriochka)
     console.log("MATRIOCHKA",_.findKey(matriochka[i])," = ", matriochka[i])

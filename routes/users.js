@@ -190,26 +190,27 @@ router.get('/find-collab', async function(req,res,next){
  for (let i=0 ; i<filteredTeam.length; i++){
    collab.push(filteredTeam[i]._id)
  }
+ console.log('test collab', collab)
  var listen=[]
  var feedback=[]
  console.log('collab', collab)
  for (let i=0; i<collab.length;i++){
+   console.log('testtest',collab[i])
    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
    console.log('listensSearch', listensSearch)
    if(listensSearch){
    if (listensSearch.answersCollab == null){
      listen.push(listensSearch.answersCollab = false)
    }else{
-    listen.push(listensSearch.answersCollab = true)
+    listen.push(listensSearch.answersCollab = false)
    }
-   if (listensSearch.answersFeedback == null){
-    feedback.push(listensSearch.answersFeedback = false)
-  }else{
+   if (listensSearch.answersFeedback != null){
     feedback.push(listensSearch.answersFeedback = true)
+  }else{
+    feedback.push(listensSearch.answersFeedback = false)
   }
  }
  }
-
 
 res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
 })

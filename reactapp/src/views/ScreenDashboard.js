@@ -123,7 +123,7 @@ function ScreenDashboard(props) {
       }
 //Affichage collab 
       useEffect(()=> {
-        
+        console.log('test id manager',props.userId._id)
       var getBddCollab = async () => {
       var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
       var collabs = await rawResponse.json();
@@ -132,6 +132,7 @@ function ScreenDashboard(props) {
       setFeedbackFromBack(collabs.collabFeedback)
      }
      if(props.userId.type == 'manager'){getBddCollab()}
+     console.log('test',team,listenfromBack,feedbackfromBack)
       },[])
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
@@ -146,10 +147,12 @@ var tabGlobalListen = []
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
+   var iconDisplayEye 
     if(listenfromBack[i] === false){
         color = 'red';
         text = "Ce collaborateur n'a pas rempli son Listen"
     }else{
+
         color = 'green'
         text = "Ce collaborateur a rempli son Listen"
     }
@@ -159,25 +162,46 @@ for(var i=0; i<listenfromBack.length;i++){
         {text}
     </Tag>)
 }
-//changement couleur Tab collab
+//changement couleur et icon cadena/edit Tab collab
 var tabGlobalFeedback = []
-
+var iconStyle = []
+var iconStyleCadena =[]
 for(var i=0; i<feedbackfromBack.length;i++){
     var colorFeedback
     var textFeedback
+    var iconDisplay
+    var iconDisplayCadena
      if(feedbackfromBack[i] === false){
         colorFeedback = 'red'
         textFeedback = "Vous n'avez pas rempli votre partie"
+        iconDisplay = { fontSize: '24px' }
+        iconDisplayCadena = { fontSize: '24px',display:'none' }
+    
      }else{
         colorFeedback = 'green'
         textFeedback = "Vous avez rempli votre partie"
+        iconDisplay = { fontSize: '24px',display:'none' }
+        iconDisplayCadena = { fontSize: '24px' }
      }
     
      tabGlobalFeedback.push(<Tag color={colorFeedback}
      style={{borderRadius:'10px',width:300,textAlign:'center'}}>
          {textFeedback}
      </Tag>)
+     iconStyle.push(iconDisplay)
+     iconStyleCadena.push(iconDisplayCadena)
 }
+var iconStyleEye =[]
+for (var i=0; i<listenfromBack.length;i++){
+    var iconDisplayEye  
+    if (listenfromBack[i]==true){
+        for(var j=0; j<feedbackfromBack.length;j++){
+            if (feedbackfromBack[j] === true){
+                iconDisplayEye = { fontSize: '24px'}
+        }}}else{
+        iconDisplayEye = { fontSize: '24px', display:'none' }
+    }
+    iconStyleEye.push(iconDisplayEye)}
 
     if(props.userId.type==="manager"){
     return (
@@ -244,9 +268,10 @@ for(var i=0; i<feedbackfromBack.length;i++){
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={{ fontSize: '24px',marginRight:5,color:'white'}}
+                                <EyeOutlined style={iconStyleEye[i]}
                                 />
-                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={{ fontSize: '24px' }}/>
+                                <LockOutlined style={iconStyleCadena[i]}/>
+                                <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
                             </div>
                         </List.Item>
                         <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
