@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import '../App.css';
@@ -6,8 +6,28 @@ import {Menu, Avatar, Badge} from 'antd';
 import { SettingOutlined} from '@ant-design/icons';
 
 function Nav(props) {
+  const [listenToDo,setListenToDo] = useState("")
 
   const { SubMenu } = Menu;
+
+  useEffect( async () => {
+    if (props.shownModal == false){
+        var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
+        var foundListen = await rawResponse.json();
+        var badge
+        if (foundListen.response == true){
+          badge = <Menu.Item key="listen">
+                    <Badge dot >
+                      <Link to="/listen" >Faire mon Listen</Link>
+                    </Badge>
+                  </Menu.Item>
+        }else{
+          badge = <Menu.Item key="listen">
+                    <Link to="/listen" >Faire mon Listen</Link>
+                  </Menu.Item>
+        }
+    }
+    },[])
 
   useEffect(()=>{
   },[props.user])
@@ -44,11 +64,11 @@ function Nav(props) {
         <Menu.Item key="historique">
           <Link to="/historique-manager" >Historique</Link>
         </Menu.Item>
-        <Menu.Item key="listen">
+        {<Menu.Item key="listen">
           <Badge dot >
             <Link to="/listen" >Faire mon Listen</Link>
           </Badge>
-        </Menu.Item>
+        </Menu.Item>}
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
           icon={
               <Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>
