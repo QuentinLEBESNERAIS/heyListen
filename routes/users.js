@@ -216,17 +216,20 @@ res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
 })
 
 
-router.delete('/delete-collab', async function(req,res,next){
-
-var userToDelete = await UserModel.findOne({ token:req.body.token});
-var tempTab=user.userArticle
-var articleFilter = tempTab.filter(article => article.title !== req.body.title);
- 
-user.userArticle = articleFilter
-
-await user.save()
-
-res.json({result:true})
+router.put('/delete-collab', async function(req,res,next){
+  console.log('req.body.idCollab', req.body.idCollab)
+  console.log('req.body.idManager', req.body.idManager)
+var managerTeam = await TeamModel.findOne({
+  manager: req.body.idManager
 })
+console.log('managerTeam', managerTeam)
+var filteredTeam = managerTeam.collab.filter(element => element != req.body.idCollab);
+console.log('filteredTeam', filteredTeam)
+
+var managerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
+
+res.json({result : true})
+})
+
 
 module.exports = router;

@@ -19,7 +19,21 @@ function ScreenDashboard(props) {
     const[listenfromBack,setListenfromBack] = useState([])
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
-    
+    const [idCollab, setIdCollab] = useState('')
+
+//Affichage collab 
+useEffect(()=> {
+    console.log('test id manager',props.userId._id)
+  var getBddCollab = async () => {
+  var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+  var collabs = await rawResponse.json();
+  setTeam(collabs.collabs)
+  setListenfromBack(collabs.collabsListen)
+  setFeedbackFromBack(collabs.collabFeedback)
+ }
+ if(props.userId.type == 'manager'){getBddCollab()}
+ console.log('test',team,listenfromBack,feedbackfromBack)
+  },[])
 
 // Paramètres modale feedback manager
     const showModal1 = () => {
@@ -106,8 +120,9 @@ function ScreenDashboard(props) {
         newCampaignLaunch()
       }
 
-      const handleDelete = () => {
+      const handleDelete = (idCollabToDelete) => {
         setVisible3(true);
+        setIdCollab(idCollabToDelete)
         ;
     };
 
@@ -116,8 +131,16 @@ function ScreenDashboard(props) {
         ;
     };
     
-    const suppressionCollab = () => {
-        
+    const suppressionCollab = async () => {
+        var suppCollab = async () => {
+            await fetch('users/delete-collab', {
+                method: 'PUT',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: `idCollab=${idCollab}&idManager=${props.userId._id}`
+            });
+        } 
+        suppCollab()
+        setVisible3(false)
         ;
     };
 // Charts
@@ -136,19 +159,7 @@ function ScreenDashboard(props) {
           }
         ]
       }
-//Affichage collab 
-      useEffect(()=> {
-        console.log('test id manager',props.userId._id)
-      var getBddCollab = async () => {
-      var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-      var collabs = await rawResponse.json();
-      setTeam(collabs.collabs)
-      setListenfromBack(collabs.collabsListen)
-      setFeedbackFromBack(collabs.collabFeedback)
-     }
-     if(props.userId.type == 'manager'){getBddCollab()}
-     console.log('test',team,listenfromBack,feedbackfromBack)
-      },[])
+
     //Initiales avatar liste collab
     var firstMaj = (a) =>{
         return ( 
@@ -282,7 +293,7 @@ console.log('completion',completion)
                     <List itemLayout="horizontal">
                     {team.map((item,i) => (
                         <div key={i}>
-                        <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete() }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
+                        <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
                             size="large">
                             {firstMaj(item.firstName)}{firstMaj(item.lastName)}
@@ -387,7 +398,7 @@ console.log('completion',completion)
                     </Form.Item>
                 </Form>
             </Modal>
-            <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button type="link" key="delete" onClick={suppressionCollab()}>
+            <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
               Confirmer
             </Button></Link>}>
         <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
