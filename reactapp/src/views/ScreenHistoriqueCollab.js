@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message,Modal,Button} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
 import _ from 'lodash';
@@ -44,6 +44,7 @@ useEffect(() => {
         props.modalState()
         setVisibleModal(false);
     };
+
 
     return (
 
