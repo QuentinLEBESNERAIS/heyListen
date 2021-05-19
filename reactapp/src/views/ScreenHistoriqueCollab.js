@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message,Modal,Button} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
 import _ from 'lodash';
@@ -11,7 +11,8 @@ function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
     const [visibleModal, setVisibleModal] = useState(false);
-    const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[]});
+    const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[{}]});
+    const [year, setYear] = useState('')
 
 //Affichage modale de rappel du listen à remplir
 useEffect(() => {
@@ -38,12 +39,19 @@ useEffect(() => {
 
     console.log("MATRIOCHKA = ",dataCollabFromBack)
     console.log("Test 2 = ", dataCollabFromBack.matriochka)
-    console.log("Test 3 = ", _.findKey(dataCollabFromBack.matriochka[0]))
+    console.log("Test 3 = ", dataCollabFromBack.matriochka[0])
+
+    let testDown = dataCollabFromBack.matriochka[0]
 
     const handleCancel = () => {
         props.modalState()
         setVisibleModal(false);
     };
+
+    function handleChange(value) {
+        console.log("year = ", year)
+        setYear(value);
+    }
 
     return (
 
@@ -54,62 +62,32 @@ useEffect(() => {
                 <Sider style={{backgroundColor:'#D8E3E7'}}>
                     <Row>
                         <Col span={22} offset={2}>
-                            <Select defaultValue="Année" style={{width: 160, marginTop:20}}>
+                            <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
                             {dataCollabFromBack.matriochka.map((years, i) => (
-                                <Option value={_.findKey(years)}>{_.findKey(years)}</Option>
+                                <Option value={i}>{_.findKey(years)}</Option>
                             ))}
                             </Select>
                         </Col>
                     </Row>
 
                     <Row type="flex" align-item="center">
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Janvier</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Février</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Mars</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Avril</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Mai</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col><Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Juin</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Juillet</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Aout</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Septembre</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Octobre</Typography.Text>
-                            <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Novembre</Typography.Text>
-                            <StopOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
-                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                            <Typography.Text>Décembre</Typography.Text>
-                            <StopOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                        </Col>
+                        {year === "" &&
+                            <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
+                                <Typography.Text>vide</Typography.Text>
+                            </Col>
+                        }    
+
+                        {dataCollabFromBack.matriochka.map((years, i) => (
+                                year === i &&
+                                {
+                                    dataCollabFromBack.matriochka.map((years, i) => 
+                                    <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
+                                        <Typography.Text>TEST {_.findKey(years)}</Typography.Text>
+                                        <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
+                                    </Col>
+                                )}
+                            ))}
+
                     </Row>
                 </Sider>
                 <Content>

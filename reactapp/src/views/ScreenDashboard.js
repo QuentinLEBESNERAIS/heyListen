@@ -1,25 +1,29 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Empty,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
+import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
+    const [visible4, setVisible4] = useState(false);
     const[feedbackOne,setFeedbackOne] = useState('');
     const[feedbackTwo,setFeedbackTwo] = useState('');
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [team,setTeam] = useState([])
-    const[listenfromBack,setListenfromBack] = useState([])
+    const [team,setTeam] = useState([]);
+    const[listenfromBack,setListenfromBack] = useState([]);
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [idCollab, setIdCollab] = useState('')
+    const [search,setSearch] = useState('')
+    const [filterdedTeam,setFilteredTeam] = useState([])
 
 //Affichage collab 
 useEffect(()=> {
@@ -35,6 +39,14 @@ useEffect(()=> {
  console.log('test',team,listenfromBack,feedbackfromBack)
   },[])
 
+// Recherche collab
+useEffect(()=> {
+    const results = team.filter(person =>
+        person.firstName.toLowerCase().includes(search.toLocaleLowerCase())
+      );
+    setFilteredTeam(results)
+  },[search])
+
 // Paramètres modale feedback manager
     const showModal1 = () => {
         setVisible1(true);
@@ -43,7 +55,6 @@ useEffect(()=> {
     const handleOk1 =  () => {
        
         var saveFeedback = async () => {
-            console.log('ekgknzlemgzopezo',collabIDFeedback)
             await fetch('/save-feedback', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -240,6 +251,18 @@ for (var i=0; i<listenfromBack.length;i++){
 var completion = (listenCompleted / listenfromBack.length) * 100
 console.log('completion',completion)
 
+const showModal4 = () => {
+    setVisible4(true);
+};
+
+const handleOk4 =  () => {
+    setVisible4(false);
+}
+
+const handleCancel4 = () => {
+    setVisible4(false);
+};
+
     if(props.userId.type==="manager"){
     return (
         <div>
@@ -283,7 +306,7 @@ console.log('completion',completion)
                 <Col span={6} offset={6}>
                     <Form>
                         <Form.Item label="Rechercher:" style={{fontWeight:'500'}} >
-                            <Input placeholder="Collaborateur" style={{ width: 200 }} />
+                            <Input onChange={(e) => setSearch(e.target.value)} placeholder="Collaborateur" style={{ width: 200 }} />
                         </Form.Item>
                     </Form>
                 </Col>
@@ -291,7 +314,7 @@ console.log('completion',completion)
             <Row>
                 <Col span={22} offset={1}>
                     <List itemLayout="horizontal">
-                    {team.map((item,i) => (
+                    {filterdedTeam.map((item,i) => (
                         <div key={i}>
                         <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                             <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
@@ -305,7 +328,7 @@ console.log('completion',completion)
                             </div>
                             <HistoryOutlined style={{ fontSize: '24px' }}/>
                             <div>
-                                <EyeOutlined style={iconStyleEye[i]}
+                                <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4()}}
                                 />
                                 <LockOutlined style={iconStyleCadena[i]}/>
                                 <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -402,6 +425,26 @@ console.log('completion',completion)
               Confirmer
             </Button></Link>}>
         <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
+      </Modal>
+      <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+            <h3>Votre feedback</h3>
+            <h4>Feedback 1:</h4>
+            <p></p>
+            <h4>Feedback 2:</h4>
+            <p></p>
+            <h3>Son Listen</h3>
+            <h4>Humeur:</h4>
+            <p></p>
+            <h4>Reponse 1:</h4>
+            <p></p>
+            <h4>Reponse 2:</h4>
+            <p></p>
+            <h4>Reponse 3:</h4>
+            <p></p>
+            <h4>Reponse 4:</h4>
+            <p></p>
+            <h4>Reponse 5:</h4>
+            <p></p>
       </Modal>
         </div>
     )}
