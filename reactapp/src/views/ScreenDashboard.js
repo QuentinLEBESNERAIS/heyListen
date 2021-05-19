@@ -143,15 +143,15 @@ function ScreenDashboard(props) {
 //changement couleur Tab collab
 var tabGlobalListen = []
 
-
+console.log('listenfromBack',listenfromBack)
 for(var i=0; i<listenfromBack.length;i++){
    var color
    var text
    var iconDisplayEye 
     if(listenfromBack[i] === false){
-        color = 'red';
+        color = 'red'
         text = "Ce collaborateur n'a pas rempli son Listen"
-    }else{
+    }else if (listenfromBack[i] === true){
 
         color = 'green'
         text = "Ce collaborateur a rempli son Listen"
@@ -194,7 +194,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
-    if (listenfromBack[i]==true){
+    if (listenfromBack[i]===true){
         for(var j=0; j<feedbackfromBack.length;j++){
             if (feedbackfromBack[j] === true){
                 iconDisplayEye = { fontSize: '24px'}
