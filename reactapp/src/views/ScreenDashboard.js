@@ -179,7 +179,7 @@ for(var i=0; i<feedbackfromBack.length;i++){
          {textFeedback}
      </Tag>)
 }
-
+    
     if(props.userId.type==="manager"){
     return (
         <div>
