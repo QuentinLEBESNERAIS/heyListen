@@ -6,7 +6,6 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-import { set } from 'mongoose';
 
 function ScreenDashboard(props) {
     const [visible1, setVisible1] = useState(false);
