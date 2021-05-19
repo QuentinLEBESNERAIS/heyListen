@@ -191,6 +191,9 @@ for(var i=0; i<feedbackfromBack.length;i++){
      iconStyle.push(iconDisplay)
      iconStyleCadena.push(iconDisplayCadena)
 }
+<<<<<<< HEAD
+    
+=======
 var iconStyleEye =[]
 for (var i=0; i<listenfromBack.length;i++){
     var iconDisplayEye  
@@ -203,6 +206,7 @@ for (var i=0; i<listenfromBack.length;i++){
     }
     iconStyleEye.push(iconDisplayEye)}
 
+>>>>>>> 9ed08a20aca95c032d268232eee8e44d42f60fad
     if(props.userId.type==="manager"){
     return (
         <div>
