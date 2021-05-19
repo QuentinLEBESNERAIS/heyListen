@@ -77,7 +77,7 @@ useEffect(() => {
                             </Col>
                         }    
 
-                        {dataCollabFromBack.matriochka.map((years, i) => {
+                                {dataCollabFromBack.matriochka.map((years, i) => {
                                 if (year === i) {
                                     return dataCollabFromBack.matriochka[2021].map((years, i) => (
                                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
@@ -85,7 +85,7 @@ useEffect(() => {
                                             <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
                                         </Col>
                                     )) 
-                                }    
+                                }
                         })}
 
                     </Row>
