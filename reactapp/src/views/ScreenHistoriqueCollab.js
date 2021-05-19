@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message,Modal,Button} from 'antd'
 import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
 import _ from 'lodash';
@@ -48,10 +48,13 @@ useEffect(() => {
         setVisibleModal(false);
     };
 
+<<<<<<< HEAD
     function handleChange(value) {
         console.log("year = ", year)
         setYear(value);
     }
+=======
+>>>>>>> 369f9ecfc60eaac9622ef4857bbb83c288235331
 
     return (
 

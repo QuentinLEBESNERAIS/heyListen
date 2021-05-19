@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import { Slider,Input,Button,Form,Row,Col,Modal,Image} from 'antd'
+import { Slider,Input,Button,Form,Row,Col,Modal,Image,message} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom'
 
 function ScreenListen(props) {
     const[moodValue,setMoodValue] = useState(1);
@@ -36,6 +37,7 @@ function ScreenListen(props) {
         };
         await saveListenCollab()
         setVisible(false);
+        message.success('Votre Listen a bien été enregistré')
         }
         
     
@@ -43,6 +45,8 @@ function ScreenListen(props) {
     const handleCancel = () => {
         setVisible(false);
     };
+
+    
 
     return (
         <div>
@@ -95,7 +99,7 @@ function ScreenListen(props) {
             <Modal visible={visible} onCancel={handleCancel} footer={null}>
             <h2 className='input-listen'> 
                 {<Image width='30px' src="./logo-transparent.png" />}
-                Souhaitez-vous envoyer ce listen :
+                Souhaitez-vous envoyer ce listen ? :
             </h2>
             <h4>Question 1:</h4>
             <p>{responseOne}</p>
@@ -113,11 +117,13 @@ function ScreenListen(props) {
             onClick={handleCancel}>
                 Annuler
             </Button>
+            <Link to='/historique-collab'>
             <Button key="submit" 
             style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
             onClick={handleOk}>
                 Envoyer le listen
             </Button>
+            </Link>
             </div>
             </Modal>
         </div>
