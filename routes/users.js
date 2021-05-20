@@ -174,17 +174,15 @@ router.post('/modification-infos', async function(req, res, next) {
 router.get('/find-collab', async function(req,res,next){
   var team = await TeamModel.findOne({ manager:req.query.manager}).populate('collab').exec();
   var filteredTeam = team.collab.filter( e => e.isActive == true)
-  console.log('filteredTeam', filteredTeam)
   var collab=[]
+  
   for (let i=0 ; i<filteredTeam.length; i++){
     collab.push(filteredTeam[i]._id)
   }
-  console.log('test collab', collab)
   var listen=[]
   var feedback=[]
-  console.log('collab', collab)
+
   for (let i=0; i<collab.length;i++){
-    console.log('testtest',collab[i])
     var listensSearch  = await ListenModel.findOne({collab:collab[i], isActive : true})
     if(listensSearch){
       if (listensSearch.answersCollab != null){
@@ -207,16 +205,21 @@ res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
 
 /*A ANNOTER */
 router.put('/delete-collab', async function(req,res,next){
-  console.log('req.body.idCollab', req.body.idCollab)
-  console.log('req.body.idManager', req.body.idManager)
+
   var managerTeam = await TeamModel.findOne({
     manager: req.body.idManager
   })
-  console.log('managerTeam', managerTeam)
+
   var filteredTeam = managerTeam.collab.filter(element => element != req.body.idCollab);
-  console.log('filteredTeam', filteredTeam)
-  var managerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
-res.json({result : true})
+
+  filteredManagerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
+
+  var newManagerTeam = await TeamModel.findOne({
+    manager: req.body.idManager
+  }).populate('collab').exec()
+  newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
+
+res.json({newManagerTeam : newManagerTeam})
 })
 
 module.exports = router;

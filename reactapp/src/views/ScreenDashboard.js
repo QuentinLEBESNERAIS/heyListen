@@ -6,7 +6,6 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
 console.log('composant entier --------------')
@@ -30,12 +29,14 @@ console.log('composant entier --------------')
     const [seeListen,setSeeListen] = useState({reponse1: "", reponse2: "", reponse3: "", reponse4: "", reponse5: ""})
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
+    const [isNewCampaign, setIsNewCampaign] = useState(false)
+
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
-  setTeam(collabs.collabs)
+  //setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
@@ -43,6 +44,19 @@ useEffect(()=> {
 }
  if(props.userId.type == 'manager'){getBddCollab()}
   },[])
+
+  useEffect(()=> {
+    var getBddCollab = async () => {
+    var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+    var collabs = await rawResponse.json();
+    //setTeam(collabs.collabs)
+    setFilteredTeam(collabs.collabs)
+    setListenfromBack(collabs.collabsListen)
+    setFeedbackFromBack(collabs.collabFeedback)
+    setPageLoaded(true)
+  }
+   if(props.userId.type == 'manager'){getBddCollab()}
+    },[isNewCampaign])
 
 // Recherche collab
     useEffect(()=> {
@@ -125,9 +139,11 @@ useEffect(()=> {
         }
         info();
         const body = await data.json()
+        setIsNewCampaign(true)
     }
 
     function confirm() {
+        setIsNewCampaign(false)
         newCampaignLaunch()
     }
 
@@ -160,24 +176,18 @@ useEffect(()=> {
     const suppressionCollab = async () => {
         
         var suppCollab = async () => {
-            await fetch('users/delete-collab', {
+            var managerTeam = await fetch('users/delete-collab', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `idCollab=${idCollab}&idManager=${props.userId._id}`
             });
+            var team = await managerTeam.json()
+            setFilteredTeam(team.newManagerTeam)
+            
         } 
         suppCollab();
         setVisible3(false);
-        setPageLoaded(false)
-        var getBddCollab = async () => {
-            var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-            var collabs = await rawResponse.json();
-            setFilteredTeam(collabs.collabs)
-            setListenfromBack(collabs.collabsListen)
-            setFeedbackFromBack(collabs.collabFeedback)
-            setPageLoaded(true)
-        }
-        if(props.userId.type == 'manager'){getBddCollab()}
+
     };
 
 // Charts
