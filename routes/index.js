@@ -126,7 +126,8 @@ router.post('/matriochkaCollab', async function(req, res, next) {
       let temp = {}
       let listensByMonths = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-${monthsUniq[p]}-01`, $lte: `${yearLoop}-${monthsUniq[p]}-31`}})
       //console.log("LISTENBYMONTHS TEST =", listensByMonths)
-      temp[monthsUniq[p]]=[listensByMonths]
+
+      temp[monthsUniq[p]]=[_.orderBy(listensByMonths, ['createdAt'],['asc'])]
       monthsCreate.push(
         temp
       )
