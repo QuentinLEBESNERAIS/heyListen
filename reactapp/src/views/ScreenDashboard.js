@@ -34,7 +34,7 @@ useEffect(()=> {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
-  setFilteredTeam(collabs.collabs)
+  setFilteredTeam(collabs.collabs)      
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
   setPageLoaded(true)
@@ -113,6 +113,11 @@ useEffect(()=> {
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
+                    var responseRaw = await fetch('/mail/invite', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: `collabEmail=${collabEmail}`
+                    });
                     console.log('response', response)
                     const info = () => {
                         message.info(response.response);
