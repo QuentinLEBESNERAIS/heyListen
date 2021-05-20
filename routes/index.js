@@ -126,7 +126,8 @@ router.post('/matriochkaCollab', async function(req, res, next) {
       let temp = {}
       let listensByMonths = await ListenModel.find({collab: userId, isActive: false, createdAt: {$gte: `${yearLoop}-${monthsUniq[p]}-01`, $lte: `${yearLoop}-${monthsUniq[p]}-31`}})
       //console.log("LISTENBYMONTHS TEST =", listensByMonths)
-      temp[monthsUniq[p]]=[listensByMonths]
+
+      temp[monthsUniq[p]]=[_.orderBy(listensByMonths, ['createdAt'],['asc'])]
       monthsCreate.push(
         temp
       )
@@ -152,9 +153,10 @@ router.get('/find-listen', async function(req,res,next){
 
 router.get('/see-listen', async function(req,res,next){
   var listenCompleted = await ListenModel.findOne({collab: req.query.collab,isActive:true});
-  console.log('listenCompleted',listenCompleted)
-  
-    res.json({listenCompleted})
+ 
+  var answers = listenCompleted.answersCollab[0]
+  var feedbacks = listenCompleted.answersFeedback[0]
+    res.json({listenCompleted, answers,feedbacks})
   
 })
 

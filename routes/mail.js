@@ -50,4 +50,14 @@ router.post('/welcome',async function(req, res, next) {
     res.json({ result: info });
   });
 
+  router.post('/relaunch',async function(req, res, next) {
+    let team = await TeamModel.find({manager: userId}).populate('collab').exec()
+        console.log("ma Team =",team)
+        console.log("mes Collabs =",team[0].collab)
+        console.log("combien de Collabs ? ", team[0].collab.length)
+    for(let i=0;i<collab.length;i++)
+        
+    res.json({ result: info });
+  });
+
   module.exports = router

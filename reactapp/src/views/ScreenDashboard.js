@@ -9,6 +9,8 @@ import {Line} from 'react-chartjs-2';
 import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
+console.log('composant entier --------------')
+
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
@@ -23,23 +25,25 @@ function ScreenDashboard(props) {
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [idCollab, setIdCollab] = useState('')
     const [search,setSearch] = useState('')
-    const [filterdedTeam,setFilteredTeam] = useState([])
-    const [seeListen,setSeeListen] = useState([])
-    const [seeFeedback,setSeeFeedback] = useState([])
-    const [seeMood,setSeeMood] = useState('')
-
+    const [filteredTeam, setFilteredTeam] = useState([])
+    const [pageLoaded, setPageLoaded] = useState(false)
+    const [seeListen,setSeeListen] = useState({reponse1: "", reponse2: "", reponse3: "", reponse4: "", reponse5: ""})
+    const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
+    const [seeMood,setSeeMood] = useState(0)
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
-  setFilteredTeam(collabs.collabs)      
+  setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
- }
+  setPageLoaded(true)
+}
  if(props.userId.type == 'manager'){getBddCollab()}
   },[])
+
 
 // Recherche collab
     useEffect(()=> {
@@ -95,12 +99,6 @@ useEffect(()=> {
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
-                    var responseRaw = await fetch('/mail/invite', {
-                        method: 'POST',
-                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                        body: `collabEmail=${collabEmail}`
-                    });
-                    console.log('response', response)
                     const info = () => {
                         message.info(response.response);
                     }
@@ -134,6 +132,8 @@ useEffect(()=> {
         newCampaignLaunch()
     }
 
+    // Fonctions pour suppression d'un collab 
+
     const handleDelete = (idCollabToDelete) => {
         setVisible3(true);
         setIdCollab(idCollabToDelete);
@@ -144,6 +144,7 @@ useEffect(()=> {
     };
 
     const suppressionCollab = async () => {
+        
         var suppCollab = async () => {
             await fetch('users/delete-collab', {
                 method: 'PUT',
@@ -153,6 +154,16 @@ useEffect(()=> {
         } 
         suppCollab();
         setVisible3(false);
+        setPageLoaded(false)
+        var getBddCollab = async () => {
+            var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+            var collabs = await rawResponse.json();
+            setFilteredTeam(collabs.collabs)
+            setListenfromBack(collabs.collabsListen)
+            setFeedbackFromBack(collabs.collabFeedback)
+            setPageLoaded(true)
+        }
+        if(props.userId.type == 'manager'){getBddCollab()}
     };
 
 // Charts
@@ -173,6 +184,7 @@ useEffect(()=> {
 //changement couleur Tab collab
     var tabGlobalListen = []
     for(var i=0; i<listenfromBack.length;i++){
+        console.log('couleur des tags -------------')
     var color
     var text
     var iconDisplayEye 
@@ -195,6 +207,7 @@ useEffect(()=> {
     var iconStyle = []
     var iconStyleCadena =[]
     for(var i=0; i<feedbackfromBack.length;i++){
+        console.log('couleur icones -------------')
         var colorFeedback
         var textFeedback
         var iconDisplay
@@ -241,23 +254,23 @@ useEffect(()=> {
 
     var completion = (listenCompleted / listenfromBack.length) * 100
 
-    const showModal4 = (value) => {
-        setCollabIDFeedback(value)
-        console.log(collabIDFeedback)
-        var getBddCollab = async () => {
-            var Response = await fetch(`/see-listen?collab=${collabIDFeedback}`);
-            var listens = await Response.json();
-            setSeeListen(listens.listenCompleted.answersCollab)
-            setSeeFeedback(listens.listenCompleted.answersFeedback)
-            setSeeMood(listens.listenCompleted.mood)
-            console.log('show',listens.listenCompleted.answersFeedback)
-            console.log('show2',seeFeedback)
-            console.log('show3',seeMood)
-        }
-        
-        getBddCollab()
+    const showModal4 = () => {
+       
         setVisible4(true);
     };
+
+    var getSeeListen = async (value) => {
+        var Response = await fetch(`/see-listen?collab=${value}`);
+        var listens = await Response.json();
+        setSeeListen(listens.answers)
+        setSeeFeedback(listens.feedbacks)
+        setSeeMood(listens.listenCompleted.mood)
+        console.log('show',seeListen)
+        console.log('show2',seeFeedback)
+        console.log('show3',seeMood)
+    }
+    
+    
 
     const handleOk4 =  () => {
         setVisible4(false);
@@ -267,7 +280,11 @@ useEffect(()=> {
         setVisible4(false);
     };
 
-    if(props.userId.type==="manager"){
+    
+    
+    
+      if(props.userId.type==="manager"){
+        if (pageLoaded){
         return (
             <div>
                 <Nav/>
@@ -318,7 +335,7 @@ useEffect(()=> {
                 <Row>
                     <Col span={22} offset={1}>
                         <List itemLayout="horizontal">
-                        {filterdedTeam.map((item,i) => (
+                        {filteredTeam.map((item,i) => (
                             <div key={i}>
                             <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                                 <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
@@ -332,7 +349,7 @@ useEffect(()=> {
                                 </div>
                                 <HistoryOutlined style={{ fontSize: '24px' }}/>
                                 <div>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => showModal4(item._id)}
+                                    <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
                                     <LockOutlined style={iconStyleCadena[i]}/>
                                     <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -432,28 +449,40 @@ useEffect(()=> {
                 <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <h3>Votre feedback</h3>
                     <h4>Feedback 1:</h4>
-                    <p></p>
+                    <p>{seeFeedback.feedback1}</p>
                     <h4>Feedback 2:</h4>
-                    <p></p>
+                    <p>{seeFeedback.feedback2}</p>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
                     <p>{seeMood}</p>
                     <h4>Reponse 1:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse1}</p>
                     <h4>Reponse 2:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse2}</p>
                     <h4>Reponse 3:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse3}</p>
                     <h4>Reponse 4:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse4}</p>
                     <h4>Reponse 5:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse5}</p>
                 </Modal>
             </div>
-        )
+            )
+        }
+        else {
+            return (
+                <Row justify="center" align="middle" style={{height:'100vh'}}>
+                    <Col ><img src='./Spinner-1s-200px.gif'/></Col>
+                </Row>
+           )
+         }}
+
+        
+ else {
+        return (<Redirect to='/historique-collab'/>)
     }
-    else {return <Redirect to='/historique-collab'/> };
 }
+
 
 function mapStateToProps(state) {
     return { userId: state.user }

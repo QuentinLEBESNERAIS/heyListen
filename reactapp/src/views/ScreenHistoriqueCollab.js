@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message,Modal,Button} from 'antd'
-import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined} from '@ant-design/icons';
+import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,message,Modal,Button, Menu, Dropdown} from 'antd'
+import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined,DownOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
 import _ from 'lodash';
+import moment from 'moment';
 
 function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
@@ -13,6 +14,7 @@ function ScreenHistoriqueCollab(props) {
     const [visibleModal, setVisibleModal] = useState(false);
     const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[{}]});
     const [year, setYear] = useState('')
+    const [selectedListen, setSelectedListen] = useState({})
 
 //Affichage modale de rappel du listen à remplir
     useEffect(() => {
@@ -37,11 +39,7 @@ function ScreenHistoriqueCollab(props) {
         startPage();
     },[])
 
-    console.log("MATRIOCHKA = ",dataCollabFromBack)
-    console.log("Test 2 = ", dataCollabFromBack.matriochka)
-    console.log("Test 3 = ", dataCollabFromBack.matriochka[0])
-
-    let testDown = dataCollabFromBack.matriochka[0]
+    let testDown = dataCollabFromBack.matriochka
 
     const handleCancel = () => {
         props.modalState()
@@ -49,9 +47,29 @@ function ScreenHistoriqueCollab(props) {
     };
 
     function handleChange(value) {
+        console.log("MATRIOCHKA = ",dataCollabFromBack)
+        console.log("Test 2 = ", dataCollabFromBack.matriochka)
+        console.log("Test 3 = ", dataCollabFromBack.matriochka[0][2021][0])
         console.log("year = ", year)
         setYear(value);
     }
+
+    function chooseListen(listen) {
+        //console.log("Test choose Listen = ",listen)
+        let listenTemp = listen
+        setSelectedListen(listenTemp)
+        console.log("SELECTED LISTEN = ", selectedListen)
+    }
+
+    const menu = (i, years, o, months) => (
+        <Menu>
+            {dataCollabFromBack.matriochka[i][_.findKey(years)][o][_.findKey(months)][0].map((days, p) => (
+                <Menu.Item key={p}>
+                    <Typography.Text onClick={() => chooseListen(days)}>{moment(days.createdAt).format('DD')}/{_.findKey(months)}/{_.findKey(years)}</Typography.Text>
+                </Menu.Item>
+            ))}
+        </Menu>
+    );
 
     return (
         <div>
@@ -62,9 +80,9 @@ function ScreenHistoriqueCollab(props) {
                         <Row>
                             <Col span={22} offset={2}>
                                 <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
-                                {dataCollabFromBack.matriochka.map((years, i) => (
-                                    <Option value={i}>{_.findKey(years)}</Option>
-                                ))}
+                                    {dataCollabFromBack.matriochka.map((years, i) => (
+                                        <Option value={i}>{_.findKey(years)}</Option>
+                                    ))}
                                 </Select>
                             </Col>
                         </Row>
@@ -76,15 +94,18 @@ function ScreenHistoriqueCollab(props) {
                                 </Col>
                             }    
 
-                                    {dataCollabFromBack.matriochka.map((years, i) => {
-                                    if (year === i) {
-                                        return dataCollabFromBack.matriochka[2021].map((years, i) => (
-                                            <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                                                <Typography.Text>TEST</Typography.Text>
-                                                <EyeOutlined style={{ fontSize: '20px',marginRight:5, marginLeft:5, verticalAlign:"middle"}}/>
-                                            </Col>
-                                        )) 
-                                    }
+                            {dataCollabFromBack.matriochka.map((years, i) => {
+                                if (year === i) {
+                                    return dataCollabFromBack.matriochka[i][_.findKey(years)].map((months, o) => (
+                                        <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
+                                            <Dropdown overlay={menu(i, years, o, months)} trigger={['click']}>
+                                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                                    {_.findKey(months)}/{_.findKey(years)} <DownOutlined />
+                                                </a>
+                                            </Dropdown>
+                                        </Col>
+                                    )) 
+                                }
                             })}
 
                         </Row>
