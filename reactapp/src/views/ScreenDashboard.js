@@ -24,6 +24,8 @@ function ScreenDashboard(props) {
     const [idCollab, setIdCollab] = useState('')
     const [search,setSearch] = useState('')
     const [filterdedTeam,setFilteredTeam] = useState([])
+    const [seeListen,setSeeListen] = useState([])
+    const [seeFeedback,setSeeFeedback] = useState()
 
 //Affichage collab 
 useEffect(()=> {
@@ -37,7 +39,6 @@ useEffect(()=> {
   setFeedbackFromBack(collabs.collabFeedback)
  }
  if(props.userId.type == 'manager'){getBddCollab()}
- console.log('test',team,listenfromBack,feedbackfromBack)
   },[])
 
 // Recherche collab
@@ -223,7 +224,6 @@ useEffect(()=> {
             iconDisplayEye = { fontSize: '24px', display:'none' }
         }
         iconStyleEye.push(iconDisplayEye)
-        console.log( iconStyleEye)
     }
 
 // Taux de complétion 
@@ -235,7 +235,6 @@ useEffect(()=> {
     }
 
     var completion = (listenCompleted / listenfromBack.length) * 100
-    console.log('completion',completion)
 
     const showModal4 = () => {
         setVisible4(true);
@@ -314,7 +313,7 @@ useEffect(()=> {
                                 </div>
                                 <HistoryOutlined style={{ fontSize: '24px' }}/>
                                 <div>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4()}}
+                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4();setCollabIDFeedback(item._id)}}
                                     />
                                     <LockOutlined style={iconStyleCadena[i]}/>
                                     <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -349,6 +348,26 @@ useEffect(()=> {
                                 </Button>
                         </Form.Item>
                     </Form>
+                </Modal>
+                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                    <h3>Votre feedback</h3>
+                    <h4>Feedback 1:</h4>
+                    <p></p>
+                    <h4>Feedback 2:</h4>
+                    <p></p>
+                    <h3>Son Listen</h3>
+                    <h4>Humeur:</h4>
+                    <p></p>
+                    <h4>Reponse 1:</h4>
+                    <p>{seeListen[i].reponse1}</p>
+                    <h4>Reponse 2:</h4>
+                    <p>{seeListen[i].reponse2}</p>
+                    <h4>Reponse 3:</h4>
+                    <p>{seeListen[i].reponse3}</p>
+                    <h4>Reponse 4:</h4>
+                    <p>{seeListen[i].reponse4}</p>
+                    <h4>Reponse 5:</h4>
+                    <p>{seeListen[i].reponse5}</p>
                 </Modal>
                             </div>
                         ))}
@@ -410,27 +429,6 @@ useEffect(()=> {
                     Confirmer
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
-                </Modal>
-
-                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
-                    <h3>Votre feedback</h3>
-                    <h4>Feedback 1:</h4>
-                    <p></p>
-                    <h4>Feedback 2:</h4>
-                    <p></p>
-                    <h3>Son Listen</h3>
-                    <h4>Humeur:</h4>
-                    <p></p>
-                    <h4>Reponse 1:</h4>
-                    <p></p>
-                    <h4>Reponse 2:</h4>
-                    <p></p>
-                    <h4>Reponse 3:</h4>
-                    <p></p>
-                    <h4>Reponse 4:</h4>
-                    <p></p>
-                    <h4>Reponse 5:</h4>
-                    <p></p>
                 </Modal>
             </div>
         )
