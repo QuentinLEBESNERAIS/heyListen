@@ -185,15 +185,17 @@ router.get('/find-collab', async function(req,res,next){
   console.log('collab', collab)
   for (let i=0; i<collab.length;i++){
     console.log('testtest',collab[i])
-    var listensSearch = await ListenModel.findOne({collab:collab[i], isActive : true})
-    console.log('listensSearch', listensSearch)
+    var listensSearch  = await ListenModel.findOne({collab:collab[i], isActive : true})
     if(listensSearch){
       if (listensSearch.answersCollab != null){
+       
         listen.push(listensSearch.answersCollab = true)
       }else{
+        
         listen.push(listensSearch.answersCollab = false)
       }
       if (listensSearch.answersFeedback != null){
+        
         feedback.push(listensSearch.answersFeedback = true)
       }else{
         feedback.push(listensSearch.answersFeedback = false)

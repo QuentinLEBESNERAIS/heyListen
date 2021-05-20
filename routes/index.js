@@ -151,4 +151,13 @@ router.get('/find-listen', async function(req,res,next){
   }
 })
 
+router.get('/see-listen', async function(req,res,next){
+  var listenCompleted = await ListenModel.findOne({collab: req.query.collab,isActive:true});
+ 
+  var answers = listenCompleted.answersCollab[0]
+  var feedbacks = listenCompleted.answersFeedback[0]
+    res.json({listenCompleted, answers,feedbacks})
+  
+})
+
 module.exports = router;

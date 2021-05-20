@@ -24,10 +24,12 @@ console.log('composant entier --------------')
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [idCollab, setIdCollab] = useState('')
-    const [search, setSearch] = useState('')
+    const [search,setSearch] = useState('')
     const [filteredTeam, setFilteredTeam] = useState([])
     const [pageLoaded, setPageLoaded] = useState(false)
-
+    const [seeListen,setSeeListen] = useState({reponse1: "", reponse2: "", reponse3: "", reponse4: "", reponse5: ""})
+    const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
+    const [seeMood,setSeeMood] = useState(0)
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
@@ -40,27 +42,10 @@ useEffect(()=> {
   setPageLoaded(true)
 }
  if(props.userId.type == 'manager'){getBddCollab()}
- console.log('test',team,listenfromBack,feedbackfromBack)
   },[])
-
-//Tentative useEffect surveillant team
-useEffect(()=> {
-    var getBddCollab = async () => {
-    var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
-    var collabs = await rawResponse.json();
-    setTeam(collabs.collabs)
-    setFilteredTeam(collabs.collabs)
-    setListenfromBack(collabs.collabsListen)
-    setFeedbackFromBack(collabs.collabFeedback)
-    setPageLoaded(true)
-  }
-   if(props.userId.type == 'manager'){getBddCollab()}
-   console.log('test',team,listenfromBack,feedbackfromBack)
-    },[])
 
 // Recherche collab
     useEffect(()=> {
-        console.log('useEffect search----------')
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
     },[search])
@@ -113,7 +98,6 @@ useEffect(()=> {
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
-                    console.log('response', response)
                     const info = () => {
                         message.info(response.response);
                     }
@@ -147,6 +131,21 @@ useEffect(()=> {
         newCampaignLaunch()
     }
 
+    //FONCTION POUR RELANCER TOUS LES COLLAB 
+    const relaunch = async () => {
+        const rawRelaunchData = await fetch('/mail/relaunch', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `idFromFront=${props.userId._id}`
+        }) 
+        let relaunchData = await rawRelaunchData.json()
+        console.log(relaunchData)
+        const info = () => {
+            message.info('Vos collaborateurs ont été relancé');
+        }
+        if(relaunchData==="relancé"){info()}
+
+    }
     // Fonctions pour suppression d'un collab 
 
     const handleDelete = (idCollabToDelete) => {
@@ -173,7 +172,6 @@ useEffect(()=> {
         var getBddCollab = async () => {
             var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
             var collabs = await rawResponse.json();
-            console.log('collabs.collabs', collabs.collabs)
             setFilteredTeam(collabs.collabs)
             setListenfromBack(collabs.collabsListen)
             setFeedbackFromBack(collabs.collabFeedback)
@@ -258,7 +256,6 @@ useEffect(()=> {
             iconDisplayEye = { fontSize: '24px', display:'none' }
         }
         iconStyleEye.push(iconDisplayEye)
-        console.log( iconStyleEye)
     }
 
 // Taux de complétion 
@@ -270,11 +267,24 @@ useEffect(()=> {
     }
 
     var completion = (listenCompleted / listenfromBack.length) * 100
-    console.log('completion',completion)
 
     const showModal4 = () => {
+       
         setVisible4(true);
     };
+
+    var getSeeListen = async (value) => {
+        var Response = await fetch(`/see-listen?collab=${value}`);
+        var listens = await Response.json();
+        setSeeListen(listens.answers)
+        setSeeFeedback(listens.feedbacks)
+        setSeeMood(listens.listenCompleted.mood)
+        console.log('show',seeListen)
+        console.log('show2',seeFeedback)
+        console.log('show3',seeMood)
+    }
+    
+    
 
     const handleOk4 =  () => {
         setVisible4(false);
@@ -289,7 +299,6 @@ useEffect(()=> {
     
       if(props.userId.type==="manager"){
         if (pageLoaded){
-        console.log('console log avant return ------------------')
         return (
             <div>
                 <Nav/>
@@ -324,10 +333,9 @@ useEffect(()=> {
                 </Row>
                 <Row style={{marginTop:20}}>
                     <Col span={8} offset={2}>
-                        <h4 style={{paddingRight:8}}>
-                            <SendOutlined style={{color:'#3d84b8', paddingRight:5}}/>
-                            Envoyer un rappel
-                        </h4>
+                    <Button onClick={relaunch}  icon={<SendOutlined />}>
+                    Relancer tous les collabs
+                    </Button>
                     </Col>
                     <Col span={6} offset={6}>
                         <Form>
@@ -354,7 +362,7 @@ useEffect(()=> {
                                 </div>
                                 <HistoryOutlined style={{ fontSize: '24px' }}/>
                                 <div>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4()}}
+                                    <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
                                     <LockOutlined style={iconStyleCadena[i]}/>
                                     <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -451,26 +459,25 @@ useEffect(()=> {
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-
                 <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <h3>Votre feedback</h3>
                     <h4>Feedback 1:</h4>
-                    <p></p>
+                    <p>{seeFeedback.feedback1}</p>
                     <h4>Feedback 2:</h4>
-                    <p></p>
+                    <p>{seeFeedback.feedback2}</p>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
-                    <p></p>
+                    <p>{seeMood}</p>
                     <h4>Reponse 1:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse1}</p>
                     <h4>Reponse 2:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse2}</p>
                     <h4>Reponse 3:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse3}</p>
                     <h4>Reponse 4:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse4}</p>
                     <h4>Reponse 5:</h4>
-                    <p></p>
+                    <p>{seeListen.reponse5}</p>
                 </Modal>
             </div>
             )

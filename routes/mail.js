@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const nodemailer = require("nodemailer");
+var UserModel = require('../models/users');
+var TeamModel = require('../models/teams');
+var ListenModel = require('../models/listens');
 
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -51,13 +54,22 @@ router.post('/welcome',async function(req, res, next) {
   });
 
   router.post('/relaunch',async function(req, res, next) {
-    let team = await TeamModel.find({manager: userId}).populate('collab').exec()
-        console.log("ma Team =",team)
-        console.log("mes Collabs =",team[0].collab)
-        console.log("combien de Collabs ? ", team[0].collab.length)
-    for(let i=0;i<collab.length;i++)
+    let userId = req.body.idFromFront // du reduceur
+    let listen = await ListenModel.find({manager: userId,isActive:true,completedByCollabAt:null}).populate('collab').exec()
+    console.log("listenlength",listen.length)
+    for(let i=0;i<listen.length;i++){
+        console.log("email:",listen[i].collab.email)
+        let Info = await transporter.sendMail({
+            from: '"Hey Listen 👻" <team.heylisten@gmail.com>', // sender address
+            to: listen[i].collab.email, // list of receivers
+            subject: "Relance Hey Listen", // Subject line
+            text: "Tu n'a pas rempli ton listen. C'est pas bien.", // plain text body
+            html: "<b>Tu n'a pas rempli ton listen. C'est pas bien.</b>", // html body
+          });
         
-    res.json({ result: info });
+    }
+    
+    res.json("relancé");
   });
 
   module.exports = router
