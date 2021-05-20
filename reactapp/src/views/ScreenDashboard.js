@@ -9,7 +9,6 @@ import {Line} from 'react-chartjs-2';
 import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
-console.log('composant entier --------------')
 
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
@@ -44,11 +43,7 @@ useEffect(()=> {
  if(props.userId.type == 'manager'){getBddCollab()}
   },[])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6c7444ccdeeb45355f1c36e500e083dbfc04fdfd
-// Recherche collab
+//  Recherche collab
     useEffect(()=> {
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
@@ -143,7 +138,6 @@ useEffect(()=> {
             body: `idFromFront=${props.userId._id}`
         }) 
         let relaunchData = await rawRelaunchData.json()
-        console.log(relaunchData)
         const info = () => {
             message.info('Vos collaborateurs ont été relancé');
         }
@@ -202,7 +196,6 @@ useEffect(()=> {
 //changement couleur Tab collab
     var tabGlobalListen = []
     for(var i=0; i<listenfromBack.length;i++){
-        console.log('couleur des tags -------------')
     var color
     var text
     var iconDisplayEye 
@@ -225,7 +218,6 @@ useEffect(()=> {
     var iconStyle = []
     var iconStyleCadena =[]
     for(var i=0; i<feedbackfromBack.length;i++){
-        console.log('couleur icones -------------')
         var colorFeedback
         var textFeedback
         var iconDisplay
@@ -283,9 +275,6 @@ useEffect(()=> {
         setSeeListen(listens.answers)
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
-        console.log('show',seeListen)
-        console.log('show2',seeFeedback)
-        console.log('show3',seeMood)
     }
     
     
@@ -298,6 +287,11 @@ useEffect(()=> {
         setVisible4(false);
     };
 
+    var handleStatsRoute = async () =>{
+        var response = await fetch(`/get-stats?manager=${props.userId._id}`);
+        var statsListen = await response.json();
+        console.log(statsListen)
+    }
     
     
     
@@ -483,6 +477,11 @@ useEffect(()=> {
                     <h4>Reponse 5:</h4>
                     <p>{seeListen.reponse5}</p>
                 </Modal>
+                <Button key="test" 
+                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                onClick={() =>handleStatsRoute()}>
+                                    test route
+                </Button>
             </div>
             )
         }
