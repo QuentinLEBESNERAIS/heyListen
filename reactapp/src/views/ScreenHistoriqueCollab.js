@@ -5,7 +5,7 @@ import {StopOutlined,FrownOutlined,SmileOutlined,EyeOutlined,DownOutlined} from 
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
-import _ from 'lodash';
+import _, { isArguments } from 'lodash';
 import moment from 'moment';
 
 function ScreenHistoriqueCollab(props) {
@@ -15,6 +15,7 @@ function ScreenHistoriqueCollab(props) {
     const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[{}]});
     const [year, setYear] = useState('')
     const [selectedListen, setSelectedListen] = useState({})
+    const [firstSelectedListen, setFirstSelectedListen] = useState(true)
 
 //Affichage modale de rappel du listen à remplir
     useEffect(() => {
@@ -57,8 +58,10 @@ function ScreenHistoriqueCollab(props) {
     function chooseListen(listen) {
         //console.log("Test choose Listen = ",listen)
         let listenTemp = listen
+        setFirstSelectedListen(false)
         setSelectedListen(listenTemp)
         console.log("SELECTED LISTEN = ", selectedListen)
+
     }
 
     const menu = (i, years, o, months) => (
@@ -111,59 +114,69 @@ function ScreenHistoriqueCollab(props) {
                         </Row>
                     </Sider>
                     <Content>
-                        <Row>
-                            <Col span={24} offset={0}>
-                                <div className="icon-wrapper">
-                                    <FrownOutlined style={{color:'#A62626'}}/>
-                                    <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value ="2" 
-                                    min={1} max={5}/>
-                                    <SmileOutlined style={{color:'#448f30'}}/>
-                                </div>
+                        {firstSelectedListen === true &&
+                            <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
+                                <Typography.Text> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
                             </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>Question 1</Typography.Text>
+                        }
+                                
+                        {firstSelectedListen === false &&
+                                <Row>
+                                <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:20}}>
+                                    <Typography.Text>{moment(selectedListen.createdAt).format('DD-MM-YYYY')}</Typography.Text>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse Question 1" disabled="trues"/>
-                            </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>Question 2</Typography.Text>
+                                <Col span={24} offset={0}>
+                                    <div className="icon-wrapper">
+                                        <FrownOutlined style={{color:'#A62626'}}/>
+                                        <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={selectedListen.mood} min={1} max={5}/>
+                                        <SmileOutlined style={{color:'#448f30'}}/>
+                                    </div>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse Question 2" disabled="trues"/>
-                            </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>Question 3</Typography.Text>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>Question 1</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse1: "Vide"} disabled="true"/>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse Question 3" disabled="trues"/>
-                            </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>Question 4</Typography.Text>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>Question 2</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse2: "Vide"} disabled="true"/>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse Question 4" disabled="trues"/>
-                            </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>Question 5</Typography.Text>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>Question 3</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse3: "Vide"} disabled="true"/>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse Question 5" disabled="trues"/>
-                            </Col>
-                            <Divider>FeedBack Manager</Divider>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>FeedBack 1</Typography.Text>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>Question 4</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse4: "Vide"} disabled="true"/>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse FeedBack 1" disabled="trues"/>
-                            </Col>
-                            <Col span={22} offset={2}>
-                                <Col style={{marginBottom:4}}>
-                                    <Typography.Text>FeedBack 2</Typography.Text>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>Question 5</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse5: "Vide"} disabled="true"/>
                                 </Col>
-                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder="Réponse FeedBack 2" disabled="trues"/>
-                            </Col>
-                        </Row>
+                                <Divider>FeedBack Manager</Divider>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>FeedBack 1</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback1: "Vide"} disabled="true"/>
+                                </Col>
+                                <Col span={22} offset={2}>
+                                    <Col style={{marginBottom:4}}>
+                                        <Typography.Text>FeedBack 2</Typography.Text>
+                                    </Col>
+                                    <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback2: "Vide"} disabled="true"/>
+                                </Col>
+                            </Row>
+                        }
                     </Content>
                     
                     <Modal visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>

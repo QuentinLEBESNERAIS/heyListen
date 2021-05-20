@@ -160,4 +160,13 @@ router.get('/see-listen', async function(req,res,next){
   
 })
 
+router.get('/get-stats', async function(req,res,next){
+  var dateOffset = (24*60*60*1000)*151
+  var myDate = new Date()
+  myDate.setTime(myDate.getTime() - dateOffset)
+  myDate.setDate(1)
+  var statsListen = await ListenModel({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}});
+  console.log(statsListen)
+})
+
 module.exports = router;
