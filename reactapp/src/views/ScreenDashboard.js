@@ -9,6 +9,8 @@ import {Line} from 'react-chartjs-2';
 import { filter } from 'lodash';
 
 function ScreenDashboard(props) {
+console.log('composant entier --------------')
+
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
@@ -22,12 +24,12 @@ function ScreenDashboard(props) {
     const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [idCollab, setIdCollab] = useState('')
-    const [search,setSearch] = useState('')
-    const [filterdedTeam,setFilteredTeam] = useState([])
+    const [search, setSearch] = useState('')
+    const [filteredTeam, setFilteredTeam] = useState([])
+    const [pageLoaded, setPageLoaded] = useState(false)
 
 //Affichage collab 
 useEffect(()=> {
-    console.log('test id manager',props.userId._id)
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
@@ -35,13 +37,30 @@ useEffect(()=> {
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
- }
+  setPageLoaded(true)
+}
  if(props.userId.type == 'manager'){getBddCollab()}
  console.log('test',team,listenfromBack,feedbackfromBack)
   },[])
 
+//Tentative useEffect surveillant team
+useEffect(()=> {
+    var getBddCollab = async () => {
+    var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+    var collabs = await rawResponse.json();
+    setTeam(collabs.collabs)
+    setFilteredTeam(collabs.collabs)
+    setListenfromBack(collabs.collabsListen)
+    setFeedbackFromBack(collabs.collabFeedback)
+    setPageLoaded(true)
+  }
+   if(props.userId.type == 'manager'){getBddCollab()}
+   console.log('test',team,listenfromBack,feedbackfromBack)
+    },[])
+
 // Recherche collab
     useEffect(()=> {
+        console.log('useEffect search----------')
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
     },[search])
@@ -128,6 +147,8 @@ useEffect(()=> {
         newCampaignLaunch()
     }
 
+    // Fonctions pour suppression d'un collab 
+
     const handleDelete = (idCollabToDelete) => {
         setVisible3(true);
         setIdCollab(idCollabToDelete);
@@ -138,6 +159,7 @@ useEffect(()=> {
     };
 
     const suppressionCollab = async () => {
+        
         var suppCollab = async () => {
             await fetch('users/delete-collab', {
                 method: 'PUT',
@@ -147,6 +169,17 @@ useEffect(()=> {
         } 
         suppCollab();
         setVisible3(false);
+        setPageLoaded(false)
+        var getBddCollab = async () => {
+            var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+            var collabs = await rawResponse.json();
+            console.log('collabs.collabs', collabs.collabs)
+            setFilteredTeam(collabs.collabs)
+            setListenfromBack(collabs.collabsListen)
+            setFeedbackFromBack(collabs.collabFeedback)
+            setPageLoaded(true)
+        }
+        if(props.userId.type == 'manager'){getBddCollab()}
     };
 
 // Charts
@@ -167,6 +200,7 @@ useEffect(()=> {
 //changement couleur Tab collab
     var tabGlobalListen = []
     for(var i=0; i<listenfromBack.length;i++){
+        console.log('couleur des tags -------------')
     var color
     var text
     var iconDisplayEye 
@@ -189,6 +223,7 @@ useEffect(()=> {
     var iconStyle = []
     var iconStyleCadena =[]
     for(var i=0; i<feedbackfromBack.length;i++){
+        console.log('couleur icones -------------')
         var colorFeedback
         var textFeedback
         var iconDisplay
@@ -249,7 +284,9 @@ useEffect(()=> {
         setVisible4(false);
     };
 
+    if(pageLoaded){
     if(props.userId.type==="manager"){
+        console.log('console log avant return ------------------')
         return (
             <div>
                 <Nav/>
@@ -300,7 +337,7 @@ useEffect(()=> {
                 <Row>
                     <Col span={22} offset={1}>
                         <List itemLayout="horizontal">
-                        {filterdedTeam.map((item,i) => (
+                        {filteredTeam.map((item,i) => (
                             <div key={i}>
                             <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
                                 <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
@@ -436,6 +473,13 @@ useEffect(()=> {
         )
     }
     else {return <Redirect to='/historique-collab'/> };
+} else {
+    return (
+        <Row justify="center" align="middle" style={{height:'100vh'}}>
+            <Col ><img src='./Spinner-1s-200px.gif'/></Col>
+        </Row>
+   )
+}
 }
 
 function mapStateToProps(state) {
