@@ -26,7 +26,14 @@ function ScreenSignUpManager(props) {
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         response=await response.json()
-        console.log(response)
+        
+        var responseMail = await fetch('/mail/welcome',{
+          method:"POST",
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
+        })
+        
+        console.log("reponsemail",responseMail)
         setSignUpError(response.response)
         if(response.user)
         {props.userToReducer(response.user)
