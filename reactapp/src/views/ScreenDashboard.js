@@ -32,7 +32,7 @@ useEffect(()=> {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
-  setFilteredTeam(collabs.collabs)
+  setFilteredTeam(collabs.collabs)      
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
  }
