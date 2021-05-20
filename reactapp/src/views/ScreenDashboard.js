@@ -44,7 +44,10 @@ useEffect(()=> {
  if(props.userId.type == 'manager'){getBddCollab()}
   },[])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6c7444ccdeeb45355f1c36e500e083dbfc04fdfd
 // Recherche collab
     useEffect(()=> {
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
@@ -132,6 +135,21 @@ useEffect(()=> {
         newCampaignLaunch()
     }
 
+    //FONCTION POUR RELANCER TOUS LES COLLAB 
+    const relaunch = async () => {
+        const rawRelaunchData = await fetch('/mail/relaunch', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `idFromFront=${props.userId._id}`
+        }) 
+        let relaunchData = await rawRelaunchData.json()
+        console.log(relaunchData)
+        const info = () => {
+            message.info('Vos collaborateurs ont été relancé');
+        }
+        if(relaunchData==="relancé"){info()}
+
+    }
     // Fonctions pour suppression d'un collab 
 
     const handleDelete = (idCollabToDelete) => {
@@ -319,10 +337,9 @@ useEffect(()=> {
                 </Row>
                 <Row style={{marginTop:20}}>
                     <Col span={8} offset={2}>
-                        <h4 style={{paddingRight:8}}>
-                            <SendOutlined style={{color:'#3d84b8', paddingRight:5}}/>
-                            Envoyer un rappel
-                        </h4>
+                    <Button onClick={relaunch}  icon={<SendOutlined />}>
+                    Relancer tous les collabs
+                    </Button>
                     </Col>
                     <Col span={6} offset={6}>
                         <Form>
