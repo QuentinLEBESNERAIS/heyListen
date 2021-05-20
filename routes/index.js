@@ -150,4 +150,12 @@ router.get('/find-listen', async function(req,res,next){
   }
 })
 
+router.get('/see-listen', async function(req,res,next){
+  var listenCompleted = await ListenModel.findOne({collab: req.query.collab,isActive:true});
+  console.log('listenCompleted',listenCompleted)
+  
+    res.json({listenCompleted})
+  
+})
+
 module.exports = router;

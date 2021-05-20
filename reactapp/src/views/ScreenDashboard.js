@@ -25,11 +25,11 @@ function ScreenDashboard(props) {
     const [search,setSearch] = useState('')
     const [filterdedTeam,setFilteredTeam] = useState([])
     const [seeListen,setSeeListen] = useState([])
-    const [seeFeedback,setSeeFeedback] = useState()
+    const [seeFeedback,setSeeFeedback] = useState([])
+    const [seeMood,setSeeMood] = useState('')
 
 //Affichage collab 
 useEffect(()=> {
-    console.log('test id manager',props.userId._id)
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
@@ -241,7 +241,21 @@ useEffect(()=> {
 
     var completion = (listenCompleted / listenfromBack.length) * 100
 
-    const showModal4 = () => {
+    const showModal4 = (value) => {
+        setCollabIDFeedback(value)
+        console.log(collabIDFeedback)
+        var getBddCollab = async () => {
+            var Response = await fetch(`/see-listen?collab=${collabIDFeedback}`);
+            var listens = await Response.json();
+            setSeeListen(listens.listenCompleted.answersCollab)
+            setSeeFeedback(listens.listenCompleted.answersFeedback)
+            setSeeMood(listens.listenCompleted.mood)
+            console.log('show',listens.listenCompleted.answersFeedback)
+            console.log('show2',seeFeedback)
+            console.log('show3',seeMood)
+        }
+        
+        getBddCollab()
         setVisible4(true);
     };
 
@@ -318,7 +332,7 @@ useEffect(()=> {
                                 </div>
                                 <HistoryOutlined style={{ fontSize: '24px' }}/>
                                 <div>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => {showModal4();setCollabIDFeedback(item._id)}}
+                                    <EyeOutlined style={iconStyleEye[i]} onClick={() => showModal4(item._id)}
                                     />
                                     <LockOutlined style={iconStyleCadena[i]}/>
                                     <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
@@ -353,26 +367,6 @@ useEffect(()=> {
                                 </Button>
                         </Form.Item>
                     </Form>
-                </Modal>
-                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
-                    <h3>Votre feedback</h3>
-                    <h4>Feedback 1:</h4>
-                    <p></p>
-                    <h4>Feedback 2:</h4>
-                    <p></p>
-                    <h3>Son Listen</h3>
-                    <h4>Humeur:</h4>
-                    <p></p>
-                    <h4>Reponse 1:</h4>
-                    <p>{seeListen[i].reponse1}</p>
-                    <h4>Reponse 2:</h4>
-                    <p>{seeListen[i].reponse2}</p>
-                    <h4>Reponse 3:</h4>
-                    <p>{seeListen[i].reponse3}</p>
-                    <h4>Reponse 4:</h4>
-                    <p>{seeListen[i].reponse4}</p>
-                    <h4>Reponse 5:</h4>
-                    <p>{seeListen[i].reponse5}</p>
                 </Modal>
                             </div>
                         ))}
@@ -434,6 +428,26 @@ useEffect(()=> {
                     Confirmer
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
+                </Modal>
+                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                    <h3>Votre feedback</h3>
+                    <h4>Feedback 1:</h4>
+                    <p></p>
+                    <h4>Feedback 2:</h4>
+                    <p></p>
+                    <h3>Son Listen</h3>
+                    <h4>Humeur:</h4>
+                    <p>{seeMood}</p>
+                    <h4>Reponse 1:</h4>
+                    <p></p>
+                    <h4>Reponse 2:</h4>
+                    <p></p>
+                    <h4>Reponse 3:</h4>
+                    <p></p>
+                    <h4>Reponse 4:</h4>
+                    <p></p>
+                    <h4>Reponse 5:</h4>
+                    <p></p>
                 </Modal>
             </div>
         )
