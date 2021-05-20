@@ -44,10 +44,6 @@ useEffect(()=> {
  if(props.userId.type == 'manager'){getBddCollab()}
   },[])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6c7444ccdeeb45355f1c36e500e083dbfc04fdfd
 // Recherche collab
     useEffect(()=> {
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
