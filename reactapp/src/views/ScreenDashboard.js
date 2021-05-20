@@ -94,6 +94,11 @@ useEffect(()=> {
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
+                    var responseRaw = await fetch('/mail/invite', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: `collabEmail=${collabEmail}`
+                    });
                     console.log('response', response)
                     const info = () => {
                         message.info(response.response);
