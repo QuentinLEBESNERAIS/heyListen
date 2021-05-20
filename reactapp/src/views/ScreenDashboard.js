@@ -34,7 +34,7 @@ useEffect(()=> {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
-  setFilteredTeam(collabs.collabs)      
+  setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
   setPageLoaded(true)
@@ -113,11 +113,6 @@ useEffect(()=> {
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
                     var response = await responseRaw.json();
-                    var responseRaw = await fetch('/mail/invite', {
-                        method: 'POST',
-                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                        body: `collabEmail=${collabEmail}`
-                    });
                     console.log('response', response)
                     const info = () => {
                         message.info(response.response);
@@ -289,8 +284,11 @@ useEffect(()=> {
         setVisible4(false);
     };
 
-    if(pageLoaded){
-    if(props.userId.type==="manager"){
+    
+    
+    
+      if(props.userId.type==="manager"){
+        if (pageLoaded){
         console.log('console log avant return ------------------')
         return (
             <div>
@@ -475,17 +473,22 @@ useEffect(()=> {
                     <p></p>
                 </Modal>
             </div>
-        )
+            )
+        }
+        else {
+            return (
+                <Row justify="center" align="middle" style={{height:'100vh'}}>
+                    <Col ><img src='./Spinner-1s-200px.gif'/></Col>
+                </Row>
+           )
+         }}
+
+        
+ else {
+        return (<Redirect to='/historique-collab'/>)
     }
-    else {return <Redirect to='/historique-collab'/> };
-} else {
-    return (
-        <Row justify="center" align="middle" style={{height:'100vh'}}>
-            <Col ><img src='./Spinner-1s-200px.gif'/></Col>
-        </Row>
-   )
 }
-}
+
 
 function mapStateToProps(state) {
     return { userId: state.user }
