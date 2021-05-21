@@ -139,6 +139,11 @@ var handleStatsRoute = async () =>{
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
+                    var responseMailRaw = await fetch('/mail/invite', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: `collabEmail=${collabEmail}`
+                    });
                     var response = await responseRaw.json();
                     const info = () => {
                         message.info(response.response);
@@ -228,7 +233,7 @@ var handleStatsRoute = async () =>{
     const state = {
         labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 3, 3, 4, 5, 3]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 1, 3, 4, 5, 3]}
         ]
     }
 

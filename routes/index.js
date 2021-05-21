@@ -141,6 +141,14 @@ router.post('/matriochkaCollab', async function(req, res, next) {
   res.json ({matriochka})
 });
 
+router.post('/find-Collab', async function(req, res, next) {
+  let userId = req.body.idFromFront
+  let myTeam = await TeamModel.findOne({ manager: userId }).populate('collab', null, {isActive: true}).exec();
+  console.log("My TEAM =", myTeam)
+  //console.log("My COLLAB =", myTeam.collab[0])
+  res.json ({myTeam})
+});
+
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
   var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
@@ -148,6 +156,7 @@ router.get('/find-listen', async function(req,res,next){
   res.json({listenToDo: isListenToDo,listenToSee:isListenToSee})
 })
 
+/* GET SEE-LISTEN function-route. */
 router.get('/see-listen', async function(req,res,next){
   var listenCompleted = await ListenModel.findOne({collab: req.query.collab,isActive:true});
  
@@ -157,6 +166,7 @@ router.get('/see-listen', async function(req,res,next){
   
 })
 
+/* GET GET-STATS function-route. */
 router.get('/get-stats', async function(req,res,next){
   var dateOffset = (24*60*60*1000)*151
   var myDate = new Date()
