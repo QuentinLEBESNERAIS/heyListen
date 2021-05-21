@@ -143,12 +143,9 @@ router.post('/matriochkaCollab', async function(req, res, next) {
 
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
-  var isListenToComplete = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
-  if (isListenToComplete) {
-    res.json({response: true})
-  } else {
-    res.json({response: false})
-  }
+  var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
+  var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
+  res.json({listenToDo: isListenToDo,listenToSee:isListenToSee})
 })
 
 router.get('/see-listen', async function(req,res,next){

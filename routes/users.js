@@ -139,6 +139,17 @@ router.post('/add-collab', async function(req, res, next) {
   userExist = await newUser.save()
   console.log('savedUser', userExist)}
 
+  if(userExist) {
+    console.log('userExist._id', userExist._id)
+  var previousTeam = await TeamModel.findOne({collab: userExist._id})
+  console.log('previousTeam', previousTeam);
+  if (previousTeam) {
+    var newTeam = previousTeam.collab.filter(element => element != `${userExist._id}`);
+    console.log('newTeam', newTeam)
+    await TeamModel.updateOne({collab: userExist._id},{collab: newTeam})
+  }
+  }
+
   var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
