@@ -143,12 +143,9 @@ router.post('/matriochkaCollab', async function(req, res, next) {
 
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
-  var isListenToComplete = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
-  if (isListenToComplete) {
-    res.json({response: true})
-  } else {
-    res.json({response: false})
-  }
+  var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
+  var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
+  res.json({listenToDo: isListenToDo,listenToSee:isListenToSee})
 })
 
 router.get('/see-listen', async function(req,res,next){
@@ -165,8 +162,53 @@ router.get('/get-stats', async function(req,res,next){
   var myDate = new Date()
   myDate.setTime(myDate.getTime() - dateOffset)
   myDate.setDate(1)
-  var statsListen = await ListenModel({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}});
-  console.log(statsListen)
+  var statsListen = await ListenModel.find({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}, answersCollab:{ $ne: null }});
+  var statsMood = []
+  for(let i=0;i<statsListen.length;i++){
+    statsMood.push({date:statsListen[i].createdAt,mood:statsListen[i].mood})
+  }
+  statsMood.sort((a, b) => a.date - b.date)
+
+  for(let i= 0 ; i<statsMood.length;i++){
+    if(statsMood[i].date.getMonth()== 00){
+      statsMood[i].date = 'Janvier'
+    }
+   else if(statsMood[i].date.getMonth()== 01){
+      statsMood[i].date = 'Février'
+    }
+    else if(statsMood[i].date.getMonth()== 02){
+      statsMood[i].date = 'Mars'
+    }
+    else if(statsMood[i].date.getMonth()== 03){
+      statsMood[i].date = 'Avril'
+    }
+    else if(statsMood[i].date.getMonth()== 04){
+      statsMood[i].date = 'Mai'
+    }
+    else if(statsMood[i].date.getMonth()== 05){
+      statsMood[i].date = 'Juin'
+    }
+    else if(statsMood[i].date.getMonth()== 06){
+      statsMood[i].date = 'Juillet'
+    }
+    else if(statsMood[i].date.getMonth()== 07){
+      statsMood[i].date = 'Août'
+    }
+    else if(statsMood[i].date.getMonth()== 08){
+      statsMood[i].date = 'Septembre'
+    }
+    else if(statsMood[i].date.getMonth()== 09){
+      statsMood[i].date = 'Octobre'
+    }
+    else if(statsMood[i].date.getMonth()== 10){
+      statsMood[i].date = 'Novembre'
+    }
+    else if(statsMood[i].date.getMonth()== 11){
+      statsMood[i].date = 'Décembre'
+    }
+  }
+  console.log('statsMood',statsMood)
+  res.json({statsMood})
 })
 
 module.exports = router;

@@ -7,15 +7,19 @@ import { SettingOutlined} from '@ant-design/icons';
 
 function Nav(props) {
   const [listenToDo,setListenToDo] = useState(false)
+  const [listenToSee,setListenToSee] = useState(false)
   const { SubMenu } = Menu;
 
   useEffect( async () => {
     console.log("chargementnavbar")
         var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
         var foundListen = await rawResponse.json();
-        if (foundListen.response == true){
-        console.log('foundListen.response', foundListen.response)
+        console.log("finListenResponse", foundListen)
+        if (foundListen.listenToDo){
         setListenToDo(true)
+        if (foundListen.listenToSee){
+        setListenToSee(true)  
+        }
         
     }
     },[])
@@ -24,8 +28,10 @@ function Nav(props) {
   },[props.user])
 
   if(!props.user){return (<Redirect to='/'/>)}
-  var badge
-  if(listenToDo===false){badge={display:"none"}}
+  var badgeListenToDo
+  if(listenToDo===false){badgeListenToDo={display:"none"}}
+  var badgeListenToSee
+  if(listenToSee===false){badgeListenToSee={display:"none"}}
   
   if(props.user.type==="manager"){
     return (
@@ -53,8 +59,13 @@ function Nav(props) {
           <Link to="/historique-manager" >Historique</Link>
         </Menu.Item>
         <Menu.Item disabled={!listenToDo} key="listen" >
-          <Badge dot style={badge} >
+          <Badge dot style={badgeListenToDo} >
             <Link to="/listen" >Faire mon Listen</Link>
+          </Badge>
+        </Menu.Item>
+        <Menu.Item disabled={!listenToSee} key="listen" >
+          <Badge dot style={badgeListenToSee} >
+            <Link to="/listen" >Voir mon listen</Link>
           </Badge>
         </Menu.Item>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
