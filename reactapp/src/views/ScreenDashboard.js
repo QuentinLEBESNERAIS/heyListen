@@ -503,26 +503,26 @@ var handleStatsRoute = async () =>{
                     <Row>
                         <Col span={6} offset={1}>
                     <h3 strong>Votre feedback</h3>
-                    <h4>Feedback 1:</h4>
+                    <h4>Qu'avez vous pensez de la performance de Luke ?</h4>
                     <p type="secondary">{seeFeedback.feedback1}</p>
-                    <h4>Feedback 2:</h4>
+                    <h4>Qu'attendez vous de ce collaborateur pour le mois prochain ?</h4>
                     <p type="secondary">{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={6} offset={1}>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
                     <p type="secondary">{seeMood}</p>
-                    <h4 >Reponse 1:</h4>
+                    <h4 >Les points positifs de la période:</h4>
                     <p type="secondary">{seeListen.reponse1}</p>
-                    <h4>Reponse 2:</h4>
+                    <h4>Quelles ont été les difficultés de la période?</h4>
                     <p type="secondary">{seeListen.reponse2}</p>
                     </Col>
                     <Col span={6} offset={1}> 
-                    <h4>Reponse 3:</h4>
+                    <h4>Mon objectif prioritaire pour le mois prochain:</h4>
                     <p type="secondary">{seeListen.reponse3}</p>
-                    <h4>Reponse 4:</h4>
+                    <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
                     <p type="secondary">{seeListen.reponse4}</p>
-                    <h4>Reponse 5:</h4>
+                    <h4>Un point sur lequel j'aimerai revenir:</h4>
                     <p type="secondary">{seeListen.reponse5}</p>
                     </Col>
                     </Row>
