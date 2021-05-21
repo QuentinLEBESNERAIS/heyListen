@@ -29,7 +29,7 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
-    const [stats,setSats] = useState([])
+    const [stats,setStats] = useState([{date: "Décembre", mood: 5},{date: "Janvier", mood: 0},{date: "Février", mood: 0},{date: "Mars", mood: 0},{date: "Avril", mood: 0},{date: "Mai", mood: 0}])
 
 //Affichage collab 
 useEffect(()=> {
@@ -40,13 +40,13 @@ useEffect(()=> {
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
-  setPageLoaded(true)
 }
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
     console.log(statsListen)
-    setSats(statsListen.statsMood)
+    await setStats(statsListen.statsMood)
+    setPageLoaded(true)
 }
  if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('sats',stats)}
   },[])
@@ -61,7 +61,13 @@ var handleStatsRoute = async () =>{
     setFeedbackFromBack(collabs.collabFeedback)
     setPageLoaded(true)
   }
-   if(props.userId.type == 'manager'){getBddCollab()}
+  var handleStatsRoute = async () =>{
+    var response = await fetch(`/get-stats?manager=${props.userId._id}`);
+    var statsListen = await response.json();
+    console.log(statsListen)
+    setStats(statsListen.statsMood)
+}
+   if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
 
 // Recherche collab
