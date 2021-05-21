@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Col, Input, Row, Alert, Space, Button, message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
-import { set } from 'mongoose';
 
 function ScreenSignUpCollab(props) {
   const [firstName,setFirstName] = useState("")
@@ -25,22 +24,26 @@ function ScreenSignUpCollab(props) {
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
-        response=await response.json()
+        response = await response.json()
+        console.log('response', response)
         var responseMail = await fetch('/mail/activate',{
           method:"POST",
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         setSignUpError(response.response)
+        console.log('response.response', response.response)
         if(response.user)
         {props.userToReducer(response.user)
         if(response.response==="compte crée"){
+          console.log('avant set état dans condition if')
           setUserCreated(true)
           const info = () => {
             message.info('Compte crée avec succès');
           }
           info();}}
       }
+      console.log('fin de la fonction sign up')
     signUp()
     }
   }
@@ -54,7 +57,8 @@ closable
 />}
 
   if(userCreated){
-    return <Redirect to="/historique-collab"/>
+    console.log('avant redirect historique collab')
+    return (<Redirect to="/historique-collab"/>)
   }
   return (
     <div className="background">

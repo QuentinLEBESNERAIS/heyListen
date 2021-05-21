@@ -140,6 +140,11 @@ var handleStatsRoute = async () =>{
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
+                    var responseMailRaw = await fetch('/mail/invite', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: `collabEmail=${collabEmail}`
+                    });
                     var response = await responseRaw.json();
                     const info = () => {
                         message.info(response.response);
@@ -356,7 +361,7 @@ var handleStatsRoute = async () =>{
                 height={50}
                 data={state}
                 options={{
-
+                    animation: false,
                     title:{
                     display:false,
                     },
@@ -498,7 +503,7 @@ var handleStatsRoute = async () =>{
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                <Modal style={{width: '900px', height: '700px'}} title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <Row>
                         <Col span={6} offset={1}>
                     <h3 strong>Votre feedback</h3>
