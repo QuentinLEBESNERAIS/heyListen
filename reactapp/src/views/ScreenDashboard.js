@@ -29,6 +29,7 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
+    const [stats,setSats] = useState([])
 
 //Affichage collab 
 useEffect(()=> {
@@ -41,7 +42,13 @@ useEffect(()=> {
   setFeedbackFromBack(collabs.collabFeedback)
   setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab()}
+var handleStatsRoute = async () =>{
+    var response = await fetch(`/get-stats?manager=${props.userId._id}`);
+    var statsListen = await response.json();
+    console.log(statsListen)
+    setSats(statsListen.statsMood)
+}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('sats',stats)}
   },[])
 
   useEffect(()=> {
@@ -190,9 +197,9 @@ useEffect(()=> {
 
 // Charts
     const state = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: [stats[0].date, stats[1].date, stats[2].date, stats[3].date, stats[4].date, stats[5].date],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [3, 5, 4, 1, 3, 2]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [stats[0].mood, stats[1].mood, stats[2].mood, stats[3].mood, stats[4].mood, stats[5].mood]}
         ]
     }
 
@@ -297,11 +304,7 @@ useEffect(()=> {
         setVisible4(false);
     };
 
-    var handleStatsRoute = async () =>{
-        var response = await fetch(`/get-stats?manager=${props.userId._id}`);
-        var statsListen = await response.json();
-        console.log(statsListen)
-    }
+   
     
     
     
@@ -468,30 +471,33 @@ useEffect(()=> {
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
                 <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
-                    <h3>Votre feedback</h3>
+                    <Row>
+                        <Col span={6} offset={1}>
+                    <h3 strong>Votre feedback</h3>
                     <h4>Feedback 1:</h4>
-                    <p>{seeFeedback.feedback1}</p>
+                    <p type="secondary">{seeFeedback.feedback1}</p>
                     <h4>Feedback 2:</h4>
-                    <p>{seeFeedback.feedback2}</p>
+                    <p type="secondary">{seeFeedback.feedback2}</p>
+                    </Col>
+                    <Col span={6} offset={1}>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
-                    <p>{seeMood}</p>
-                    <h4>Reponse 1:</h4>
-                    <p>{seeListen.reponse1}</p>
+                    <p type="secondary">{seeMood}</p>
+                    <h4 >Reponse 1:</h4>
+                    <p type="secondary">{seeListen.reponse1}</p>
                     <h4>Reponse 2:</h4>
-                    <p>{seeListen.reponse2}</p>
+                    <p type="secondary">{seeListen.reponse2}</p>
+                    </Col>
+                    <Col span={6} offset={1}> 
                     <h4>Reponse 3:</h4>
-                    <p>{seeListen.reponse3}</p>
+                    <p type="secondary">{seeListen.reponse3}</p>
                     <h4>Reponse 4:</h4>
-                    <p>{seeListen.reponse4}</p>
+                    <p type="secondary">{seeListen.reponse4}</p>
                     <h4>Reponse 5:</h4>
-                    <p>{seeListen.reponse5}</p>
+                    <p type="secondary">{seeListen.reponse5}</p>
+                    </Col>
+                    </Row>
                 </Modal>
-                <Button key="test" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                                onClick={() =>handleStatsRoute()}>
-                                    test route
-                </Button>
             </div>
             )
         }
