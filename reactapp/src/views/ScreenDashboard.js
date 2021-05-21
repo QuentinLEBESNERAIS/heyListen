@@ -29,32 +29,59 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
+    const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
 
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
-  //setTeam(collabs.collabs)
+  setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
-  setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab()}
+
+var handleStatsRoute = async () =>{
+    var response = await fetch(`/get-stats?manager=${props.userId._id}`);
+    var statsListen = await response.json();
+    console.log('oooooo',statsListen.statsMood.length)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
+    setPageLoaded(true)
+}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
   },[])
 
+  console.log('stats',stats)
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
     var collabs = await rawResponse.json();
-    //setTeam(collabs.collabs)
+    setTeam(collabs.collabs)
     setFilteredTeam(collabs.collabs)
     setListenfromBack(collabs.collabsListen)
     setFeedbackFromBack(collabs.collabFeedback)
     setPageLoaded(true)
   }
-   if(props.userId.type == 'manager'){getBddCollab()}
+  var handleStatsRoute = async () =>{
+    var response = await fetch(`/get-stats?manager=${props.userId._id}`);
+    var statsListen = await response.json();
+    console.log(statsListen)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
+}
+   if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
 
 // Recherche collab
@@ -75,6 +102,8 @@ useEffect(()=> {
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `id=${collabIDFeedback}&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
+            setFeedbackOne('');
+            setFeedbackTwo('');
         }
         saveFeedback();
         setVisible1(false);
@@ -115,6 +144,12 @@ useEffect(()=> {
                         message.info(response.response);
                     }
                     info();
+                    console.log('response.newManagerTeam', response.newManagerTeam)
+                    setFilteredTeam(response.newManagerTeam)
+
+                    setListenfromBack(response.collabsListen)
+                    setFeedbackFromBack(response.collabFeedback)
+                    setCollabEmail('')
                 } 
                 await saveCollab()
                 setVisible2(false);
@@ -124,6 +159,7 @@ useEffect(()=> {
 
     const handleCancel2 = () => {
         setVisible2(false);
+        setCollabEmail('')
     };
 
 // NEW CAMPAIGN
@@ -190,9 +226,9 @@ useEffect(()=> {
 
 // Charts
     const state = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [3, 5, 4, 1, 3, 2]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 3, 3, 4, 5, 3]}
         ]
     }
 
@@ -297,11 +333,7 @@ useEffect(()=> {
         setVisible4(false);
     };
 
-    var handleStatsRoute = async () =>{
-        var response = await fetch(`/get-stats?manager=${props.userId._id}`);
-        var statsListen = await response.json();
-        console.log(statsListen)
-    }
+   
     
     
     
@@ -377,45 +409,45 @@ useEffect(()=> {
                                 </div>
                             </List.Item>
                             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
-                    <Form layout="vertical" >
-                        <h2 className='input-listen'> 
-                            {<Image width='30px' src="./logo-transparent.png" />}
-                            Concernant Michel Dupont :
-                        </h2>
-                        <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
-                        className='input-listen' >
-                            <Input onChange={(e) => setFeedbackOne(e.target.value)}
-                            value={feedbackOne}/>
-                        </Form.Item>
-                        <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
-                        className='input-listen'>
-                            <Input onChange={(e) => setFeedbackTwo(e.target.value)}
-                            value={feedbackTwo}/>
-                        </Form.Item>
-                        <Form.Item layout="horizontal" style={{marginTop:30}}>
-                                <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:240}}
-                                onClick={handleCancel1}>
-                                    Annuler
-                                </Button>
-                                <Button key="submit" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                                onClick={()=> handleOk1() }>
-                                Valider
-                                </Button>
-                        </Form.Item>
-                    </Form>
-                </Modal>
+                                        <Form layout="vertical" >
+                                            <h2 className='input-listen'> 
+                                            {<Image width='30px' src="./logo-transparent.png" />}
+                                            Concernant Luke Skywalker :
+                                    </h2>
+                                <Form.Item label="Qu'avez vous pensez de la performance de Luke ?" 
+                                className='input-listen' >
+                                    <Input onChange={(e) => setFeedbackOne(e.target.value)}
+                                    value={feedbackOne}/>
+                                </Form.Item>
+                                <Form.Item label="Qu'attendez vous de Luke pour le mois prochain ?" 
+                                className='input-listen'>
+                                    <Input onChange={(e) => setFeedbackTwo(e.target.value)}
+                                    value={feedbackTwo}/>
+                                </Form.Item>
+                                <Form.Item layout="horizontal" style={{marginTop:30}}>
+                                        <Button key="back" htmlType="submit" 
+                                        style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                                        onClick={handleCancel1}>
+                                            Annuler
+                                        </Button>
+                                        <Button key="submit" 
+                                        style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                        onClick={()=> handleOk1() }>
+                                        Valider
+                                        </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                             </div>
                         ))}
                         </List>  
                     </Col>
                 </Row> 
                 <Row style={{marginTop:20}}>
-                <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
+                <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col onClick={showModal2} span={8} offset={2}>
-                    <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur
+                    <Button onClick={showModal2} style={{marginBottom:'10px'}} icon={<UserAddOutlined />}>
+                    Ajouter un collaborateur à mon équipe
                     </Button>
                     </Col>
                     </Popover>
@@ -425,7 +457,7 @@ useEffect(()=> {
                         title="Attention : Tous les Listen non complétés seront archivés"
                         onConfirm={confirm}
                         okText="Je lance une nouvelle campagne"
-                        cancelText="No"
+                        cancelText="Retour"
                         >
                         <Button>Lancer une nouvelle campagne Listen</Button>
                     </Popconfirm>
@@ -468,31 +500,34 @@ useEffect(()=> {
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
                 <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
-                    <h3>Votre feedback</h3>
-                    <h4>Feedback 1:</h4>
-                    <p>{seeFeedback.feedback1}</p>
-                    <h4>Feedback 2:</h4>
-                    <p>{seeFeedback.feedback2}</p>
+                    <Row>
+                        <Col span={6} offset={1}>
+                    <h3 strong>Votre feedback</h3>
+                    <h4>Qu'avez vous pensez de la performance de Luke ?</h4>
+                    <p type="secondary">{seeFeedback.feedback1}</p>
+                    <h4>Qu'attendez vous de ce collaborateur pour le mois prochain ?</h4>
+                    <p type="secondary">{seeFeedback.feedback2}</p>
+                    </Col>
+                    <Col span={6} offset={1}>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
-                    <p>{seeMood}</p>
-                    <h4>Reponse 1:</h4>
-                    <p>{seeListen.reponse1}</p>
-                    <h4>Reponse 2:</h4>
-                    <p>{seeListen.reponse2}</p>
-                    <h4>Reponse 3:</h4>
-                    <p>{seeListen.reponse3}</p>
-                    <h4>Reponse 4:</h4>
-                    <p>{seeListen.reponse4}</p>
-                    <h4>Reponse 5:</h4>
-                    <p>{seeListen.reponse5}</p>
+                    <p type="secondary">{seeMood}</p>
+                    <h4 >Les points positifs de la période:</h4>
+                    <p type="secondary">{seeListen.reponse1}</p>
+                    <h4>Quelles ont été les difficultés de la période?</h4>
+                    <p type="secondary">{seeListen.reponse2}</p>
+                    </Col>
+                    <Col span={6} offset={1}> 
+                    <h4>Mon objectif prioritaire pour le mois prochain:</h4>
+                    <p type="secondary">{seeListen.reponse3}</p>
+                    <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
+                    <p type="secondary">{seeListen.reponse4}</p>
+                    <h4>Un point sur lequel j'aimerai revenir:</h4>
+                    <p type="secondary">{seeListen.reponse5}</p>
+                    </Col>
+                    </Row>
                 </Modal>
-                <Button key="test" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                                onClick={() =>handleStatsRoute()}>
-                                    test route
-                </Button>
-            </div>
+                </div>
             )
         }
         else {

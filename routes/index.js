@@ -151,12 +151,9 @@ router.post('/find-Collab', async function(req, res, next) {
 
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
-  var isListenToComplete = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
-  if (isListenToComplete) {
-    res.json({response: true})
-  } else {
-    res.json({response: false})
-  }
+  var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
+  var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
+  res.json({listenToDo: isListenToDo,listenToSee:isListenToSee})
 })
 
 /* GET SEE-LISTEN function-route. */
@@ -175,8 +172,100 @@ router.get('/get-stats', async function(req,res,next){
   var myDate = new Date()
   myDate.setTime(myDate.getTime() - dateOffset)
   myDate.setDate(1)
-  var statsListen = await ListenModel({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}});
-  console.log(statsListen)
+  var statsListen = await ListenModel.find({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}, answersCollab:{ $ne: null }});
+  var statsMood = []
+  for(let i=0;i<statsListen.length;i++){
+    statsMood.push({date:statsListen[i].createdAt,mood:statsListen[i].mood})
+  }
+  statsMood.sort((a, b) => a.date - b.date)
+  function numAverage(a) {
+    var b = a.length,
+        c = 0, i;
+    for (i = 0; i < b; i++){
+      c += Number(a[i]);
+    }
+    return c/b;
+  }
+  var tempJanvier = []
+  var tempFévrier = []
+  var tempDecembre = []
+  var tempMars = []
+  var tempAvril = []
+  var tempMai = []
+  var tempJuin = []
+  var tempJuillet = []
+  var tempAout =[]
+  var tempSeptembre =[]
+  var tempOctobre = []
+  var tempNovembre =[]
+  var statsMoodCopy =[]
+  for(let i= 0 ; i<statsMood.length;i++){
+    if(statsMood[i].date.getMonth()== 00){
+      statsMood[i].date = 'Janvier'
+      tempJanvier.push(statsMood[i].mood)
+    }
+   else if(statsMood[i].date.getMonth()== 01){
+      statsMood[i].date = 'Février'
+      tempFévrier.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempFévrier)
+    }
+    else if(statsMood[i].date.getMonth()== 02){
+      statsMood[i].date = 'Mars'
+      tempMars.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempMars)
+    }
+    else if(statsMood[i].date.getMonth()== 03){
+      statsMood[i].date = 'Avril'
+      tempAvril.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempAvril)
+    }
+    else if(statsMood[i].date.getMonth()== 04){
+      statsMood[i].date = 'Mai'
+      tempMai.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempMai)
+    }
+    else if(statsMood[i].date.getMonth()== 05){
+      statsMood[i].date = 'Juin'
+      tempJuin.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempJuin)
+    }
+    else if(statsMood[i].date.getMonth()== 06){
+      statsMood[i].date = 'Juillet'
+      tempJuillet.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempJuillet)
+    }
+    else if(statsMood[i].date.getMonth()== 07){
+      statsMood[i].date = 'Août'
+      tempAout.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempAout)
+    }
+    else if(statsMood[i].date.getMonth()== 08){
+      statsMood[i].date = 'Septembre'
+      tempSeptembre.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempSeptembre)
+    }
+    else if(statsMood[i].date.getMonth()== 09){
+      statsMood[i].date = 'Octobre'
+      tempOctobre.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempOctobre)
+    }
+    else if(statsMood[i].date.getMonth()== 10){
+      statsMood[i].date = 'Novembre'
+      tempNovembre.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempNovembre)
+    }
+    else if(statsMood[i].date.getMonth()== 11){
+      statsMood[i].date = 'Décembre'
+      tempDecembre.push(statsMood[i].mood)
+      statsMood[i].mood = numAverage(tempDecembre)
+    }
+  }
+
+  var monthFinal = _.uniqBy(statsMood,'date')
+  
+  console.log('month',monthFinal)
+
+  res.json({statsMood})
 })
 
 module.exports = router;
