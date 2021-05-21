@@ -128,28 +128,71 @@ router.post('/sign-up-collab',async function(req, res, next) {
 
 /*Ajout d'un collab par le manager */
 router.post('/add-collab', async function(req, res, next) {
-  var newUser = new UserModel({
+  var userExist = await UserModel.findOne({ email:req.body.collabEmail})
+  if(!userExist)
+  {var newUser = new UserModel({
     email: req.body.collabEmail,
     token: uid2(32),
     isActive: false,
     type: "collab",
   });
-  var savedUser = await newUser.save()
-  console.log('savedUser', savedUser)
+  userExist = await newUser.save()
+  console.log('savedUser', userExist)}
+
   var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
   console.log('managerTeam', managerTeam);
   var tabOfCollabs = managerTeam.collab;
-  tabOfCollabs.push(savedUser._id)
+  tabOfCollabs.push(userExist._id)
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
-  var listens = await ListenModel.find({
+ 
+  var newManagerTeam = await TeamModel.findOne({
     manager: req.body.userId
-  })
-  console.log('listens', listens)
-  res.json({response:'Collaborateur ajouté'})
+  }).populate('collab').exec()
+  newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
+
+  var newListen = new ListenModel ({
+    collab: userExist._id,
+    manager: req.body.userId,
+    createdAt: new Date(),
+    isActive: true,
+    mood: null,
+    answersCollab: null,
+    answersFeedback: null,
+  });
+  var listenSaved = await newListen.save();
+
+  var collab=[]
+  
+  for (let i=0 ; i<newManagerTeam.length; i++){
+    collab.push(newManagerTeam[i]._id)
+  }
+  var listen=[]
+  var feedback=[]
+
+  for (let i=0; i<collab.length;i++){
+    var listensSearch  = await ListenModel.findOne({collab:collab[i], isActive : true})
+    if(listensSearch){
+      if (listensSearch.answersCollab != null){
+       
+        listen.push(listensSearch.answersCollab = true)
+      }else{
+        
+        listen.push(listensSearch.answersCollab = false)
+      }
+      if (listensSearch.answersFeedback != null){
+        
+        feedback.push(listensSearch.answersFeedback = true)
+      }else{
+        feedback.push(listensSearch.answersFeedback = false)
+      }
+    }
+  }
+  console.log("listenSaved",listenSaved)
+  res.json({response:'Collaborateur ajouté', newManagerTeam: newManagerTeam, collabsListen:listen, collabFeedback:feedback })
 });
 
 /*A ANNOTER */
@@ -218,6 +261,8 @@ router.put('/delete-collab', async function(req,res,next){
     manager: req.body.idManager
   }).populate('collab').exec()
   newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
+
+  var listensCollab = await ListenModel.updateOne({collab: req.body.idCollab}, {isActive: false})
 
 res.json({newManagerTeam : newManagerTeam})
 })
