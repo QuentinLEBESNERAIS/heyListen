@@ -139,8 +139,25 @@ router.post('/add-collab', async function(req, res, next) {
   userExist = await newUser.save()
   console.log('savedUser', userExist)}
 
+  var newListen = new ListenModel ({
+    collab: userExist._id,
+    manager: req.body.userId,
+    createdAt: new Date(),
+    isActive: true,
+    mood: null,
+    answersCollab: null,
+    answersFeedback: null,
+  });
+  var listenSaved = await newListen.save();
+
   if(userExist) {
     console.log('userExist._id', userExist._id)
+
+    await ListenModel.updateOne(
+      { collab: userExist._id, isActive: true},
+      { isActive: false }
+    ); 
+    
   var previousTeam = await TeamModel.findOne({collab: userExist._id})
   console.log('previousTeam', previousTeam);
   if (previousTeam) {
@@ -150,7 +167,7 @@ router.post('/add-collab', async function(req, res, next) {
   }
   }
 
-  var managerTeam = await TeamModel.findOne({
+   var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
   console.log('managerTeam', managerTeam);
@@ -164,17 +181,6 @@ router.post('/add-collab', async function(req, res, next) {
     manager: req.body.userId
   }).populate('collab').exec()
   newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
-
-  var newListen = new ListenModel ({
-    collab: userExist._id,
-    manager: req.body.userId,
-    createdAt: new Date(),
-    isActive: true,
-    mood: null,
-    answersCollab: null,
-    answersFeedback: null,
-  });
-  var listenSaved = await newListen.save();
 
   var collab=[]
   
