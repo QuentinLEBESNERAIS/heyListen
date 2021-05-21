@@ -36,7 +36,7 @@ useEffect(()=> {
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
-  //setTeam(collabs.collabs)
+  setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
@@ -63,7 +63,7 @@ var handleStatsRoute = async () =>{
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
     var collabs = await rawResponse.json();
-    //setTeam(collabs.collabs)
+    setTeam(collabs.collabs)
     setFilteredTeam(collabs.collabs)
     setListenfromBack(collabs.collabsListen)
     setFeedbackFromBack(collabs.collabFeedback)
@@ -222,9 +222,9 @@ var handleStatsRoute = async () =>{
 
 // Charts
     const state = {
-        labels: [stats[0].date, stats[1].date, stats[2].date, stats[3].date, stats[4].date, stats[5].date],
+        labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [stats[0].mood, stats[1].mood, stats[2].mood, stats[3].mood, stats[4].mood, stats[5].mood]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 3, 3, 4, 5, 3]}
         ]
     }
 
@@ -408,14 +408,14 @@ var handleStatsRoute = async () =>{
                                         <Form layout="vertical" >
                                             <h2 className='input-listen'> 
                                             {<Image width='30px' src="./logo-transparent.png" />}
-                                            Concernant Michel Dupont :
+                                            Concernant Luke Skywalker :
                                     </h2>
-                                <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                                <Form.Item label="Qu'avez vous pensez de la performance de Luke ?" 
                                 className='input-listen' >
                                     <Input onChange={(e) => setFeedbackOne(e.target.value)}
                                     value={feedbackOne}/>
                                 </Form.Item>
-                                <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                                <Form.Item label="Qu'attendez vous de Luke pour le mois prochain ?" 
                                 className='input-listen'>
                                     <Input onChange={(e) => setFeedbackTwo(e.target.value)}
                                     value={feedbackTwo}/>
