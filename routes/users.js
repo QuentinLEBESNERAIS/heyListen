@@ -138,18 +138,7 @@ router.post('/add-collab', async function(req, res, next) {
   });
   userExist = await newUser.save()
   console.log('savedUser', userExist)}
-
-  var newListen = new ListenModel ({
-    collab: userExist._id,
-    manager: req.body.userId,
-    createdAt: new Date(),
-    isActive: true,
-    mood: null,
-    answersCollab: null,
-    answersFeedback: null,
-  });
-  var listenSaved = await newListen.save();
-
+  
   if(userExist) {
     console.log('userExist._id', userExist._id)
 
@@ -166,6 +155,19 @@ router.post('/add-collab', async function(req, res, next) {
     await TeamModel.updateOne({collab: userExist._id},{collab: newTeam})
   }
   }
+
+  var newListen = new ListenModel ({
+    collab: userExist._id,
+    manager: req.body.userId,
+    createdAt: new Date(),
+    isActive: true,
+    mood: null,
+    answersCollab: null,
+    answersFeedback: null,
+  });
+  var listenSaved = await newListen.save();
+
+
 
    var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
