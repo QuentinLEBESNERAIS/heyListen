@@ -412,10 +412,10 @@ useEffect(()=> {
                     </Col>
                 </Row> 
                 <Row style={{marginTop:20}}>
-                <Popover content={'Le collaborateur sera ajouté à la liste, dès le lancement de la prochaine campagne de listens'}>
+                <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col onClick={showModal2} span={8} offset={2}>
-                    <Button onClick={showModal2} type="primary" icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur
+                    <Button onClick={showModal2} style={{marginBottom:'10px'}} icon={<UserAddOutlined />}>
+                    Ajouter un collaborateur à mon équipe
                     </Button>
                     </Col>
                     </Popover>
@@ -425,7 +425,7 @@ useEffect(()=> {
                         title="Attention : Tous les Listen non complétés seront archivés"
                         onConfirm={confirm}
                         okText="Je lance une nouvelle campagne"
-                        cancelText="No"
+                        cancelText="Retour"
                         >
                         <Button>Lancer une nouvelle campagne Listen</Button>
                     </Popconfirm>
@@ -492,7 +492,7 @@ useEffect(()=> {
                                 onClick={() =>handleStatsRoute()}>
                                     test route
                 </Button>
-            </div>
+l            </div>
             )
         }
         else {
