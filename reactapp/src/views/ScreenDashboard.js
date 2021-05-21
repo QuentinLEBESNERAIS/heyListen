@@ -355,7 +355,7 @@ var handleStatsRoute = async () =>{
                 height={50}
                 data={state}
                 options={{
-
+                    animation: false,
                     title:{
                     display:false,
                     },
@@ -499,7 +499,7 @@ var handleStatsRoute = async () =>{
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-                <Modal title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                <Modal style={{width: '900px', height: '700px'}} title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <Row>
                         <Col span={6} offset={1}>
                     <h3 strong>Votre feedback</h3>
