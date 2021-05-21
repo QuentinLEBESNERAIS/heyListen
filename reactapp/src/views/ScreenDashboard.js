@@ -139,6 +139,11 @@ var handleStatsRoute = async () =>{
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
+                    var responseMailRaw = await fetch('/mail/invite', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: `collabEmail=${collabEmail}`
+                    });
                     var response = await responseRaw.json();
                     const info = () => {
                         message.info(response.response);
