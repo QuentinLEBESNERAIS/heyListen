@@ -36,7 +36,7 @@ useEffect(()=> {
   var getBddCollab = async () => {
   var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
   var collabs = await rawResponse.json();
-  //setTeam(collabs.collabs)
+  setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
@@ -63,7 +63,7 @@ var handleStatsRoute = async () =>{
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
     var collabs = await rawResponse.json();
-    //setTeam(collabs.collabs)
+    setTeam(collabs.collabs)
     setFilteredTeam(collabs.collabs)
     setListenfromBack(collabs.collabsListen)
     setFeedbackFromBack(collabs.collabFeedback)
