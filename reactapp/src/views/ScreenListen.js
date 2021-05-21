@@ -65,13 +65,13 @@ function ScreenListen(props) {
                 <Row > 
                     <Col span={10} offset={2}>
                         <h3 className='input-listen'>Mon Listen</h3>
-                        <Form.Item label="Question 1" className='input-listen' >
+                        <Form.Item label="Les points positifs de la période" className='input-listen' >
                             <Input onChange={(e) => setResponseOne(e.target.value)} value={responseOne}/>
                         </Form.Item>
-                        <Form.Item label="Question 2" className='input-listen' >
+                        <Form.Item label="Quelles ont été les difficultés de la période?" className='input-listen' >
                             <Input onChange={(e) => setResponseTwo(e.target.value)} value={responseTwo}/>
                         </Form.Item>
-                        <Form.Item label="Question 3" className='input-listen' >
+                        <Form.Item label="Mon objectif prioritaire pour le mois prochain" className='input-listen' >
                             <Input onChange={(e) => setResponseThree(e.target.value)} value={responseThree}/>
                         </Form.Item>
                     </Col>
@@ -80,10 +80,10 @@ function ScreenListen(props) {
                     </Col>
                     <Col span={10} offset={1}>
                         <h3 className='input-listen'>Mon manager et moi</h3>
-                        <Form.Item label="Question 4" className='input-listen' >
+                        <Form.Item label="Qu'attends-je de mon manager pour le mois prochain?" className='input-listen' >
                             <Input onChange={(e) => setResponseFour(e.target.value)} value={responseFour}/>
                         </Form.Item>
-                        <Form.Item label="Question 5" className='input-listen' >
+                        <Form.Item label="Un point sur lequel j'aimerai revenir:" className='input-listen' >
                             <Input onChange={(e) => setResponseFive(e.target.value)} value={responseFive}/>
                         </Form.Item>
                         <Form.Item >
@@ -101,15 +101,15 @@ function ScreenListen(props) {
                 {<Image width='30px' src="./logo-transparent.png" />}
                 Souhaitez-vous envoyer ce listen ? :
             </h2>
-            <h4>Question 1:</h4>
+            <h4>Les points positifs de la période:</h4>
             <p>{responseOne}</p>
-            <h4>Question 2:</h4>
+            <h4>Quelles ont été les difficultés de la période?</h4>
             <p>{responseTwo}</p>
-            <h4>Question 3:</h4>
+            <h4>Mon objectif prioritaire pour le mois prochain:</h4>
             <p>{responseThree}</p>
-            <h4>Question 4:</h4>
+            <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
             <p>{responseFour}</p>
-            <h4>Question 5:</h4>
+            <h4>Un point sur lequel j'aimerai revenir:</h4>
             <p>{responseFive}</p>
             <div style={{display:'inline'}}>
             <Button key="back" htmlType="submit" 

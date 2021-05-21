@@ -102,6 +102,8 @@ var handleStatsRoute = async () =>{
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `id=${collabIDFeedback}&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
+            setFeedbackOne('');
+            setFeedbackTwo('');
         }
         saveFeedback();
         setVisible1(false);
@@ -147,6 +149,7 @@ var handleStatsRoute = async () =>{
 
                     setListenfromBack(response.collabsListen)
                     setFeedbackFromBack(response.collabFeedback)
+                    setCollabEmail('')
                 } 
                 await saveCollab()
                 setVisible2(false);
@@ -156,6 +159,7 @@ var handleStatsRoute = async () =>{
 
     const handleCancel2 = () => {
         setVisible2(false);
+        setCollabEmail('')
     };
 
 // NEW CAMPAIGN
@@ -222,9 +226,9 @@ var handleStatsRoute = async () =>{
 
 // Charts
     const state = {
-        labels: [stats[0].date, stats[1].date, stats[2].date, stats[3].date, stats[4].date, stats[5].date],
+        labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [stats[0].mood, stats[1].mood, stats[2].mood, stats[3].mood, stats[4].mood, stats[5].mood]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 3, 3, 4, 5, 3]}
         ]
     }
 
@@ -408,14 +412,14 @@ var handleStatsRoute = async () =>{
                                         <Form layout="vertical" >
                                             <h2 className='input-listen'> 
                                             {<Image width='30px' src="./logo-transparent.png" />}
-                                            Concernant Michel Dupont :
+                                            Concernant Luke Skywalker :
                                     </h2>
-                                <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                                <Form.Item label="Qu'avez vous pensez de la performance de Luke ?" 
                                 className='input-listen' >
                                     <Input onChange={(e) => setFeedbackOne(e.target.value)}
                                     value={feedbackOne}/>
                                 </Form.Item>
-                                <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                                <Form.Item label="Qu'attendez vous de Luke pour le mois prochain ?" 
                                 className='input-listen'>
                                     <Input onChange={(e) => setFeedbackTwo(e.target.value)}
                                     value={feedbackTwo}/>
@@ -499,26 +503,26 @@ var handleStatsRoute = async () =>{
                     <Row>
                         <Col span={6} offset={1}>
                     <h3 strong>Votre feedback</h3>
-                    <h4>Feedback 1:</h4>
+                    <h4>Qu'avez vous pensez de la performance de Luke ?</h4>
                     <p type="secondary">{seeFeedback.feedback1}</p>
-                    <h4>Feedback 2:</h4>
+                    <h4>Qu'attendez vous de ce collaborateur pour le mois prochain ?</h4>
                     <p type="secondary">{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={6} offset={1}>
                     <h3>Son Listen</h3>
                     <h4>Humeur:</h4>
                     <p type="secondary">{seeMood}</p>
-                    <h4 >Reponse 1:</h4>
+                    <h4 >Les points positifs de la période:</h4>
                     <p type="secondary">{seeListen.reponse1}</p>
-                    <h4>Reponse 2:</h4>
+                    <h4>Quelles ont été les difficultés de la période?</h4>
                     <p type="secondary">{seeListen.reponse2}</p>
                     </Col>
                     <Col span={6} offset={1}> 
-                    <h4>Reponse 3:</h4>
+                    <h4>Mon objectif prioritaire pour le mois prochain:</h4>
                     <p type="secondary">{seeListen.reponse3}</p>
-                    <h4>Reponse 4:</h4>
+                    <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
                     <p type="secondary">{seeListen.reponse4}</p>
-                    <h4>Reponse 5:</h4>
+                    <h4>Un point sur lequel j'aimerai revenir:</h4>
                     <p type="secondary">{seeListen.reponse5}</p>
                     </Col>
                     </Row>
