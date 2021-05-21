@@ -29,7 +29,7 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
-    const [stats,setStats] = useState([{date: "Décembre", mood: 5},{date: "Janvier", mood: 0},{date: "Février", mood: 0},{date: "Mars", mood: 0},{date: "Avril", mood: 0},{date: "Mai", mood: 0}])
+    const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
 
 //Affichage collab 
 useEffect(()=> {
@@ -41,16 +41,24 @@ useEffect(()=> {
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
 }
+
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    console.log(statsListen)
-    await setStats(statsListen.statsMood)
+    console.log('oooooo',statsListen.statsMood.length)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('sats',stats)}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
   },[])
 
+  console.log('stats',stats)
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
@@ -65,7 +73,13 @@ var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
     console.log(statsListen)
-    setStats(statsListen.statsMood)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
 }
    if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
@@ -393,35 +407,35 @@ var handleStatsRoute = async () =>{
                                 </div>
                             </List.Item>
                             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
-                    <Form layout="vertical" >
-                        <h2 className='input-listen'> 
-                            {<Image width='30px' src="./logo-transparent.png" />}
-                            Concernant Michel Dupont :
-                        </h2>
-                        <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
-                        className='input-listen' >
-                            <Input onChange={(e) => setFeedbackOne(e.target.value)}
-                            value={feedbackOne}/>
-                        </Form.Item>
-                        <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
-                        className='input-listen'>
-                            <Input onChange={(e) => setFeedbackTwo(e.target.value)}
-                            value={feedbackTwo}/>
-                        </Form.Item>
-                        <Form.Item layout="horizontal" style={{marginTop:30}}>
-                                <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:240}}
-                                onClick={handleCancel1}>
-                                    Annuler
-                                </Button>
-                                <Button key="submit" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                                onClick={()=> handleOk1() }>
-                                Valider
-                                </Button>
-                        </Form.Item>
-                    </Form>
-                </Modal>
+                                        <Form layout="vertical" >
+                                            <h2 className='input-listen'> 
+                                            {<Image width='30px' src="./logo-transparent.png" />}
+                                            Concernant Michel Dupont :
+                                    </h2>
+                                <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                                className='input-listen' >
+                                    <Input onChange={(e) => setFeedbackOne(e.target.value)}
+                                    value={feedbackOne}/>
+                                </Form.Item>
+                                <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                                className='input-listen'>
+                                    <Input onChange={(e) => setFeedbackTwo(e.target.value)}
+                                    value={feedbackTwo}/>
+                                </Form.Item>
+                                <Form.Item layout="horizontal" style={{marginTop:30}}>
+                                        <Button key="back" htmlType="submit" 
+                                        style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                                        onClick={handleCancel1}>
+                                            Annuler
+                                        </Button>
+                                        <Button key="submit" 
+                                        style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                        onClick={()=> handleOk1() }>
+                                        Valider
+                                        </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                             </div>
                         ))}
                         </List>  
