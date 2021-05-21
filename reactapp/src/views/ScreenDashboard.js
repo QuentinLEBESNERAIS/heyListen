@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
+import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+import { registerables } from 'chart.js';
 
 function ScreenDashboard(props) {
 
@@ -228,7 +229,7 @@ var handleStatsRoute = async () =>{
     const state = {
         labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 1, 3, 4, 5, 3]}
+            {label: 'Humeur', backgroundColor: 'rgba(152,193,217,0.7)', borderColor: '#003566', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 1, 3, 4, 5, 3]}
         ]
     }
 
@@ -246,14 +247,14 @@ var handleStatsRoute = async () =>{
     var text
     var iconDisplayEye 
         if(listenfromBack[i] === false){
-            color = 'red'
+            color = 'rgba(186,24,27,0.6)'
             text = "Ce collaborateur n'a pas rempli son Listen"
         }else if (listenfromBack[i] === true){
-            color = 'green'
+            color = 'rgba(43,147,72,0.6)'
             text = "Ce collaborateur a rempli son Listen"
         }
         tabGlobalListen.push(
-            <Tag color={color} style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+            <Tag color={color} style={{borderRadius:'10px',textAlign:'center'}}>
                 {text}
             </Tag>
         )
@@ -269,18 +270,18 @@ var handleStatsRoute = async () =>{
         var iconDisplay
         var iconDisplayCadena
         if(feedbackfromBack[i] === false){
-            colorFeedback = 'red'
+            colorFeedback = 'rgba(186,24,27,0.6)'
             textFeedback = "Vous n'avez pas rempli votre partie"
             iconDisplay = { fontSize: '24px' }
             iconDisplayCadena = { fontSize: '24px',display:'none' }
         }else{
-            colorFeedback = 'green'
+            colorFeedback = 'rgba(43,147,72,0.6)'
             textFeedback = "Vous avez rempli votre partie"
             iconDisplay = { fontSize: '24px',display:'none' }
             iconDisplayCadena = { fontSize: '24px' }
         }
         tabGlobalFeedback.push(
-            <Tag color={colorFeedback} style={{borderRadius:'10px',width:300,textAlign:'center'}}>
+            <Tag color={colorFeedback} style={{borderRadius:'10px',textAlign:'center'}}>
                 {textFeedback}
             </Tag>
         )
@@ -340,12 +341,12 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div>
+            <div style={{backgroundColor:'white',heigth:'100%'}}>
                 <Nav/>
                 <Row style={{height:65}}>
-                    <Col span={8} offset={1}>
-                        <h4 style={{marginTop:20}}>Taux de complétion :        
-                        <Progress percent={completion} size="small" status="active" />
+                    <Col span={8} offset={1} color='grey'>
+                        <h4 style={{marginTop:20,color:'grey'}}>Taux de complétion :        
+                        <Progress style={{color:'grey'}} percent={completion} size="small" status="active" />
                         </h4> 
                     </Col>
                 </Row>
@@ -371,16 +372,35 @@ var handleStatsRoute = async () =>{
 
                 </Col>
                 </Row>
-                <Row style={{marginTop:20}}>
-                    <Col span={8} offset={2}>
-                    <Button onClick={relaunch}  icon={<SendOutlined />}>
+                <Row style={{marginTop:20, display:'flex', alignContent:'center'}}>
+                    <Col span={5} offset={2} >
+                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{backgroundColor:'rgba(152,193,217,1)', color:'white',borderRadius:40}}>
                     Relancer tous les collabs
                     </Button>
                     </Col>
-                    <Col span={6} offset={6}>
-                        <Form>
-                            <Form.Item label="Rechercher:" style={{fontWeight:'500'}} >
-                                <Input onChange={(e) => setSearch(e.target.value)} placeholder="Collaborateur" style={{ width: 200 }} />
+
+                    <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
+                    <Col onClick={showModal2} span={6} >
+                    <Button onClick={showModal2} style={{marginBottom:'10px',backgroundColor:'rgba(152,193,217,1)',border:'none',borderRadius:40,color:'white'}} icon={<UserAddOutlined />}>
+                    Ajouter un collaborateur à mon équipe
+                    </Button>
+                    </Col>
+                    </Popover>
+                    <Col span={5} >
+                    <Popconfirm
+                        placement="topRight"
+                        title="Attention : Tous les Listen non complétés seront archivés"
+                        onConfirm={confirm}
+                        okText="Je lance une nouvelle campagne"
+                        cancelText="Retour"
+                        >
+                        <Button style={{marginBottom:'10px',backgroundColor:'rgba(152,193,217,1)',color:'white',border:'none',borderRadius:40}}>Lancer une nouvelle campagne Listen</Button>
+                    </Popconfirm>
+                    </Col>
+                    <Col span={5} offset={1} >
+                        <Form style={{fontWeight:'500'}}>
+                            <Form.Item style={{fontWeight:'500'}} >
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 200,borderRadius:40 }} />
                             </Form.Item>
                         </Form>
                     </Col>
@@ -390,8 +410,8 @@ var handleStatsRoute = async () =>{
                         <List itemLayout="horizontal">
                         {filteredTeam.map((item,i) => (
                             <div key={i}>
-                            <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{border:'1px solid black',padding:10,margin:5}}>
-                                <Avatar style={{ backgroundColor:'#3d84b8', verticalAlign: 'middle' }} 
+                            <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{backgroundColor:'rgba(152,193,217,0.4)',padding:10,margin:5, borderRadius:40}}>
+                                <Avatar style={{ backgroundColor:'#FCA311', verticalAlign: 'middle' }} 
                                 size="large">
                                 {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                                 </Avatar>
@@ -443,27 +463,6 @@ var handleStatsRoute = async () =>{
                         </List>  
                     </Col>
                 </Row> 
-                <Row style={{marginTop:20}}>
-                <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
-                    <Col onClick={showModal2} span={8} offset={2}>
-                    <Button onClick={showModal2} style={{marginBottom:'10px'}} icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur à mon équipe
-                    </Button>
-                    </Col>
-                    </Popover>
-                    <Col span={6} offset={8} >
-                    <Popconfirm
-                        placement="topRight"
-                        title="Attention : Tous les Listen non complétés seront archivés"
-                        onConfirm={confirm}
-                        okText="Je lance une nouvelle campagne"
-                        cancelText="Retour"
-                        >
-                        <Button>Lancer une nouvelle campagne Listen</Button>
-                    </Popconfirm>
-                    </Col>
-                    
-                </Row>
 
                 <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={700} height={500}>
                     <div style={{color:'red', display:'flex', justifyContent:'center'}}>
@@ -486,7 +485,7 @@ var handleStatsRoute = async () =>{
                                     Annuler
                                 </Button>
                                 <Button key="submit" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                style={{backgroundColor:'#D6A217',marginLeft:20}}
                                 onClick={()=> handleOk2()}>
                                     Ajouter ce collaborateur
                                 </Button>
