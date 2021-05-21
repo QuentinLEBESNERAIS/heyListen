@@ -133,6 +133,7 @@ var handleStatsRoute = async () =>{
 
                     setListenfromBack(response.collabsListen)
                     setFeedbackFromBack(response.collabFeedback)
+                    setCollabEmail('')
                 } 
                 await saveCollab()
                 setVisible2(false);
@@ -142,6 +143,7 @@ var handleStatsRoute = async () =>{
 
     const handleCancel2 = () => {
         setVisible2(false);
+        setCollabEmail('')
     };
 
 // NEW CAMPAIGN
