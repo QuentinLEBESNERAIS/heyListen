@@ -391,35 +391,35 @@ var handleStatsRoute = async () =>{
                                 </div>
                             </List.Item>
                             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
-                    <Form layout="vertical" >
-                        <h2 className='input-listen'> 
-                            {<Image width='30px' src="./logo-transparent.png" />}
-                            Concernant Michel Dupont :
-                        </h2>
-                        <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
-                        className='input-listen' >
-                            <Input onChange={(e) => setFeedbackOne(e.target.value)}
-                            value={feedbackOne}/>
-                        </Form.Item>
-                        <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
-                        className='input-listen'>
-                            <Input onChange={(e) => setFeedbackTwo(e.target.value)}
-                            value={feedbackTwo}/>
-                        </Form.Item>
-                        <Form.Item layout="horizontal" style={{marginTop:30}}>
-                                <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:240}}
-                                onClick={handleCancel1}>
-                                    Annuler
-                                </Button>
-                                <Button key="submit" 
-                                style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
-                                onClick={()=> handleOk1() }>
-                                Valider
-                                </Button>
-                        </Form.Item>
-                    </Form>
-                </Modal>
+                                        <Form layout="vertical" >
+                                            <h2 className='input-listen'> 
+                                            {<Image width='30px' src="./logo-transparent.png" />}
+                                            Concernant Michel Dupont :
+                                    </h2>
+                                <Form.Item label="Qu'avez vous pensez de la performance de Michel ?" 
+                                className='input-listen' >
+                                    <Input onChange={(e) => setFeedbackOne(e.target.value)}
+                                    value={feedbackOne}/>
+                                </Form.Item>
+                                <Form.Item label="Qu'attendez vous de Michel pour le mois prochain ?" 
+                                className='input-listen'>
+                                    <Input onChange={(e) => setFeedbackTwo(e.target.value)}
+                                    value={feedbackTwo}/>
+                                </Form.Item>
+                                <Form.Item layout="horizontal" style={{marginTop:30}}>
+                                        <Button key="back" htmlType="submit" 
+                                        style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                                        onClick={handleCancel1}>
+                                            Annuler
+                                        </Button>
+                                        <Button key="submit" 
+                                        style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                        onClick={()=> handleOk1() }>
+                                        Valider
+                                        </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                             </div>
                         ))}
                         </List>  

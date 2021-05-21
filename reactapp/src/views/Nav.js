@@ -2,12 +2,14 @@ import React,{useEffect,useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import '../App.css';
-import {Menu, Avatar, Badge} from 'antd';
-import { SettingOutlined} from '@ant-design/icons';
+import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Menu,Badge} from 'antd';
+import {SettingOutlined} from '@ant-design/icons';
 
 function Nav(props) {
   const [listenToDo,setListenToDo] = useState(false)
   const [listenToSee,setListenToSee] = useState(false)
+  
+  
   const { SubMenu } = Menu;
 
   useEffect( async () => {
@@ -26,6 +28,10 @@ function Nav(props) {
 
   useEffect(()=>{
   },[props.user])
+
+
+
+
 
   if(!props.user){return (<Redirect to='/'/>)}
   var badgeListenToDo
@@ -65,7 +71,7 @@ function Nav(props) {
         </Menu.Item>
         <Menu.Item disabled={!listenToSee} key="listen" >
           <Badge dot style={badgeListenToSee} >
-            <Link to="/listen" >Voir mon listen</Link>
+            <Link>Voir mon listen</Link>
           </Badge>
         </Menu.Item>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
