@@ -102,6 +102,8 @@ var handleStatsRoute = async () =>{
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `id=${collabIDFeedback}&feedback1=${feedbackOne}&feedback2=${feedbackTwo}`
             });
+            setFeedbackOne('');
+            setFeedbackTwo('');
         }
         saveFeedback();
         setVisible1(false);
@@ -147,6 +149,7 @@ var handleStatsRoute = async () =>{
 
                     setListenfromBack(response.collabsListen)
                     setFeedbackFromBack(response.collabFeedback)
+                    setCollabEmail('')
                 } 
                 await saveCollab()
                 setVisible2(false);
@@ -156,6 +159,7 @@ var handleStatsRoute = async () =>{
 
     const handleCancel2 = () => {
         setVisible2(false);
+        setCollabEmail('')
     };
 
 // NEW CAMPAIGN
