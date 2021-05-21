@@ -29,7 +29,7 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
-    const [stats,setStats] = useState([{date: "Décembre", mood: 5},{date: "Janvier", mood: 0},{date: "Février", mood: 0},{date: "Mars", mood: 0},{date: "Avril", mood: 0},{date: "Mai", mood: 0}])
+    const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
 
 //Affichage collab 
 useEffect(()=> {
@@ -41,16 +41,24 @@ useEffect(()=> {
   setListenfromBack(collabs.collabsListen)
   setFeedbackFromBack(collabs.collabFeedback)
 }
+
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    console.log(statsListen)
-    await setStats(statsListen.statsMood)
+    console.log('oooooo',statsListen.statsMood.length)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('sats',stats)}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
   },[])
 
+  console.log('stats',stats)
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
@@ -65,7 +73,13 @@ var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
     console.log(statsListen)
-    setStats(statsListen.statsMood)
+    if(statsListen.statsMood.length < 6 ){
+        console.log('ezetzetez');
+        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
+    }else{
+        console.log('aaaaaaaaaaaaaaa');
+        setStats(statsListen.statsMood)
+    }
 }
    if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
