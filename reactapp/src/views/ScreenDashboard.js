@@ -233,7 +233,7 @@ var handleStatsRoute = async () =>{
     const state = {
         labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 3, 3, 4, 5, 3]}
+            {label: 'Humeur', backgroundColor: 'rgba(75,192,192,0.4)', borderColor: 'rgba(75,192,192,1)', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 1, 3, 4, 5, 3]}
         ]
     }
 
