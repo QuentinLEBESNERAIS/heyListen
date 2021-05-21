@@ -128,27 +128,37 @@ router.post('/sign-up-collab',async function(req, res, next) {
 
 /*Ajout d'un collab par le manager */
 router.post('/add-collab', async function(req, res, next) {
-  var newUser = new UserModel({
+  var userExist = await UserModel.findOne({ email:req.body.collabEmail})
+  if(!userExist)
+  {var newUser = new UserModel({
     email: req.body.collabEmail,
     token: uid2(32),
     isActive: false,
     type: "collab",
   });
-  var savedUser = await newUser.save()
-  console.log('savedUser', savedUser)
+  userExist = await newUser.save()
+  console.log('savedUser', userExist)}
+
   var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
   console.log('managerTeam', managerTeam);
   var tabOfCollabs = managerTeam.collab;
-  tabOfCollabs.push(savedUser._id)
+  tabOfCollabs.push(userExist._id)
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
-  var listens = await ListenModel.find({
-    manager: req.body.userId
-  })
-  console.log('listens', listens)
+  var newListen = new ListenModel ({
+    collab: userExist._id,
+    manager: req.body.userId,
+    createdAt: new Date(),
+    isActive: true,
+    mood: null,
+    answersCollab: null,
+    answersFeedback: null,
+  });
+  var listenSaved = await newListen.save();
+  console.log("listenSaved",listenSaved)
   res.json({response:'Collaborateur ajouté'})
 });
 
