@@ -115,6 +115,11 @@ useEffect(()=> {
                         message.info(response.response);
                     }
                     info();
+                    console.log('response.newManagerTeam', response.newManagerTeam)
+                    setFilteredTeam(response.newManagerTeam)
+
+                    setListenfromBack(response.collabsListen)
+                    setFeedbackFromBack(response.collabFeedback)
                 } 
                 await saveCollab()
                 setVisible2(false);
