@@ -79,7 +79,7 @@ function ScreenHistoriqueCollab(props) {
             <Layout style={{backgroundColor:'#FFFFFF'}}>
                 <Nav/>
                 <Layout style={{backgroundColor:'#FFFFFF'}}>
-                    <Sider style={{backgroundColor:'#D8E3E7'}}>
+                    <Sider style={{backgroundColor:'#D8E3E7',height:"100vh"}}>
                         <Row>
                             <Col span={22} offset={2}>
                                 <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>

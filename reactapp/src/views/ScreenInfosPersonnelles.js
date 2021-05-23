@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Col, Input, Row, Alert, Space, Button,message} from 'antd';
+import {Card, Col, Input, Row, Alert, Space, Button,message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 
 function ScreenInfosPersonnelles(props) {
@@ -59,11 +59,13 @@ function ScreenInfosPersonnelles(props) {
     return <Redirect to="/dashboard"/>
   }
   return (
-    <div className="background">
-
+    <div style={{backgroundColor:'#C66A70',height: '100vh'}}>
+      <Row>
+        <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
+      <Card style={{borderRadius:80}}>
       <Row justify="center" align="middle">
         <Col span={16} align="middle" className="sign-up-title" style={{paddingTop:'2rem'}}>
-          Changer mes informations personnelles :
+          <h3>Changer mes informations personnelles </h3>
         </Col>
       </Row>
       <Row justify="center" align="top">
@@ -89,9 +91,12 @@ function ScreenInfosPersonnelles(props) {
       </Row>
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
-          <Link to='/dashboard'><Button className="sign-up-button">Retour</Button></Link>
-          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} className="sign-up-button">Modifier</Button>
+          <Link to='/dashboard'><Button style={{backgroundColor:'grey',marginRight:5,border:'none',borderRadius:40,color:'white'}}>Retour</Button></Link>
+          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} style={{backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}}>Modifier</Button>
         </Col>
+      </Row>
+      </Card>
+      </Col>
       </Row>
     </div>
   );

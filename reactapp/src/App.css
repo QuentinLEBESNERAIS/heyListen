@@ -1,7 +1,8 @@
 @import '~antd/dist/antd.css';
 
 .avatar {
-  background-color: #344fa1;
+  background-color: #f9fafd;
+  color:#C66A70
 }
 
 .ant-badge-count, .ant-badge-dot, .ant-badge .ant-scroll-number-custom-component {
@@ -27,12 +28,12 @@
 }
 
 .background {
-  background-color: #d8e3e7;
+  background-color: #6CA7E4;
   height: 100vh;
 }
 
 .navbar {
-  background-color: #fca311;
+  background-color: #C66A70;
   text-align: left;
 }
 

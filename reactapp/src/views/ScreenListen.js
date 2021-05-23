@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import { Slider,Input,Button,Form,Row,Col,Modal,Image,message} from 'antd'
+import { Card,Slider,Input,Button,Form,Row,Col,Modal,Image,message} from 'antd'
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -51,9 +51,12 @@ function ScreenListen(props) {
     return (
         <div>
             <Nav/>
+            <Row style={{backgroundColor:'#cbeef3', height:'100%'}}>
+            <Col span={22} offset={1}> 
+            <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12}}>
             <Row>
                 <Col span={4} offset={10}>    
-                    <h4 style={{marginTop:20, marginLeft:20, marginBottom:0}}>Mon humeur du moment</h4>
+                    <h4 style={{marginLeft:10, marginBottom:0}}>Mon humeur du moment</h4>
                 </Col>
             </Row>
             <div className="icon-wrapper">
@@ -68,7 +71,7 @@ function ScreenListen(props) {
                         <Form.Item label="Les points positifs de la période" className='input-listen' >
                             <Input onChange={(e) => setResponseOne(e.target.value)} value={responseOne}/>
                         </Form.Item>
-                        <Form.Item label="Quelles ont été les difficultés de la période?" className='input-listen' >
+                        <Form.Item label="Quelles ont été les difficultés de la période ?" className='input-listen' >
                             <Input onChange={(e) => setResponseTwo(e.target.value)} value={responseTwo}/>
                         </Form.Item>
                         <Form.Item label="Mon objectif prioritaire pour le mois prochain" className='input-listen' >
@@ -80,15 +83,15 @@ function ScreenListen(props) {
                     </Col>
                     <Col span={10} offset={1}>
                         <h3 className='input-listen'>Mon manager et moi</h3>
-                        <Form.Item label="Qu'attends-je de mon manager pour le mois prochain?" className='input-listen' >
+                        <Form.Item label="Qu'attends-je de mon manager pour le mois prochain ?" className='input-listen' >
                             <Input onChange={(e) => setResponseFour(e.target.value)} value={responseFour}/>
                         </Form.Item>
-                        <Form.Item label="Un point sur lequel j'aimerai revenir:" className='input-listen' >
+                        <Form.Item label="Un point sur lequel j'aimerais revenir" className='input-listen' >
                             <Input onChange={(e) => setResponseFive(e.target.value)} value={responseFive}/>
                         </Form.Item>
                         <Form.Item >
                             <Button htmlType="submit" className='input-button-listen'
-                            style={{backgroundColor:'#3d84b8',color:'white'}}
+                             style={{marginLeft:220, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
                             onClick={showModal}>
                                 Valider
                             </Button>
@@ -96,32 +99,35 @@ function ScreenListen(props) {
                     </Col>
                 </Row>
             </Form>  
+            </Card>
+            </Col>
+            </Row>
             <Modal visible={visible} onCancel={handleCancel} footer={null}>
             <h2 className='input-listen'> 
                 {<Image width='30px' src="./logo-transparent.png" />}
-                Souhaitez-vous envoyer ce listen ? :
+                Souhaitez-vous envoyer ce listen ? 
             </h2>
-            <h4>Les points positifs de la période:</h4>
-            <p>{responseOne}</p>
-            <h4>Quelles ont été les difficultés de la période?</h4>
-            <p>{responseTwo}</p>
-            <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-            <p>{responseThree}</p>
-            <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
-            <p>{responseFour}</p>
-            <h4>Un point sur lequel j'aimerai revenir:</h4>
-            <p>{responseFive}</p>
+            <h4 style={{textDecoration:'underline'}}>Les points positifs de la période</h4>
+            <p style={{color:'#C66A70'}}>{responseOne}</p>
+            <h4 style={{textDecoration:'underline'}}>Quelles ont été les difficultés de la période ?</h4>
+            <p style={{color:'#C66A70'}}>{responseTwo}</p>
+            <h4 style={{textDecoration:'underline'}}>Mon objectif prioritaire pour le mois prochain</h4>
+            <p style={{color:'#C66A70'}}>{responseThree}</p>
+            <h4 style={{textDecoration:'underline'}}>Qu'attends-je de mon manager pour le mois prochain?</h4>
+            <p style={{color:'#C66A70'}}>{responseFour}</p>
+            <h4 style={{textDecoration:'underline'}}>Un point sur lequel j'aimerais revenir</h4>
+            <p style={{color:'#C66A70'}}>{responseFive}</p>
             <div style={{display:'inline'}}>
             <Button key="back" htmlType="submit" 
-            style={{backgroundColor:'grey',color:'white',marginLeft:220}}
+            style={{marginLeft:220, backgroundColor:'grey',color:'white',border:'none',borderRadius:240}}
             onClick={handleCancel}>
                 Annuler
             </Button>
             <Link to='/historique-collab'>
             <Button key="submit" 
-            style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+            style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
             onClick={handleOk}>
-                Envoyer le listen
+                Envoyer ce listen
             </Button>
             </Link>
             </div>

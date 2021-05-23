@@ -93,28 +93,21 @@ function ScreenHistoriqueManager(props) {
     if(props.userId.type==="manager"){
         return (
             <div>
-                <Layout  style={{backgroundColor:'#FFFFFF'}}>
+                <Layout  style={{backgroundColor:'#B7D3E4'}}>
                     <Nav/>
-                    <Col span={23} offset={1} style={{marginTop:10, marginBottom:20}}>
-                        <Typography.Text>Séléctioner un collaborateur :</Typography.Text>
-                        <Select defaultValue="Collaborateur" style={{width: 160, marginLeft:20}} onChange={handleChangeCollaborateur}>
+                            
+
+                            
+                                <Layout style={{backgroundColor:'#B7D3E4',height:'100vh'}}>
+                                <Sider minHeight={100} style={{backgroundColor:'#D8E3E7'}}>
+                                    <Row>
+                                        <Col span={22} offset={2}>
+                                       
+                                 <Select defaultValue="Collaborateur" style={{width: 160, marginTop:20}} onChange={handleChangeCollaborateur}>
                         {myTeamFromBack.map((collab, i) => (
                                         <Option value={collab._id}>{collab.firstName}{collab.lastName}</Option>
                                     ))}
                         </Select>
-                    </Col>
-                    <Empty/>
-                            {firstSelectedCollab === true &&
-                                <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:40}}>
-                                    <Typography.Text> Veuillez choisir un Collaborateur</Typography.Text>
-                                </Col>
-                            }
-
-                            {firstSelectedCollab === false &&
-                                <Layout style={{backgroundColor:'#FFFFFF'}}>
-                                <Sider style={{backgroundColor:'#D8E3E7'}}>
-                                    <Row>
-                                        <Col span={22} offset={2}>
                                             <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
                                                 {dataCollabFromBack.matriochka.map((years, i) => (
                                                     <Option value={i}>{_.findKey(years)}</Option>
@@ -220,7 +213,7 @@ function ScreenHistoriqueManager(props) {
                                     </div>
                                 </Modal>
                             </Layout>
-                            }
+                            
             </Layout>
             </div>
         )

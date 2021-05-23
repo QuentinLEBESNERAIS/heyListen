@@ -198,11 +198,12 @@ router.get('/get-stats', async function(req,res,next){
   var tempSeptembre =[]
   var tempOctobre = []
   var tempNovembre =[]
-  var statsMoodCopy =[]
+  
   for(let i= 0 ; i<statsMood.length;i++){
     if(statsMood[i].date.getMonth()== 00){
       statsMood[i].date = 'Janvier'
       tempJanvier.push(statsMood[i].mood)
+      
     }
    else if(statsMood[i].date.getMonth()== 01){
       statsMood[i].date = 'Février'
@@ -259,13 +260,40 @@ router.get('/get-stats', async function(req,res,next){
       tempDecembre.push(statsMood[i].mood)
       statsMood[i].mood = numAverage(tempDecembre)
     }
+   
   }
 
   var monthFinal = _.uniqBy(statsMood,'date')
-  
+
+  for(let i=0; i<monthFinal.length;i++){
+    if(monthFinal[i].date == 'Janvier'){
+      monthFinal[i].mood = numAverage(tempJanvier)
+  }else if(monthFinal[i].date == 'Février'){
+    monthFinal[i].mood = numAverage(tempFévrier)
+}else if(monthFinal[i].date == 'Mars'){
+  monthFinal[i].mood = numAverage(tempMars)
+}else if(monthFinal[i].date == 'Avril'){
+  monthFinal[i].mood = numAverage(tempAvril)
+}else if(monthFinal[i].date == 'Mai'){
+  monthFinal[i].mood = numAverage(tempMai)
+}else if(monthFinal[i].date == 'Juin'){
+  monthFinal[i].mood = numAverage(tempJuin)
+}else if(monthFinal[i].date == 'Juillet'){
+  monthFinal[i].mood = numAverage(tempJuillet)
+}else if(monthFinal[i].date == 'Août'){
+  monthFinal[i].mood = numAverage(tempAout)
+}else if(monthFinal[i].date == 'Septembre'){
+  monthFinal[i].mood = numAverage(tempSeptembre)
+}else if(monthFinal[i].date == 'Octobre'){
+  monthFinal[i].mood = numAverage(tempOctobre)
+}else if(monthFinal[i].date == 'Novembre'){
+  monthFinal[i].mood = numAverage(tempNovembre)
+}else if(monthFinal[i].date == 'Décembre'){
+  monthFinal[i].mood = numAverage(tempDecembre)
+}}
   console.log('month',monthFinal)
 
-  res.json({statsMood})
+  res.json({monthFinal})
 })
 
 module.exports = router;

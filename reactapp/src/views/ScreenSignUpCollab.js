@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Col, Input, Row, Alert, Space, Button, message} from 'antd';
+import {Card,Col, Input, Row, Alert, Space, Button, message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 
 function ScreenSignUpCollab(props) {
@@ -61,8 +61,12 @@ closable
     return (<Redirect to="/historique-collab"/>)
   }
   return (
-    <div className="background">
+    <div style={{backgroundColor:'#C66A70',height: '100vh'}}>
+      <Row>
+        <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
+      <Card style={{borderRadius:80}}>
       <Row justify="center" align="middle" style={{height:'20%'}}>
+      
         <Col span={16}>
           <Alert style={{borderRadius: '5px'}} message="Bienvenu ! Veuillez remplir les informations ci-dessous pour vous inscrire." type="warning"
             action={
@@ -79,8 +83,9 @@ closable
         </Col>
       </Row>
       <Row justify="center" align="middle">
+        
         <Col span={16} align="middle" className="sign-up-title">
-          Mes informations personnelles :
+          Mes informations personnelles 
         </Col>
       </Row>
       <Row justify="center" align="top">
@@ -106,9 +111,11 @@ closable
       </Row>
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
-          <Button onClick={()=>handleClickSignUp()} className="sign-up-button">S'inscrire</Button>
-          
+          <Button onClick={()=>handleClickSignUp()} style={{backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}}>S'inscrire</Button>
         </Col>
+      </Row>
+      </Card>
+      </Col>
       </Row>
     </div>
   );

@@ -7,7 +7,7 @@ function ScreenMyAcount() {
     <div className="background">
       <Row justify="center" align="middle">
         <Col span={16} align="middle" style={{fontSize: '2rem', display:'flex', justifyContent:'flex-start'}}>
-          Mes informations personnelles :
+          Mes informations personnelles 
         </Col>
       </Row>
       <Row justify="center" align="middle">

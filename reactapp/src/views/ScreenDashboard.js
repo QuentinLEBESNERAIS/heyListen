@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
+import {Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
@@ -259,7 +259,7 @@ var handleStatsRoute = async () =>{
             text = "Ce collaborateur a rempli son Listen"
         }
         tabGlobalListen.push(
-            <Tag color={color} style={{borderRadius:'10px',textAlign:'center'}}>
+            <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
                 {text}
             </Tag>
         )
@@ -286,7 +286,7 @@ var handleStatsRoute = async () =>{
             iconDisplayCadena = { fontSize: '24px' }
         }
         tabGlobalFeedback.push(
-            <Tag color={colorFeedback} style={{borderRadius:'10px',textAlign:'center'}}>
+            <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
                 {textFeedback}
             </Tag>
         )
@@ -346,19 +346,20 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{backgroundColor:'white',heigth:'100%'}}>
+            <div style={{backgroundColor:'#B7D3E4',height:'100vh'}}>
                 <Nav/>
-                <Row style={{height:65}}>
-                    <Col span={8} offset={1} color='grey'>
-                        <h4 style={{marginTop:20,color:'grey'}}>Taux de complétion :        
-                        <Progress style={{color:'grey'}} percent={completion} size="small" status="active" />
+                <Row style={{height:205, marginTop:10}}>
+                    <Col span={4} offset={1} >
+                        <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
+                        <h4 >Taux de complétion         
+                        <Progress style={{color:'grey',marginTop:2}} percent={completion} type='circle' status="active" />
                         </h4> 
+                        </Card>
                     </Col>
-                </Row>
-                <Row >
-                <Col span={22} offset={1} height={50}>
+                <Col span={17} offset={1}>
+                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
                 <Line 
-                height={50}
+                height={53}
                 data={state}
                 options={{
                     animation: false,
@@ -374,89 +375,105 @@ var handleStatsRoute = async () =>{
                         }
                 }}}>
                 </Line>
-
+                </Card>
                 </Col>
                 </Row>
-                <Row style={{marginTop:20, display:'flex', alignContent:'center'}}>
-                    <Col span={5} offset={2} >
-                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{backgroundColor:'rgba(152,193,217,1)', color:'white',borderRadius:40}}>
+                <Row style={{marginTop:10}}>
+                    <Col span={20} offset={2}>
+                    <Card style ={{display:'flex',justifyContent:'space-around', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
+                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{marginRight:30,backgroundColor:'#C66A70', color:'white',borderRadius:40}}>
                     Relancer tous les collabs
                     </Button>
-                    </Col>
+                   
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
-                    <Col onClick={showModal2} span={6} >
-                    <Button onClick={showModal2} style={{marginBottom:'10px',backgroundColor:'rgba(152,193,217,1)',border:'none',borderRadius:40,color:'white'}} icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur à mon équipe
+                   
+                    <Button onClick={showModal2} style={{marginRight:30, backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}} icon={<UserAddOutlined />}>
+                    Ajouter un collaborateur
                     </Button>
-                    </Col>
+                    
                     </Popover>
-                    <Col span={5} >
+                   
                     <Popconfirm
                         placement="topRight"
-                        title="Attention : Tous les Listen non complétés seront archivés"
+                        title="Attention : Tous les Listens non complétés seront archivés"
                         onConfirm={confirm}
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
-                        <Button style={{marginBottom:'10px',backgroundColor:'rgba(152,193,217,1)',color:'white',border:'none',borderRadius:40}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button style={{marginRight:30, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}>Lancer une nouvelle campagne Listen</Button>
                     </Popconfirm>
-                    </Col>
-                    <Col span={5} offset={1} >
-                        <Form style={{fontWeight:'500'}}>
-                            <Form.Item style={{fontWeight:'500'}} >
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 200,borderRadius:40 }} />
-                            </Form.Item>
+                   
+                        <Form style={{marginRight:30,fontWeight:'500', width:200,display:'inline'}}>
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180}} />
                         </Form>
+                        </Card>
                     </Col>
                 </Row>
-                <Row>
+                <Row style={{marginTop:15}}>
                     <Col span={22} offset={1}>
+                        <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal">
                         {filteredTeam.map((item,i) => (
                             <div key={i}>
-                            <List.Item actions={[<a key="delete"><Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button></a>]} style={{backgroundColor:'rgba(152,193,217,0.4)',padding:10,margin:5, borderRadius:40}}>
-                                <Avatar style={{ backgroundColor:'#FCA311', verticalAlign: 'middle' }} 
+                            <List.Item 
+                            actions={[<a key="delete">
+                                <Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button>
+                                </a>]} 
+                                style={{backgroundColor:'rgba(152,193,217,0.4)',padding:10,margin:5, borderRadius:20}}>
+                                    <table>
+                                        <tr>
+                               <td style={{width:40}}><Avatar style={{ backgroundColor:'#ffffff',color:'rgba(152,193,217,0.6)', verticalAlign: 'middle' }} 
                                 size="large">
                                 {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                                 </Avatar>
+                                </td> 
+                                <td style={{width:200,textAlign:'center'}}>
                                 <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
-                                <div>
+                                </td>
+                                <td style={{width:250,textAlign:'center'}}>
                                 {tabGlobalListen[i]}
+                                </td>
+                                <td style={{width:250,textAlign:'center'}}>
                                 {tabGlobalFeedback[i]}
-                                </div>
+                                </td>
+                                <td style={{width:110,textAlign:'center'}}>
                                 <HistoryOutlined style={{ fontSize: '24px' }}/>
-                                <div>
+                                </td>
+                                <td style={{width:90,textAlign:'center'}}>
                                     <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
                                     <LockOutlined style={iconStyleCadena[i]}/>
                                     <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
-                                </div>
+                                </td>
+                                </tr>
+                                </table>
                             </List.Item>
+                            
                             <Modal visible={visible1} onCancel={handleCancel1} footer={null}>
                                         <Form layout="vertical" >
                                             <h2 className='input-listen'> 
                                             {<Image width='30px' src="./logo-transparent.png" />}
-                                            Concernant Luke Skywalker :
+                                            Concernant ce collaborateur 
                                     </h2>
-                                <Form.Item label="Qu'avez vous pensez de la performance de Luke ?" 
+                                <Form.Item label="Qu'avez-vous pensé de la performance de ce collaborateur ?" 
                                 className='input-listen' >
                                     <Input onChange={(e) => setFeedbackOne(e.target.value)}
                                     value={feedbackOne}/>
                                 </Form.Item>
-                                <Form.Item label="Qu'attendez vous de Luke pour le mois prochain ?" 
+                                <Form.Item label="Qu'attendez-vous de lui pour le mois prochain ?" 
                                 className='input-listen'>
                                     <Input onChange={(e) => setFeedbackTwo(e.target.value)}
                                     value={feedbackTwo}/>
                                 </Form.Item>
                                 <Form.Item layout="horizontal" style={{marginTop:30}}>
                                         <Button key="back" htmlType="submit" 
-                                        style={{backgroundColor:'grey',color:'white',marginLeft:240}}
+                                        style={{backgroundColor:'grey',color:'white',marginLeft:250,borderRadius:40}}
                                         onClick={handleCancel1}>
                                             Annuler
                                         </Button>
                                         <Button key="submit" 
-                                        style={{backgroundColor:'#3d84b8',color:'white',marginLeft:20}}
+                                        style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
                                         onClick={()=> handleOk1() }>
                                         Valider
                                         </Button>
@@ -465,32 +482,33 @@ var handleStatsRoute = async () =>{
                         </Modal>
                             </div>
                         ))}
-                        </List>  
+                        </List> 
+                        </Card> 
                     </Col>
                 </Row> 
 
-                <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={700} height={500}>
+                <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={550} height={500}>
                     <div style={{color:'red', display:'flex', justifyContent:'center'}}>
                         {errorMessage}
                     </div>
-                    <Form layout="inline" >
+                    <Form layout="vertical" >
                         <h2 className='input-listen'> 
                             {<Image width='30px' src="./logo-transparent.png" />}
                             Collaborateur à ajouter :
                         </h2>
-                        <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
+                        <Form.Item  style={{marginTop:30,padding:0, width:400, marginLeft:50}}>
                             <Input placeholder='Email du collaborateur'
                             onChange={(e) => setCollabEmail(e.target.value)}
                             value={collabEmail}/>
                         </Form.Item>
-                        <Form.Item layout="horizontal" style={{marginTop:30}}>
+                        <Form.Item style={{marginTop:30}}>
                                 <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:335}}
+                                style={{backgroundColor:'grey',color:'white',marginLeft:170,borderRadius:40}}
                                 onClick={handleCancel2}>
                                     Annuler
                                 </Button>
                                 <Button key="submit" 
-                                style={{backgroundColor:'#D6A217',marginLeft:20}}
+                                style={{backgroundColor:'#C66A70',marginLeft:20,color:'white',border:'none',borderRadius:40}}
                                 onClick={()=> handleOk2()}>
                                     Ajouter ce collaborateur
                                 </Button>
@@ -501,33 +519,44 @@ var handleStatsRoute = async () =>{
                 <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
                     Confirmer
                     </Button></Link>}>
-                    <p>Souhaitez-vous supprimez définitivement ce collaborateur de votre équipe ?</p>
+                    <p>Souhaitez-vous supprimer définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-                <Modal style={{width: '900px', height: '700px'}} title="Visionage du listen" visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <Row>
-                        <Col span={6} offset={1}>
-                    <h3 strong>Votre feedback</h3>
-                    <h4>Qu'avez vous pensez de la performance de Luke ?</h4>
-                    <p type="secondary">{seeFeedback.feedback1}</p>
-                    <h4>Qu'attendez vous de ce collaborateur pour le mois prochain ?</h4>
-                    <p type="secondary">{seeFeedback.feedback2}</p>
-                    </Col>
                     <Col span={6} offset={1}>
-                    <h3>Son Listen</h3>
-                    <h4>Humeur:</h4>
-                    <p type="secondary">{seeMood}</p>
-                    <h4 >Les points positifs de la période:</h4>
-                    <p type="secondary">{seeListen.reponse1}</p>
-                    <h4>Quelles ont été les difficultés de la période?</h4>
-                    <p type="secondary">{seeListen.reponse2}</p>
+                    <h3 style={{color:'#006ba6'}}>Votre feedback</h3>
+                    <Divider/>
                     </Col>
-                    <Col span={6} offset={1}> 
+                    <Col span={14} offset={2}>
+                    <h3 style={{color:'#006ba6'}}>Son Listen</h3>
+                    <Divider/>
+                    </Col>
+                    </Row>
+                    <Row>
+                        <Col span={7} offset={1}>
+                    
+                    <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback1}</p>
+                    <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback2}</p>
+                    </Col>
+                    <Col span={7} offset={1}>
+                    
+                    <h4>Humeur : {seeMood}</h4>
+                    
+                    <h4 >Les points positifs de la période:</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse1}</p>
+                    <h4>Quelles ont été les difficultés de la période ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse2}</p>
+                    
                     <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-                    <p type="secondary">{seeListen.reponse3}</p>
-                    <h4>Qu'attends-je de mon manager pour le mois prochain?</h4>
-                    <p type="secondary">{seeListen.reponse4}</p>
-                    <h4>Un point sur lequel j'aimerai revenir:</h4>
-                    <p type="secondary">{seeListen.reponse5}</p>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse3}</p>
+                    </Col>
+                    <Col span={7} offset={1}> 
+                    <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse4}</p>
+                    <h4>Un point sur lequel j'aimerais revenir:</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse5}</p>
                     </Col>
                     </Row>
                 </Modal>

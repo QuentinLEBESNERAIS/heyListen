@@ -38,8 +38,8 @@ function ScreenLogin2(props) {
     return (
       <div className="background">
         <Row justify="center" align="middle" style={{height:'100%'}}>
-          <Col span={14} style={{height:'70%', backgroundColor:'white', borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <img width={200} src={'./logo-transparent.png'}/>
+          <Col span={14} style={{height:'70%', backgroundColor:'white', borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',filter:'drop-shadow(7px 7px 10px #555555)'}}>
+            <img style={{marginTop:10}} width={150} src={'./logo-transparent.png'}/>
             <div style={{color:'red'}}>
               {invalidPasswordMessage}
             </div>
