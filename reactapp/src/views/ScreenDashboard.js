@@ -274,13 +274,13 @@ var handleStatsRoute = async () =>{
         if(feedbackfromBack[i] === false){
             colorFeedback = 'rgba(186,24,27,0.6)'
             textFeedback = "Vous n'avez pas rempli votre partie"
-            iconDisplay = { fontSize: '24px' }
+            iconDisplay = { fontSize: '24px',color:'#003566' }
             iconDisplayCadena = { fontSize: '24px',display:'none' }
         }else{
             colorFeedback = 'rgba(43,147,72,0.6)'
             textFeedback = "Vous avez rempli votre partie"
             iconDisplay = { fontSize: '24px',display:'none' }
-            iconDisplayCadena = { fontSize: '24px' }
+            iconDisplayCadena = { fontSize: '24px',color:'#003566' }
         }
         tabGlobalFeedback.push(
             <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
@@ -296,7 +296,7 @@ var handleStatsRoute = async () =>{
     for (var i=0; i<listenfromBack.length;i++){
         var iconDisplayEye  
         if (listenfromBack[i]===true && feedbackfromBack[i]===true){
-            iconDisplayEye = { fontSize: '24px'}
+            iconDisplayEye = { fontSize: '24px',color:'#003566'}
         } else {
             iconDisplayEye = { fontSize: '24px', display:'none' }
         }
@@ -343,21 +343,23 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{backgroundColor:'#B7D3E4',height:'110vh'}}>
+            <div style={{backgroundColor:'rgb(183, 211, 228,0.6)',height:'110vh'}}>
                 <Nav/>
                 <Row style={{height:205, marginTop:10}}>
                     <Col span={4} offset={1} >
                         <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
-                        <h4 >Taux de complétion         
-                        <Progress style={{color:'grey',marginTop:29}} percent={completion} type='circle' status="active" />
+                        <h4 >Taux de complétion
+                            <Divider style={{marginTop:7, marginBottom:27}}/>        
+                        <Progress strokeColor={{'0%': '#003566','100%': '#70B48B',}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
-                <Col span={17} offset={1}>
-                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
-                        <h4>Humeur de mon équipe</h4>
+                <Col span={18}>
+                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20, marginLeft:18}}>
+                        <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
+                        <Divider style={{margin:5}}/>
                 <Line 
-                height={53}
+                height={51}
                 data={state}
                 options={{
                     animation: false,
@@ -385,14 +387,14 @@ var handleStatsRoute = async () =>{
                 <Row style={{marginTop:40}}>
                     <Col span={22} offset={1}>
                     <Card style ={{display:'flex',justifyContent:'space-around', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
-                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{marginRight:60,backgroundColor:'#C66A70', color:'white',borderRadius:10}}>
+                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
                     Relancer tous les collabs
                     </Button>
                    
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                    
-                    <Button onClick={showModal2} style={{marginRight:60, backgroundColor:'#C66A70',border:'none',borderRadius:10,color:'white'}} icon={<UserAddOutlined />}>
+                    <Button onClick={showModal2} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
                     Ajouter un collaborateur
                     </Button>
                     
@@ -405,7 +407,7 @@ var handleStatsRoute = async () =>{
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
-                        <Button style={{marginRight:60, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:10}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                     </Popconfirm>
                    
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
@@ -417,23 +419,23 @@ var handleStatsRoute = async () =>{
                 <Row style={{marginTop:15}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
-                        <List itemLayout="horizontal">
+                        <List itemLayout="horizontal" >
                         {filteredTeam.map((item,i) => (
                             <div key={i}>
                             <List.Item 
                             actions={[<a key="delete">
-                                <Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined style={{fontSize: '20px', color:'black'}}/></Button>
+                                <Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined style={{fontSize: '20px', color:'#003566'}}/></Button>
                                 </a>]} 
-                                style={{backgroundColor:'rgba(152,193,217,0.4)',padding:10,margin:5, borderRadius:20}}>
+                                style={{border:'1px solid #003566', backgroundColor:'#F9FAFD', color,padding:10,margin:5, borderRadius:20}}>
                                     <table>
                                         <tr>
-                               <td style={{width:40}}><Avatar style={{ backgroundColor:'#ffffff',color:'rgba(152,193,217,0.6)', verticalAlign: 'middle' }} 
+                               <td style={{width:40}}><Avatar style={{ border:'1px solid #003566',backgroundColor:'#ffffff',color:'#003566', verticalAlign: 'middle' }} 
                                 size="large">
                                 {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                                 </Avatar>
                                 </td> 
                                 <td style={{width:200,textAlign:'center'}}>
-                                <Typography.Text>{item.firstName} {item.lastName}</Typography.Text>
+                                <Typography.Text style={{color:'#003566'}}>{item.firstName} {item.lastName}</Typography.Text>
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
                                 {tabGlobalListen[i]}
@@ -442,7 +444,7 @@ var handleStatsRoute = async () =>{
                                 {tabGlobalFeedback[i]}
                                 </td>
                                 <td style={{width:110,textAlign:'center'}}>
-                                <HistoryOutlined style={{ fontSize: '24px' }}/>
+                                <HistoryOutlined style={{ fontSize: '24px',color:'#003566' }}/>
                                 </td>
                                 <td style={{width:90,textAlign:'center'}}>
                                     <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}

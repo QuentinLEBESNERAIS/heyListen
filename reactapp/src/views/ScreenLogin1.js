@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Col, Row, Input, Button} from 'antd';
+import {Card,Col, Row, Input, Button} from 'antd';
 import {Redirect} from 'react-router-dom';
 
 function ScreenLogin1(props) {
@@ -56,24 +56,31 @@ function ScreenLogin1(props) {
       return (
       <div className="background">
         <Row justify="center" align="middle" style={{height:'100%'}}>
-          <Col span={14} style={{height:'70%', backgroundColor:'white', borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',filter:'drop-shadow(7px 7px 10px #555555)'}}>
-            <img width={150} src={'./logo-transparent.png'}/>
+          
+          <Col span={4} style={{height:'70%', backgroundColor:'#eeeeee',borderRadius:'20px 0 0 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <img width={120} src={'./logo-transparent.png'}/>
+            <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
+            powered by<img style={{height: '20%', display: 'flex', alignItems: 'flex-end'}} width={100} src={"./uptoo.svg"}/>
+            </div>
+            </Col>
+            <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{marginTop: '20px'}}>
+            <h1 style={{marginLeft:100, marginBottom:40}}>Hey Listen !</h1>
               <div style={{color:'red'}}>
                 {invalidEmailMessage}
               </div>
+              
               <Input style={{borderRadius: '5px', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onChange={(e) => setEmail(e.target.value)} value={email}/>
               <Button style={{borderRadius: '5px'}} onClick={() => handleCheckEmail()}>
                 Valider
               </Button>
             </div>
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-              <div style={{fontStyle: 'italic'}}><strong>Hey Listen</strong>, l'application pour les managers VRAIMENT bienveillants !</div>
+              <div style={{fontStyle: 'italic'}}>L'application pour les managers VRAIMENT bienveillants !</div>
             </div>
-            <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
-            powered by <img style={{height: '20%', display: 'flex', alignItems: 'flex-end'}} width={100} src={"./uptoo.svg"}/>
-            </div>
+            
           </Col>
+          
         </Row>
       </div>
     );
