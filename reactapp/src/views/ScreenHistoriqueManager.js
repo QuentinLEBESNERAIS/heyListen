@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import Nav from './Nav'
 import _, { isArguments } from 'lodash';
 import moment from 'moment';
-import office from '../office.png'
+import rafiki from '../search-rafiki.png'
 
 function ScreenHistoriqueManager(props) {
     const {Sider, Content} = Layout;
@@ -148,7 +148,7 @@ function ScreenHistoriqueManager(props) {
                                             
                                         </Col>
                                         <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
-                                        <img src={office} width={400}/>
+                                        <img src={rafiki} width={400}/>
                                         </Col>
                                         </Row>
                                     }
