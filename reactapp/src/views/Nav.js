@@ -62,7 +62,7 @@ function Nav(props) {
       <Menu mode="horizontal" className="navbar">
         <img src={'./logo-transparent.png'} className='navLogo'></img>
         <Menu.Item key="historique" >
-          <Link to="/historique-manager" >Historique</Link>
+          <Link to="/historique-collab" >Historique</Link>
         </Menu.Item>
         <Menu.Item disabled={!listenToDo} key="listen" >
           <Badge dot style={badgeListenToDo} >

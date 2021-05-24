@@ -68,7 +68,7 @@ function ScreenLogin1(props) {
               </Button>
             </div>
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-              <div style={{fontStyle: 'italic'}}>Hey Listen, l'application pour les managers VRAIMENT bienveillants !</div>
+              <div style={{fontStyle: 'italic'}}><strong>Hey Listen</strong>, l'application pour les managers VRAIMENT bienveillants !</div>
             </div>
             <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
             powered by <img style={{height: '20%', display: 'flex', alignItems: 'flex-end'}} width={100} src={"./uptoo.svg"}/>

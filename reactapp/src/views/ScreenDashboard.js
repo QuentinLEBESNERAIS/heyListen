@@ -46,13 +46,13 @@ useEffect(()=> {
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    console.log('oooooo',statsListen.statsMood.length)
-    if(statsListen.statsMood.length < 6 ){
+    console.log('oooooo',statsListen.monthFinal.length)
+    if(statsListen.monthFinal < 6 ){
         console.log('ezetzetez');
         setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     }else{
         console.log('aaaaaaaaaaaaaaa');
-        setStats(statsListen.statsMood)
+        setStats(statsListen.monthFinal)
     }
     setPageLoaded(true)
 }
@@ -74,12 +74,12 @@ var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
     console.log(statsListen)
-    if(statsListen.statsMood.length < 6 ){
+    if(statsListen.monthFinal.length < 6 ){
         console.log('ezetzetez');
         setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     }else{
         console.log('aaaaaaaaaaaaaaa');
-        setStats(statsListen.statsMood)
+        setStats(statsListen.monthFinal)
     }
 }
    if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
@@ -346,18 +346,19 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{backgroundColor:'#B7D3E4',height:'100vh'}}>
+            <div style={{backgroundColor:'#B7D3E4',height:'110vh'}}>
                 <Nav/>
                 <Row style={{height:205, marginTop:10}}>
                     <Col span={4} offset={1} >
-                        <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
+                        <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion         
-                        <Progress style={{color:'grey',marginTop:2}} percent={completion} type='circle' status="active" />
+                        <Progress style={{color:'grey',marginTop:29}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
                 <Col span={17} offset={1}>
-                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
+                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
+                        <h4>Humeur de mon équipe</h4>
                 <Line 
                 height={53}
                 data={state}
@@ -378,17 +379,17 @@ var handleStatsRoute = async () =>{
                 </Card>
                 </Col>
                 </Row>
-                <Row style={{marginTop:10}}>
-                    <Col span={20} offset={2}>
-                    <Card style ={{display:'flex',justifyContent:'space-around', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:60}}>
-                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{marginRight:30,backgroundColor:'#C66A70', color:'white',borderRadius:40}}>
+                <Row style={{marginTop:40}}>
+                    <Col span={22} offset={1}>
+                    <Card style ={{display:'flex',justifyContent:'space-around', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
+                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{marginRight:60,backgroundColor:'#C66A70', color:'white',borderRadius:10}}>
                     Relancer tous les collabs
                     </Button>
                    
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                    
-                    <Button onClick={showModal2} style={{marginRight:30, backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}} icon={<UserAddOutlined />}>
+                    <Button onClick={showModal2} style={{marginRight:60, backgroundColor:'#C66A70',border:'none',borderRadius:10,color:'white'}} icon={<UserAddOutlined />}>
                     Ajouter un collaborateur
                     </Button>
                     
@@ -401,11 +402,11 @@ var handleStatsRoute = async () =>{
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
-                        <Button style={{marginRight:30, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button style={{marginRight:60, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:10}}>Lancer une nouvelle campagne Listen</Button>
                     </Popconfirm>
                    
-                        <Form style={{marginRight:30,fontWeight:'500', width:200,display:'inline'}}>
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180}} />
+                        <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180,borderRadius: '5px'}} />
                         </Form>
                         </Card>
                     </Col>
@@ -418,7 +419,7 @@ var handleStatsRoute = async () =>{
                             <div key={i}>
                             <List.Item 
                             actions={[<a key="delete">
-                                <Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined/></Button>
+                                <Button type="link" onClick={()=> handleDelete(item._id) }><DeleteOutlined style={{fontSize: '20px', color:'black'}}/></Button>
                                 </a>]} 
                                 style={{backgroundColor:'rgba(152,193,217,0.4)',padding:10,margin:5, borderRadius:20}}>
                                     <table>

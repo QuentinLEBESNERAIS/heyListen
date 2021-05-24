@@ -53,7 +53,7 @@ function ScreenLogin2(props) {
               <Button style={{marginLeft:172, borderRadius: '5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
             </Form>
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-              <div style={{fontStyle: 'italic'}}>Hey Listen, l'application pour les managers VRAIMENT bienveillants !</div>
+              <div style={{fontStyle: 'italic'}}><strong>Hey Listen</strong>, l'application pour les managers VRAIMENT bienveillants !</div>
             </div>
           </Col>
         </Row>
