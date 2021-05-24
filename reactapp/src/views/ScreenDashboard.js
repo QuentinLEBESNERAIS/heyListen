@@ -6,7 +6,6 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-import { registerables } from 'chart.js';
 
 function ScreenDashboard(props) {
 
