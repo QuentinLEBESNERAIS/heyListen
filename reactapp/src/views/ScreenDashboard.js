@@ -354,7 +354,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 <Col span={18}>
-                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20, marginLeft:18}}>
+                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
                 <Line 
