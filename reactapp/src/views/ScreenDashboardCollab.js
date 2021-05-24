@@ -14,7 +14,6 @@ function ScreenDashboardCollab(props) {
    
     const [listenToDo,setListenToDo] = useState(false)
     const [listenToSee,setListenToSee] = useState(false)
-    const [login, setLogin] = useState(true)
     const [pageLoaded, setPageLoaded] = useState(false)
 
     const { SubMenu } = Menu;
@@ -31,9 +30,11 @@ function ScreenDashboardCollab(props) {
             if (foundListen.listenToSee){
             setListenToSee(true)  
             } 
-            setPageLoaded(true)      
+            setPageLoaded(true)    
         }, [])
 
+    useEffect(()=>{
+    },[props.user])
 
     if (listenToDo) {
         styleListenToDo = (<Link to="/listen" ><Card hoverable style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -86,7 +87,10 @@ function ScreenDashboardCollab(props) {
 =======
     }
 
-    if(login == false){return (<Redirect to='/'/>)} else {
+    if(!props.user){return (<Redirect to='/'/>)}
+    if(props.user.type === 'manager'){
+        (<Redirect to='/dashboard'/>)
+    } else {
      if (pageLoaded){
      return (
 >>>>>>> d19c8b7b0338b3e16ba7bd311b153ffcad8acea0
@@ -97,7 +101,7 @@ function ScreenDashboardCollab(props) {
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
             icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
-            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut(); setLogin(false)}}>Me déconnecter</Menu.Item>
+            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
           </SubMenu>
       </Menu>
