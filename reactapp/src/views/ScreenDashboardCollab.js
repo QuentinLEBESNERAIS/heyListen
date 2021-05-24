@@ -130,13 +130,7 @@ function ScreenDashboardCollab(props) {
        </Col>
        
       </Row>
-<<<<<<< HEAD
       <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
-=======
-      
-      
-      <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
->>>>>>> 1633f4f954b4c715487e20cdfcc9b9c32f4dd4e1
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#59886b'}}>Votre feedback</h3>
