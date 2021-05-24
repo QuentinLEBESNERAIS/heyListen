@@ -92,9 +92,7 @@ function ScreenHistoriqueCollab(props) {
 
                         <Row type="flex" align-item="center">
                             {year === "" &&
-                                <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
-                                    <Typography.Text>vide</Typography.Text>
-                                </Col>
+                                <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle"></Col>
                             }    
 
                             {dataCollabFromBack.matriochka.map((years, i) => {
