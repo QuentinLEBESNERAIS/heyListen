@@ -343,7 +343,7 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{backgroundColor:'rgb(183, 211, 228,0.6)',backgroundSize: '100% 100%'}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)',backgroundSize: '100% 100%'}}>
                 <Nav/>
                 <Row style={{height:205, marginTop:10}}>
                     <Col span={4} offset={1} >
@@ -384,8 +384,8 @@ var handleStatsRoute = async () =>{
                 </Card>
                 </Col>
                 </Row>
-                <Row style={{marginTop:40}}>
-                    <Col span={22} offset={1}>
+                <Row >
+                    <Col span={22} offset={1} style={{marginTop:40}}>
                     <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
                     <Row >
                     <Col span={4} >

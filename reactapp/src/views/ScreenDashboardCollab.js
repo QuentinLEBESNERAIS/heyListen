@@ -5,6 +5,7 @@ import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,Plus
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+
 function ScreenDashboardCollab(props) {
 
     const [visible4, setVisible4] = useState(false);
@@ -110,7 +111,10 @@ function ScreenDashboardCollab(props) {
        </Card>
        </Link>
        </Col>
+       
       </Row>
+      
+      
       <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <Row>
                     <Col span={6} offset={1}>

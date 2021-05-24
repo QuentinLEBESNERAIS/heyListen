@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import Nav from './Nav'
 import _, { isArguments } from 'lodash';
 import moment from 'moment';
+import office from '../office.png'
 
 function ScreenHistoriqueManager(props) {
     const {Sider, Content} = Layout;
@@ -93,13 +94,13 @@ function ScreenHistoriqueManager(props) {
     if(props.userId.type==="manager"){
         return (
             <div>
-                <Layout  style={{backgroundColor:'#B7D3E4'}}>
+                <Layout  style={{backgroundColor:'#007DB3'}}>
                     <Nav/>
                             
 
                             
-                                <Layout style={{backgroundColor:'#B7D3E4',height:'100vh'}}>
-                                <Sider minHeight={100} style={{backgroundColor:'#D8E3E7'}}>
+                                <Layout style={{backgroundColor:'#FFFFFF',height:'100vh'}}>
+                                <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh'}}>
                                     <Row>
                                         <Col span={22} offset={2}>
                                        
@@ -141,9 +142,15 @@ function ScreenHistoriqueManager(props) {
                                 </Sider>
                                 <Content>
                                     {firstSelectedListen === true && 
+                                    <Row>
                                         <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
-                                            <Typography.Text> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
+                                            <Typography.Text style={{color:'black'}}> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
+                                            
                                         </Col>
+                                        <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
+                                        <img src={office} width={400}/>
+                                        </Col>
+                                        </Row>
                                     }
                                             
                                     {firstSelectedListen === false &&
