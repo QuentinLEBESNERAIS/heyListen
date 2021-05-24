@@ -14,6 +14,7 @@ function ScreenDashboardCollab(props) {
    
     const [listenToDo,setListenToDo] = useState(false)
     const [listenToSee,setListenToSee] = useState(false)
+    const [login, setLogin] = useState(true)
     const [pageLoaded, setPageLoaded] = useState(false)
 
     const { SubMenu } = Menu;
@@ -30,7 +31,7 @@ function ScreenDashboardCollab(props) {
             if (foundListen.listenToSee){
             setListenToSee(true)  
             } 
-            setPageLoaded(true)    
+            setPageLoaded(true)      
         }, [])
 
         useEffect( async () => {
@@ -92,14 +93,14 @@ function ScreenDashboardCollab(props) {
 
     const handleCancel4 = () => {
         setVisible4(false);
-    }
-
+    };
+    
     if(!props.user.email){return (<Redirect to='/'/>)}
     if(props.user.type === 'manager'){
         (<Redirect to='/dashboard'/>)
     } else {
      if (pageLoaded){
-     return (
+      return (
     <div style={{backgroundColor:'#c6ebc9',height:'100vh', width:'100vw'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
@@ -107,7 +108,7 @@ function ScreenDashboardCollab(props) {
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
             icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
-            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
+            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut(); setLogin(false)}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
           </SubMenu>
       </Menu>

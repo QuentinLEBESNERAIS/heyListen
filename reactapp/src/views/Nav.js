@@ -34,8 +34,9 @@ function Nav(props) {
   var badgeListenToSee
   if(listenToSee===false){badgeListenToSee={display:"none"}}
   
-  if(!props.user){return (<Redirect to='/'/>)}
-  if(props.user.type==="manager"){
+  if(!props.user.email){console.log("if");return (<Redirect to='/'/>)}
+  console.log('testtestrest',props.user)
+  if(props.user.type==="manager"){ 
     return (
       <Menu mode="horizontal" className="navbar">
         <img src={'./logo-transparent.png'} className='navLogo'></img>
