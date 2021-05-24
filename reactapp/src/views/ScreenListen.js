@@ -123,7 +123,7 @@ function ScreenListen(props) {
             onClick={handleCancel}>
                 Annuler
             </Button>
-            <Link to='/historique-collab'>
+            <Link to='/dashboard-collab'>
             <Button key="submit" 
             style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
             onClick={handleOk}>
