@@ -33,7 +33,7 @@ function ScreenLogin2(props) {
   } 
 
   if (loginState == 'dashboard') {
-    return (<Redirect to='/dashboard-collab'/>)
+    return (<Redirect to='/dashboard'/>)
   } else {
     return (
       <div className="background">

@@ -158,7 +158,9 @@ router.get('/find-listen', async function(req,res,next){
 
 /* GET SEE-LISTEN function-route. */
 router.get('/see-listen', async function(req,res,next){
-  var listenCompleted = await ListenModel.findOne({collab: req.query.collab,isActive:true});
+  console.log('req.query.collab', req.query.collab)
+  var listenCompleted = await ListenModel.findOne({collab: req.query.collab, isActive:true});
+  console.log('listenCompleted', listenCompleted)
  
   var answers = listenCompleted.answersCollab[0]
   var feedbacks = listenCompleted.answersFeedback[0]

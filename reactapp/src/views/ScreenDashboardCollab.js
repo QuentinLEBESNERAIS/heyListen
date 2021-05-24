@@ -10,9 +10,7 @@ import { registerables } from 'chart.js';
 
 function ScreenDashboardCollab(props) {
 
-    const [visible1, setVisible1] = useState(false);
-    const [visible2, setVisible2] = useState(false);
-    const [visible3, setVisible3] = useState(false);
+    
     const [visible4, setVisible4] = useState(false);
     const[feedbackOne,setFeedbackOne] = useState('');
     const[feedbackTwo,setFeedbackTwo] = useState('');
@@ -33,6 +31,28 @@ function ScreenDashboardCollab(props) {
     const [stats, setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
    
     const { SubMenu } = Menu;
+
+    const showModal4 = () => {
+        setVisible4(true);
+    };
+
+    var getSeeListen = async (value) => {
+        var Response = await fetch(`/see-listen?collab=${value}`);
+        var listens = await Response.json();
+        setSeeListen(listens.answers)
+        setSeeFeedback(listens.feedbacks)
+        setSeeMood(listens.listenCompleted.mood)
+    }
+    
+    
+
+    const handleOk4 =  () => {
+        setVisible4(false);
+    }
+
+    const handleCancel4 = () => {
+        setVisible4(false);
+    };
 
     return (
     <div style={{backgroundColor:'#c6ebc9',height:'100vh', width:'100vw'}}>
@@ -57,8 +77,8 @@ function ScreenDashboardCollab(props) {
        </Link>
        </Col>
         <Col span={6}>
-        <Card hoverable style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <EyeOutlined style={{ fontSize: '70px', color: '#59886b'}} />
+        <Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
+        <EyeOutlined style={{ fontSize: '70px', color: '#59886b'}}/>
         <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px'}}>Voir mon listen</div>
        </Card>
        </Col>
@@ -71,6 +91,45 @@ function ScreenDashboardCollab(props) {
        </Link>
        </Col>
       </Row>
+      <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                    <Row>
+                    <Col span={6} offset={1}>
+                    <h3 style={{color:'#006ba6'}}>Votre feedback</h3>
+                    <Divider/>
+                    </Col>
+                    <Col span={14} offset={2}>
+                    <h3 style={{color:'#006ba6'}}>Son Listen</h3>
+                    <Divider/>
+                    </Col>
+                    </Row>
+                    <Row>
+                        <Col span={7} offset={1}>
+                    
+                    <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback1}</p>
+                    <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback2}</p>
+                    </Col>
+                    <Col span={7} offset={1}>
+                    
+                    <h4>Humeur : {seeMood}</h4>
+                    
+                    <h4 >Les points positifs de la période:</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse1}</p>
+                    <h4>Quelles ont été les difficultés de la période ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse2}</p>
+                    
+                    <h4>Mon objectif prioritaire pour le mois prochain:</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse3}</p>
+                    </Col>
+                    <Col span={7} offset={1}> 
+                    <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse4}</p>
+                    <h4>Un point sur lequel j'aimerais revenir:</h4>
+                    <p style={{color:'#C66A70'}}>{seeListen.reponse5}</p>
+                    </Col>
+                    </Row>
+                </Modal>
     </div>
     );
 }

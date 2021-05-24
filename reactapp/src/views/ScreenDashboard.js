@@ -577,7 +577,7 @@ var handleStatsRoute = async () =>{
 
         
  else {
-        return (<Redirect to='/historique-collab'/>)
+        return (<Redirect to='/dashboard-collab'/>)
     }
 }
 
