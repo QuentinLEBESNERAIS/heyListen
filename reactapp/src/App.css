@@ -23,6 +23,13 @@
     box-shadow: 0 0 0 1px #ff4d4f;
 }
 
+.ant-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
 .ant-scroll-number {
   overflow: hidden;
 }
@@ -33,7 +40,7 @@
 }
 
 .navbar {
-  background-color: #C66A70;
+  background-color: whitesmoke;
   text-align: left;
 }
 
