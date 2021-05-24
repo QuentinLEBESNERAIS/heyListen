@@ -6,7 +6,6 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-import { registerables } from 'chart.js';
 
 function ScreenDashboard(props) {
 
@@ -324,8 +323,7 @@ var handleStatsRoute = async () =>{
         setSeeListen(listens.answers)
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
-    }
-    
+    } 
     
 
     const handleOk4 =  () => {
@@ -336,9 +334,6 @@ var handleStatsRoute = async () =>{
         setVisible4(false);
     };
 
-   
-    
-    
     
       if(props.userId.type==="manager"){
         if (pageLoaded){
@@ -355,7 +350,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 <Col span={18}>
-                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20, marginLeft:18}}>
+                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
                 <Line 
