@@ -357,9 +357,9 @@ var handleStatsRoute = async () =>{
                 <Col span={18}>
                     <Card style={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
-                        <Divider style={{margin:5}}/>
+                        <Divider style={{margin:4}}/>
                 <Line 
-                height={51}
+                height={50}
                 data={state}
                 options={{
                     animation: false,
@@ -386,18 +386,20 @@ var handleStatsRoute = async () =>{
                 </Row>
                 <Row style={{marginTop:40}}>
                     <Col span={22} offset={1}>
-                    <Card style ={{display:'flex',justifyContent:'space-around', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
-                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
+                    <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
+                    <Row >
+                    <Col span={4} >
+                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
                     Relancer tous les collabs
                     </Button>
-                   
+                   </Col>
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
-                   
+                    <Col span={4} offset={2}>
                     <Button onClick={showModal2} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
                     Ajouter un collaborateur
                     </Button>
-                    
+                    </Col>
                     </Popover>
                    
                     <Popconfirm
@@ -407,12 +409,16 @@ var handleStatsRoute = async () =>{
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
+                             <Col span={4} offset={2}>
                         <Button style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
-                    </Popconfirm>
-                   
+                        </Col>
+                        </Popconfirm>
+                        <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
                             <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180,borderRadius: '5px'}} />
                         </Form>
+                        </Col>
+                      </Row>
                         </Card>
                     </Col>
                 </Row>

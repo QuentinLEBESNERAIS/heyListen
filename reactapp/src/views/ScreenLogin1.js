@@ -60,18 +60,18 @@ function ScreenLogin1(props) {
           <Col span={4} style={{height:'70%', backgroundColor:'#eeeeee',borderRadius:'20px 0 0 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <img width={120} src={'./logo-transparent.png'}/>
             <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
-            powered by<img style={{height: '20%', display: 'flex', alignItems: 'flex-end'}} width={100} src={"./uptoo.svg"}/>
+            <p>powered by <img  width={55} src={"./uptoo.svg"}/></p>
             </div>
             </Col>
             <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{marginTop: '20px'}}>
-            <h1 style={{marginLeft:100, marginBottom:40}}>Hey Listen !</h1>
+            <p style={{marginLeft:70, marginBottom:40,fontSize:'40px',color:'#0065A2'}}>Hey Listen !</p>
               <div style={{color:'red'}}>
                 {invalidEmailMessage}
               </div>
               
-              <Input style={{borderRadius: '5px', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onChange={(e) => setEmail(e.target.value)} value={email}/>
-              <Button style={{borderRadius: '5px'}} onClick={() => handleCheckEmail()}>
+              <Input style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onChange={(e) => setEmail(e.target.value)} value={email}/>
+              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:10}} onClick={() => handleCheckEmail()}>
                 Valider
               </Button>
             </div>

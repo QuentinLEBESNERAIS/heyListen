@@ -38,24 +38,32 @@ function ScreenLogin2(props) {
     return (
       <div className="background">
         <Row justify="center" align="middle" style={{height:'100%'}}>
-          <Col span={14} style={{height:'70%', backgroundColor:'white', borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',filter:'drop-shadow(7px 7px 10px #555555)'}}>
-            <img style={{marginTop:10}} width={150} src={'./logo-transparent.png'}/>
+        <Col span={4} style={{height:'70%', backgroundColor:'#eeeeee',borderRadius:'20px 0 0 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <img width={120} src={'./logo-transparent.png'}/>
+          <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
+            <p>powered by <img  width={55} src={"./uptoo.svg"}/></p> </div>
+          </Col>
+            
             <div style={{color:'red'}}>
               {invalidPasswordMessage}
             </div>
+            
+            <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            
             <Form>
               <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                <Input disabled style={{borderRadius: '5px', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />
+                <Input disabled style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />
               </Form.Item>
               <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                <Input.Password style={{borderRadius: '5px', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
+                <Input.Password style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
               </Form.Item>
-              <Button style={{marginLeft:172, borderRadius: '5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
+              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:10}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
             </Form>
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-              <div style={{fontStyle: 'italic'}}><strong>Hey Listen</strong>, l'application pour les managers VRAIMENT bienveillants !</div>
+              <div style={{fontStyle: 'italic'}}>L'application pour les managers VRAIMENT bienveillants !</div>
             </div>
           </Col>
+         
         </Row>
       </div>
     );
