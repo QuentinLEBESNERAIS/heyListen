@@ -323,8 +323,7 @@ var handleStatsRoute = async () =>{
         setSeeListen(listens.answers)
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
-    }
-    
+    } 
     
 
     const handleOk4 =  () => {
@@ -335,9 +334,6 @@ var handleStatsRoute = async () =>{
         setVisible4(false);
     };
 
-   
-    
-    
     
       if(props.userId.type==="manager"){
         if (pageLoaded){
