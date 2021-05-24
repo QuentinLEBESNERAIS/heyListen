@@ -353,10 +353,12 @@ var handleStatsRoute = async () =>{
                     <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
-                <Line 
+                        <div style={{height:170}}>
+                <Line responsive={true}
                 height={50}
                 data={state}
                 options={{
+                    maintainAspectRatio:false,
                     animation: false,
                     title:{
                     display:false,
@@ -376,6 +378,7 @@ var handleStatsRoute = async () =>{
                         }
                 }}}>
                 </Line>
+                </div>
                 </Card>
                 </Col>
                 </Row>
