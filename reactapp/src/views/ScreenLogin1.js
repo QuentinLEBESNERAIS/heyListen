@@ -65,7 +65,9 @@ function ScreenLogin1(props) {
             </Col>
             <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{marginTop: '20px'}}>
+              
             <p style={{marginLeft:70, marginBottom:40,fontSize:'40px',color:'#0065A2'}}>Hey Listen !</p>
+            
               <div style={{color:'red'}}>
                 {invalidEmailMessage}
               </div>

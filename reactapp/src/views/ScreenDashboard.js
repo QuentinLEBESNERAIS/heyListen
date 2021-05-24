@@ -343,7 +343,7 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{backgroundColor:'rgb(183, 211, 228,0.6)',height:'110vh'}}>
+            <div style={{backgroundColor:'rgb(183, 211, 228,0.6)',backgroundSize: '100% 100%'}}>
                 <Nav/>
                 <Row style={{height:205, marginTop:10}}>
                     <Col span={4} offset={1} >
