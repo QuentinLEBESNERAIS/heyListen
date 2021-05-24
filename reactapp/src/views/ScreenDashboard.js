@@ -338,7 +338,7 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)',backgroundSize: '100% 100%'}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
                 <Nav/>
                 <Row style={{height:205, marginTop:10}}>
                     <Col span={4} offset={1} >
