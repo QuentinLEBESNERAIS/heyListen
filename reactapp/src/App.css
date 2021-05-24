@@ -43,6 +43,7 @@
 .background {
   background: linear-gradient(180deg, #007DB3, #005295 50%, #003376);
   height: 100vh;
+  min-height: 100vh;
 }
 
 .navbar {
@@ -113,6 +114,7 @@
   border-radius: 5px;
   margin-top: 2%;
   margin-bottom: 2%;
+  border-color:#0065A2
 }
 .sign-up-top-input-width {
   width: 49%;

@@ -14,7 +14,6 @@ function ScreenDashboardCollab(props) {
    
     const [listenToDo,setListenToDo] = useState(false)
     const [listenToSee,setListenToSee] = useState(false)
-    const [login, setLogin] = useState(true)
     const [pageLoaded, setPageLoaded] = useState(false)
 
     const { SubMenu } = Menu;
@@ -94,7 +93,7 @@ function ScreenDashboardCollab(props) {
     const handleCancel4 = () => {
         setVisible4(false);
     };
-    
+
     if(!props.user.email){return (<Redirect to='/'/>)}
     if(props.user.type === 'manager'){
         (<Redirect to='/dashboard'/>)
@@ -108,7 +107,7 @@ function ScreenDashboardCollab(props) {
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
             icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
-            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut(); setLogin(false)}}>Me déconnecter</Menu.Item>
+            <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
           </SubMenu>
       </Menu>
@@ -129,14 +128,14 @@ function ScreenDashboardCollab(props) {
        </Link>
        </Col>
       </Row>
-      <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+      <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
-                    <h3 style={{color:'#006ba6'}}>Votre feedback</h3>
+                    <h3 style={{color:'#59886b'}}>Votre feedback</h3>
                     <Divider/>
                     </Col>
                     <Col span={14} offset={2}>
-                    <h3 style={{color:'#006ba6'}}>Son Listen</h3>
+                    <h3 style={{color:'#59886b'}}>Son Listen</h3>
                     <Divider/>
                     </Col>
                     </Row>
@@ -144,27 +143,27 @@ function ScreenDashboardCollab(props) {
                         <Col span={7} offset={1}>
                     
                     <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback1}</p>
+                    <p style={{color:'#59886b'}}>{seeFeedback.feedback1}</p>
                     <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback2}</p>
+                    <p style={{color:'#59886b'}}>{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={7} offset={1}>
                     
                     <h4>Humeur : {seeMood}</h4>
                     
                     <h4 >Les points positifs de la période:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse1}</p>
+                    <p style={{color:'#59886b'}}>{seeListen.reponse1}</p>
                     <h4>Quelles ont été les difficultés de la période ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse2}</p>
+                    <p style={{color:'#59886b'}}>{seeListen.reponse2}</p>
                     
                     <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse3}</p>
+                    <p style={{color:'#59886b'}}>{seeListen.reponse3}</p>
                     </Col>
                     <Col span={7} offset={1}> 
                     <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse4}</p>
+                    <p style={{color:'#59886b'}}>{seeListen.reponse4}</p>
                     <h4>Un point sur lequel j'aimerais revenir:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse5}</p>
+                    <p style={{color:'#59886b'}}>{seeListen.reponse5}</p>
                     </Col>
                     </Row>
                 </Modal>

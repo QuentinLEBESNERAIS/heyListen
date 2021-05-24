@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Card, Col, Input, Row, Alert, Space, Button,message} from 'antd';
+import {Card, Col, Input, Row, Alert, Space, Button,message, Divider} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 
 function ScreenInfosPersonnelles(props) {
@@ -59,15 +59,16 @@ function ScreenInfosPersonnelles(props) {
     return <Redirect to="/dashboard"/>
   }
   return (
-    <div style={{backgroundColor:'#C66A70',height: '100vh'}}>
+    <div className='background'>
       <Row>
         <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
-      <Card style={{borderRadius:80}}>
+      <Card style={{borderRadius:20}}>
       <Row justify="center" align="middle">
         <Col span={16} align="middle" className="sign-up-title" style={{paddingTop:'2rem'}}>
-          <h3>Changer mes informations personnelles </h3>
+          <h3>Changer mes informations personnelles</h3>
         </Col>
       </Row>
+      <Divider/>
       <Row justify="center" align="top">
         <Col span={16}>
           <div style={{color:'red'}}>
@@ -91,8 +92,8 @@ function ScreenInfosPersonnelles(props) {
       </Row>
       <Row justify="center" align="center">
         <Col span={16} className="sign-up-button-div">
-          <Link to='/dashboard'><Button style={{backgroundColor:'grey',marginRight:5,border:'none',borderRadius:40,color:'white'}}>Retour</Button></Link>
-          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} style={{backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}}>Modifier</Button>
+          <Link to='/dashboard'><Button style={{borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Retour</Button></Link>
+          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} style={{marginLeft:'10px', borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Modifier</Button>
         </Col>
       </Row>
       </Card>
