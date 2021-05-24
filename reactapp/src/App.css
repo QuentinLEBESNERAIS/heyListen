@@ -2,7 +2,8 @@
 
 .avatar {
   background-color: #f9fafd;
-  color:#C66A70
+  color:#003566;
+  border:1px solid #003566
 }
 
 .ant-badge-count, .ant-badge-dot, .ant-badge .ant-scroll-number-custom-component {
@@ -28,13 +29,14 @@
 }
 
 .background {
-  background-color: #6CA7E4;
+  background: linear-gradient(180deg, #007DB3, #005295 50%, #003376);
   height: 100vh;
 }
 
 .navbar {
-  background-color: #C66A70;
+  background-color: 'white-smoke';
   text-align: left;
+  box-shadow: 0 4px 4px -2px rgba(0,0,0,.2);
 }
 
 .navLogo {
