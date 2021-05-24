@@ -19,6 +19,7 @@ function ScreenHistoriqueManager(props) {
     const [selectedListen, setSelectedListen] = useState({})
     const [firstSelectedListen, setFirstSelectedListen] = useState(true)
     const [firstSelectedCollab, setFirstSelectedCollab] = useState(true)
+    const [yearDropdown, setYearDropdown] = useState("default")
 
     useEffect(() => {
         const startPage = ( async () => {
@@ -43,6 +44,7 @@ function ScreenHistoriqueManager(props) {
     },[])
 
     async function handleChangeCollaborateur(value) {
+        setYearDropdown("default")
         setFirstSelectedListen(true)
         setYear('')
         setDataCollabFromBack({matriochka:[{}]})
@@ -103,26 +105,29 @@ function ScreenHistoriqueManager(props) {
                                     <Row>
                                         <Col span={22} offset={2}>
                                        
-                                 <Select defaultValue="Collaborateur" style={{width: 160, marginTop:20}} onChange={handleChangeCollaborateur}>
-                        {myTeamFromBack.map((collab, i) => (
-                                        <Option value={collab._id}>{collab.firstName}{collab.lastName}</Option>
-                                    ))}
-                        </Select>
-                                            <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
-                                                {dataCollabFromBack.matriochka.map((years, i) => (
-                                                    <Option value={i}>{_.findKey(years)}</Option>
+                                <Select defaultValue="Collaborateur" style={{width: 160, marginTop:20}} onChange={handleChangeCollaborateur}>
+                                    {myTeamFromBack.map((collab, i) => (
+                                                    <Option value={collab._id}>{collab.firstName} {collab.lastName}</Option>
                                                 ))}
-                                            </Select>
+                                </Select>
+                                            {firstSelectedCollab === false &&
+                                                <Select value={yearDropdown} defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
+                                                        <Option value="default" disabled>Selectioner une année</Option>
+                                                    {dataCollabFromBack.matriochka.map((years, i) => (
+                                                        <Option value={i}>{_.findKey(years)}</Option>
+                                                    ))}
+                                                </Select>
+                                            }
+                                            
                                         </Col>
                                     </Row>
             
                                     <Row type="flex" align-item="center">
                                         {year === "" &&
-                                            <Col span={24} offset={0} style={{marginTop:20, marginBottom:20}} justify ="center" align="middle">
-                                                <Typography.Text>vide</Typography.Text>
-                                            </Col>
+                                            <Col span={24} offset={0} style={{marginTop:20, marginBottom:20}} justify ="center" align="middle"></Col>
                                         }    
-            
+
+
                                         {dataCollabFromBack.matriochka.map((years, i) => {
                                             if (year === i) {
                                                 return dataCollabFromBack.matriochka[i][_.findKey(years)]?.map((months, o) => (
@@ -136,7 +141,8 @@ function ScreenHistoriqueManager(props) {
                                                 )) 
                                             }
                                         })}
-            
+
+
                                     </Row>
                                 </Sider>
                                 <Content>
