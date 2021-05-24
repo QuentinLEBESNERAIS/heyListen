@@ -11,6 +11,7 @@ import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
 import ScreenHistoriqueManager from './views/ScreenHistoriqueManager';
 import ScreenMyAcount from './views/ScreenMyAcount';
 import ScreenInfosPersonnelles from './views/ScreenInfosPersonnelles';
+import ScreenDashboardCollab from './views/ScreenDashboardCollab';
 
 import email from './reducers/email';
 import user from './reducers/user';
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="/login2" component={ScreenLogin2}/>
           <Route exact path="/myAcount" component={ScreenMyAcount}/>
           <Route exact path="/informations-personnelles" component={ScreenInfosPersonnelles}/>
+          <Route exact path="/dashboard-collab" component={ScreenDashboardCollab}/>
         </Switch>
       </Router>
     </Provider> 

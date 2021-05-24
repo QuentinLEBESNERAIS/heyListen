@@ -60,7 +60,7 @@ function Nav(props) {
   } else {
     return (
       <Menu mode="horizontal" className="navbar">
-        <img src={'./logo-transparent.png'} className='navLogo'></img>
+        <Link to="/dashboard-collab" ><img src={'./logo-transparent.png'} className='navLogo'></img></Link>
         <Menu.Item key="historique" >
           <Link to="/historique-collab" >Historique</Link>
         </Menu.Item>
