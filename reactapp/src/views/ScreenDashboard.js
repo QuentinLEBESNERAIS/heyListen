@@ -46,14 +46,10 @@ useEffect(()=> {
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    console.log('oooooo',statsListen.monthFinal.length)
-    if(statsListen.monthFinal < 6 ){
-        console.log('ezetzetez');
-        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
-    }else{
-        console.log('aaaaaaaaaaaaaaa');
+    
+   
         setStats(statsListen.monthFinal)
-    }
+    
     setPageLoaded(true)
 }
  if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
@@ -73,14 +69,9 @@ var handleStatsRoute = async () =>{
   var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    console.log(statsListen)
-    if(statsListen.monthFinal.length < 6 ){
-        console.log('ezetzetez');
-        setStats([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
-    }else{
-        console.log('aaaaaaaaaaaaaaa');
+    
         setStats(statsListen.monthFinal)
-    }
+    
 }
    if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
@@ -231,10 +222,16 @@ var handleStatsRoute = async () =>{
     };
 
 // Charts
+ var month = stats.map((item,i)=>(
+     item.date
+ ));
+ var data = stats.map((item,i)=>(
+    item.mood
+));
     const state = {
-        labels: ['Decembre', 'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'],
+        labels: month,
         datasets: [
-            {label: 'Humeur', backgroundColor: 'rgba(152,193,217,0.7)', borderColor: '#003566', borderWidth: 2, fill: true, lineTension: 0.4, data: [2, 1, 3, 4, 5, 3]}
+            {label: 'Humeur', backgroundColor: 'rgba(152,193,217,0.7)', borderColor: '#003566', borderWidth: 2, fill: true, lineTension: 0.4, data: data}
         ]
     }
 
@@ -367,6 +364,12 @@ var handleStatsRoute = async () =>{
                     title:{
                     display:false,
                     },
+                    scales: {
+                        y: {
+                          min: 1,
+                          max: 5,
+                        }
+                      },
                     legend:{
                     display:true,
                     },
