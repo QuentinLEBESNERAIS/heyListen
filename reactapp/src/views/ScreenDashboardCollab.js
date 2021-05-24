@@ -5,6 +5,7 @@ import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,Plus
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+
 function ScreenDashboardCollab(props) {
 
     const [visible4, setVisible4] = useState(false);
@@ -101,7 +102,7 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{backgroundColor:'#c6ebc9',height:'100vh', width:'100vw'}}>
+    <div style={{background: 'linear-gradient(180deg, #BAE2A8, #51A750 50%, #3D8A3A)',height:'100vh', width:'100vw'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
@@ -128,7 +129,10 @@ function ScreenDashboardCollab(props) {
        </Card>
        </Link>
        </Col>
+       
       </Row>
+      
+      
       <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
                     <Row>
                     <Col span={6} offset={1}>
