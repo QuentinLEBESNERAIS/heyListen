@@ -53,7 +53,7 @@ function ScreenDashboardCollab(props) {
     const handleCancel4 = () => {
         setVisible4(false);
     };
-    if(!props.user){return (<Redirect to='/'/>)}else if(props.user.type==="manager"){return(<Redirect to='/'/>)}
+    if(!props.user.email){return (<Redirect to='/'/>)}else if(props.user.type==="manager"){return(<Redirect to='/'/>)}
     else{ 
       return (
     <div style={{backgroundColor:'#c6ebc9',height:'100vh', width:'100vw'}}>
