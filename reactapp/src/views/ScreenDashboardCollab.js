@@ -33,6 +33,19 @@ function ScreenDashboardCollab(props) {
             setPageLoaded(true)    
         }, [])
 
+        useEffect( async () => {
+            var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
+            var foundListen = await rawResponse.json();
+            console.log("finListenResponse", foundListen)
+            if (foundListen.listenToDo){
+            setListenToDo(true)
+            }
+            if (foundListen.listenToSee){
+            setListenToSee(true)  
+            } 
+            setPageLoaded(true)    
+        }, [listenToDo])
+
     useEffect(()=>{
     },[props.user])
 
@@ -54,7 +67,7 @@ function ScreenDashboardCollab(props) {
         <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px'}}>Voir mon listen</div>
        </Card>)
     } else {
-        styleListenToSee = (<Card style ={{filter:'drop-shadow(1px 1px 3px #555555',backgroundColor:'#dddddd', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
+        styleListenToSee = (<Card style ={{filter:'drop-shadow(1px 1px 3px #555555', backgroundColor:'#dddddd', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
         <EyeOutlined style={{ fontSize: '70px', color: '#e8e8e8'}}/>
         <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px', color:'#aaaaaa'}}>Voir mon listen</div>
        </Card>)
@@ -81,7 +94,7 @@ function ScreenDashboardCollab(props) {
         setVisible4(false);
     }
 
-    if(!props.user){return (<Redirect to='/'/>)}
+    if(!props.user.email){return (<Redirect to='/'/>)}
     if(props.user.type === 'manager'){
         (<Redirect to='/dashboard'/>)
     } else {
