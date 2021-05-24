@@ -153,7 +153,9 @@ router.post('/find-Collab', async function(req, res, next) {
 router.get('/find-listen', async function(req,res,next){
   var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
   var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
-  res.json({listenToDo: isListenToDo,listenToSee:isListenToSee})
+  console.log('isListenToDo', isListenToDo);
+  console.log('isListenToSee', isListenToSee);
+  res.json({listenToDo: isListenToDo, listenToSee:isListenToSee})
 })
 
 /* GET SEE-LISTEN function-route. */

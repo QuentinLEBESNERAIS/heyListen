@@ -57,8 +57,7 @@ closable
 />}
 
   if(userCreated){
-    console.log('avant redirect historique collab')
-    return (<Redirect to="/historique-collab"/>)
+    return (<Redirect to="/dashboard-collab"/>)
   }
   return (
     <div style={{backgroundColor:'#C66A70',height: '100vh'}}>
