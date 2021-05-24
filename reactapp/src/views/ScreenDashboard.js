@@ -384,7 +384,7 @@ var handleStatsRoute = async () =>{
                 </Row>
                 <Row >
                     <Col span={22} offset={1} style={{marginTop:40}}>
-                    <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:10}}>
+                    <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                     <Row >
                     <Col span={4} >
                    <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
