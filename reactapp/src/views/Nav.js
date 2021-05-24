@@ -28,17 +28,13 @@ function Nav(props) {
 
   useEffect(()=>{
   },[props.user])
-
-
-
-
-
-  if(!props.user){return (<Redirect to='/'/>)}
+ 
   var badgeListenToDo
   if(listenToDo===false){badgeListenToDo={display:"none"}}
   var badgeListenToSee
   if(listenToSee===false){badgeListenToSee={display:"none"}}
   
+  if(!props.user){return (<Redirect to='/'/>)}
   if(props.user.type==="manager"){
     return (
       <Menu mode="horizontal" className="navbar">

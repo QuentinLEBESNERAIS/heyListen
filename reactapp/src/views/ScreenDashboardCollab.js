@@ -53,8 +53,9 @@ function ScreenDashboardCollab(props) {
     const handleCancel4 = () => {
         setVisible4(false);
     };
-
-    return (
+    if(!props.user){return (<Redirect to='/'/>)}else if(props.user.type==="manager"){return(<Redirect to='/'/>)}
+    else{ 
+      return (
     <div style={{backgroundColor:'#c6ebc9',height:'100vh', width:'100vw'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
@@ -132,6 +133,7 @@ function ScreenDashboardCollab(props) {
                 </Modal>
     </div>
     );
+  }
 }
 
 function mapDispatchToProps(dispatch){
