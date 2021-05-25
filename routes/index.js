@@ -160,9 +160,9 @@ router.get('/find-listen', async function(req,res,next){
 
 /* GET SEE-LISTEN function-route. */
 router.get('/see-listen', async function(req,res,next){
-  console.log('req.query.collab', req.query.collab)
+  
   var listenCompleted = await ListenModel.findOne({collab: req.query.collab, isActive:true});
-  console.log('listenCompleted', listenCompleted)
+ 
  
   var answers = listenCompleted.answersCollab[0]
   var feedbacks = listenCompleted.answersFeedback[0]
@@ -295,7 +295,7 @@ router.get('/get-stats', async function(req,res,next){
 }else if(monthFinal[i].date == 'Décembre'){
   monthFinal[i].mood = numAverage(tempDecembre)
 }}
-  console.log('month',monthFinal)
+ 
 
   res.json({monthFinal})
 })

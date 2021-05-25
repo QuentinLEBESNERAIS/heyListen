@@ -52,7 +52,7 @@ function ScreenListen(props) {
     return (
         <div>
             <Nav/>
-            <Row style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
+            <Row style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100%', width:'100%'}}>
             <Col span={22} offset={1}> 
             <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12,marginTop:"60px"}}>
             <Row>
@@ -80,7 +80,7 @@ function ScreenListen(props) {
                         </Form.Item>
                     </Col>
                     <Col span={1}>
-                        <div style={{backgroundColor:'#3d84b8',height:"280px", width:"1px", marginTop:"40px"}}></div>
+                        <div style={{backgroundColor:'#3d84b8',height:"480px", width:"1px", marginTop:"40px"}}></div>
                     </Col>
                     <Col span={10} offset={1}>
                         <h3 className='input-listen'>Mon manager et moi</h3>
