@@ -300,8 +300,8 @@ var handleStatsRoute = async () =>{
 
 // Taux de complétion 
     var listenCompleted = 0
-    for (var i=0; i<filteredTeam.length;i++){ 
-        if (filteredTeam[i].listen===true){
+    for (var i=0; i<team.length;i++){ 
+        if (team[i].listen===true){
             listenCompleted += 1
         }
     }
