@@ -39,8 +39,7 @@ useEffect(()=> {
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
-  setListenfromBack(collabs.collabsListen)
-  setFeedbackFromBack(collabs.collabFeedback)
+
 }
 
 var handleStatsRoute = async () =>{
@@ -62,8 +61,6 @@ var handleStatsRoute = async () =>{
     var collabs = await rawResponse.json();
     setTeam(collabs.collabs)
     setFilteredTeam(collabs.collabs)
-    setListenfromBack(collabs.collabsListen)
-    setFeedbackFromBack(collabs.collabFeedback)
     setPageLoaded(true)
   }
   var handleStatsRoute = async () =>{
@@ -104,8 +101,8 @@ var handleStatsRoute = async () =>{
             var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
             var collabs = await rawResponse.json();
             setTeam(collabs.collabs)
-            setListenfromBack(collabs.collabsListen)
-            setFeedbackFromBack(collabs.collabFeedback)
+            setFilteredTeam(collabs.collabs)
+            
         }
         if(props.userId.type == 'manager'){getBddCollab()}
     };
@@ -246,35 +243,31 @@ var handleStatsRoute = async () =>{
     }
 
 //changement couleur Tab collab
-    var tabGlobalListen = []
-    for(var i=0; i<listenfromBack.length;i++){
+    
+    for(var i=0; i<filteredTeam.length;i++){
     var color
     var text
     var iconDisplayEye 
-        if(listenfromBack[i] === false){
+        if(filteredTeam[i].listen === false){
             color = 'rgba(186,24,27,0.6)'
             text = "Ce collaborateur n'a pas rempli son Listen"
-        }else if (listenfromBack[i] === true){
+        }else if (filteredTeam[i].listen === true){
             color = 'rgba(43,147,72,0.6)'
             text = "Ce collaborateur a rempli son Listen"
         }
-        tabGlobalListen.push(
-            <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
-                {text}
-            </Tag>
-        )
+        filteredTeam[i].listentag = <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{text}</Tag>
+        
     }
 
 //changement couleur et icon cadena/edit Tab collab
-    var tabGlobalFeedback = []
-    var iconStyle = []
-    var iconStyleCadena =[]
-    for(var i=0; i<feedbackfromBack.length;i++){
+    
+   
+    for(var i=0; i<filteredTeam.length;i++){
         var colorFeedback
         var textFeedback
         var iconDisplay
         var iconDisplayCadena
-        if(feedbackfromBack[i] === false){
+        if(filteredTeam[i].feedback === false){
             colorFeedback = 'rgba(186,24,27,0.6)'
             textFeedback = "Vous n'avez pas rempli votre partie"
             iconDisplay = { fontSize: '24px',color:'#003566' }
@@ -285,36 +278,33 @@ var handleStatsRoute = async () =>{
             iconDisplay = { fontSize: '24px',display:'none' }
             iconDisplayCadena = { fontSize: '24px',color:'#003566' }
         }
-        tabGlobalFeedback.push(
-            <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
-                {textFeedback}
-            </Tag>
-        )
-        iconStyle.push(iconDisplay)
-        iconStyleCadena.push(iconDisplayCadena)
+        filteredTeam[i].feedbacktag= <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{textFeedback}</Tag>
+        
+        filteredTeam[i].iconStyle = iconDisplay
+        filteredTeam[i].iconStyleCadena = iconDisplayCadena
     }
 
 //changement icon oeil
-    var iconStyleEye =[]
-    for (var i=0; i<listenfromBack.length;i++){
+  
+    for (var i=0; i<filteredTeam.length;i++){
         var iconDisplayEye  
-        if (listenfromBack[i]===true && feedbackfromBack[i]===true){
+        if (filteredTeam[i].listen===true && filteredTeam[i].feedback===true){
             iconDisplayEye = { fontSize: '24px',color:'#003566'}
         } else {
             iconDisplayEye = { fontSize: '24px', display:'none' }
         }
-        iconStyleEye.push(iconDisplayEye)
+        filteredTeam[i].iconStyleEye = iconDisplayEye 
     }
 
 // Taux de complétion 
     var listenCompleted = 0
-    for (var i=0; i<listenfromBack.length;i++){ 
-        if (listenfromBack[i]===true){
+    for (var i=0; i<filteredTeam.length;i++){ 
+        if (filteredTeam[i].listen===true){
             listenCompleted += 1
         }
     }
 
-    var completion = (listenCompleted / listenfromBack.length) * 100
+    var completion = (listenCompleted / filteredTeam.length) * 100
 
     const showModal4 = () => {
        
@@ -347,7 +337,7 @@ var handleStatsRoute = async () =>{
                         <Card style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion
                             <Divider style={{marginTop:7, marginBottom:27}}/>        
-                        <Progress strokeColor={{'0%': '#003566','100%': '#70B48B',}} percent={completion} type='circle' status="active" />
+                        <Progress strokeColor={{'0%': '#003566','100%': '#00BFA6',}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
@@ -446,16 +436,16 @@ var handleStatsRoute = async () =>{
                                 <Typography.Text style={{color:'#003566'}}>{item.firstName} {item.lastName}</Typography.Text>
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
-                                {tabGlobalListen[i]}
+                                {filteredTeam[i].listentag}
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
-                                {tabGlobalFeedback[i]}
+                                {filteredTeam[i].feedbacktag}
                                 </td>
                                 <td style={{width:90,textAlign:'center'}}>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
+                                    <EyeOutlined style={filteredTeam[i].iconStyleEye} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
-                                    <LockOutlined style={iconStyleCadena[i]}/>
-                                    <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
+                                    <LockOutlined style={filteredTeam[i].iconStyleCadena}/>
+                                    <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={filteredTeam[i].iconStyle}/>
                                 </td>
                                 </tr>
                                 </table>
