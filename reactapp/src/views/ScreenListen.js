@@ -51,7 +51,7 @@ function ScreenListen(props) {
     return (
         <div>
             <Nav/>
-            <Row style={{backgroundColor:'#cbeef3', height:'100%'}}>
+            <Row style={{backgroundColor:'#cbeef3', width:'100%', minHeight: '100vh'}}>
             <Col span={22} offset={1}> 
             <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12}}>
             <Row>
