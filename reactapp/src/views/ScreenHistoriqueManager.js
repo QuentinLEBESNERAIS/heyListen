@@ -96,7 +96,7 @@ function ScreenHistoriqueManager(props) {
     if(props.userId.type==="manager"){
         return (
             <div>
-                <Layout  style={{backgroundColor:'#007DB3'}}>
+                <Layout  style={{backgroundColor:'#007DB3', width:'100%', minHeight: '100vh'}}>
                     <Nav/>
                         <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
                             <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh',position: 'fixed', zIndex: 1}}>

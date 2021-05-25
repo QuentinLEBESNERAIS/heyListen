@@ -32,6 +32,7 @@ function ScreenDashboard(props) {
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     const { Header, Footer, Sider, Content } = Layout;
+<<<<<<< HEAD
     //Affichage collab 
     useEffect(()=> {
     var getBddCollab = async () => {
@@ -42,6 +43,17 @@ function ScreenDashboard(props) {
     setListenfromBack(collabs.collabsListen)
     setFeedbackFromBack(collabs.collabFeedback)
     }
+=======
+//Affichage collab 
+useEffect(()=> {
+  var getBddCollab = async () => {
+  var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+  var collabs = await rawResponse.json();
+  setTeam(collabs.collabs)
+  setFilteredTeam(collabs.collabs)
+
+}
+>>>>>>> 64fb53f3babb2f494a2defa5760bef7852d7424b
 
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
@@ -52,18 +64,16 @@ var handleStatsRoute = async () =>{
     
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
   },[])
 
-  console.log('stats',stats)
+  
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
     var collabs = await rawResponse.json();
     setTeam(collabs.collabs)
     setFilteredTeam(collabs.collabs)
-    setListenfromBack(collabs.collabsListen)
-    setFeedbackFromBack(collabs.collabFeedback)
     setPageLoaded(true)
   }
   var handleStatsRoute = async () =>{
@@ -78,8 +88,9 @@ var handleStatsRoute = async () =>{
 
 // Recherche collab
     useEffect(()=> {
-        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
+        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()) || person.lastName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
+        console.log("results",results)
     },[search])
 
 // Paramètres modale feedback manager
@@ -103,8 +114,8 @@ var handleStatsRoute = async () =>{
             var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
             var collabs = await rawResponse.json();
             setTeam(collabs.collabs)
-            setListenfromBack(collabs.collabsListen)
-            setFeedbackFromBack(collabs.collabFeedback)
+            setFilteredTeam(collabs.collabs)
+            
         }
         if(props.userId.type == 'manager'){getBddCollab()}
     };
@@ -245,35 +256,31 @@ var handleStatsRoute = async () =>{
     }
 
 //changement couleur Tab collab
-    var tabGlobalListen = []
-    for(var i=0; i<listenfromBack.length;i++){
+    
+    for(var i=0; i<filteredTeam.length;i++){
     var color
     var text
     var iconDisplayEye 
-        if(listenfromBack[i] === false){
+        if(filteredTeam[i].listen === false){
             color = 'rgba(186,24,27,0.6)'
             text = "Ce collaborateur n'a pas rempli son Listen"
-        }else if (listenfromBack[i] === true){
+        }else if (filteredTeam[i].listen === true){
             color = 'rgba(43,147,72,0.6)'
             text = "Ce collaborateur a rempli son Listen"
         }
-        tabGlobalListen.push(
-            <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
-                {text}
-            </Tag>
-        )
+        filteredTeam[i].listentag = <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{text}</Tag>
+        
     }
 
 //changement couleur et icon cadena/edit Tab collab
-    var tabGlobalFeedback = []
-    var iconStyle = []
-    var iconStyleCadena =[]
-    for(var i=0; i<feedbackfromBack.length;i++){
+    
+   
+    for(var i=0; i<filteredTeam.length;i++){
         var colorFeedback
         var textFeedback
         var iconDisplay
         var iconDisplayCadena
-        if(feedbackfromBack[i] === false){
+        if(filteredTeam[i].feedback === false){
             colorFeedback = 'rgba(186,24,27,0.6)'
             textFeedback = "Vous n'avez pas rempli votre partie"
             iconDisplay = { fontSize: '24px',color:'#003566' }
@@ -284,36 +291,33 @@ var handleStatsRoute = async () =>{
             iconDisplay = { fontSize: '24px',display:'none' }
             iconDisplayCadena = { fontSize: '24px',color:'#003566' }
         }
-        tabGlobalFeedback.push(
-            <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>
-                {textFeedback}
-            </Tag>
-        )
-        iconStyle.push(iconDisplay)
-        iconStyleCadena.push(iconDisplayCadena)
+        filteredTeam[i].feedbacktag= <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{textFeedback}</Tag>
+        
+        filteredTeam[i].iconStyle = iconDisplay
+        filteredTeam[i].iconStyleCadena = iconDisplayCadena
     }
 
 //changement icon oeil
-    var iconStyleEye =[]
-    for (var i=0; i<listenfromBack.length;i++){
+  
+    for (var i=0; i<filteredTeam.length;i++){
         var iconDisplayEye  
-        if (listenfromBack[i]===true && feedbackfromBack[i]===true){
+        if (filteredTeam[i].listen===true && filteredTeam[i].feedback===true){
             iconDisplayEye = { fontSize: '24px',color:'#003566'}
         } else {
             iconDisplayEye = { fontSize: '24px', display:'none' }
         }
-        iconStyleEye.push(iconDisplayEye)
+        filteredTeam[i].iconStyleEye = iconDisplayEye 
     }
 
 // Taux de complétion 
     var listenCompleted = 0
-    for (var i=0; i<listenfromBack.length;i++){ 
-        if (listenfromBack[i]===true){
+    for (var i=0; i<filteredTeam.length;i++){ 
+        if (filteredTeam[i].listen===true){
             listenCompleted += 1
         }
     }
 
-    var completion = (listenCompleted / listenfromBack.length) * 100
+    var completion = (listenCompleted / filteredTeam.length) * 100
 
     const showModal4 = () => {
        
@@ -327,11 +331,7 @@ var handleStatsRoute = async () =>{
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     } 
-    
 
-    const handleOk4 =  () => {
-        setVisible4(false);
-    }
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -343,14 +343,14 @@ var handleStatsRoute = async () =>{
         return (
             <Layout>  
                 <Nav/>
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', width:'100%', minHeight: '100vh'}}>
                 <div style={{marginTop:"60px"}}>
                 <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
                         <Card style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion
                             <Divider style={{marginTop:7, marginBottom:27}}/>        
-                        <Progress strokeColor={{'0%': '#003566','100%': '#70B48B',}} percent={completion} type='circle' status="active" />
+                        <Progress strokeColor={{'0%': '#003566','100%': '#00BFA6',}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
@@ -392,7 +392,7 @@ var handleStatsRoute = async () =>{
                     <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                     <Row >
                     <Col span={4} >
-                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
+                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)', marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
                     Relancer tous les collabs
                     </Button>
                    </Col>
@@ -400,7 +400,7 @@ var handleStatsRoute = async () =>{
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col span={4} offset={2}>
                     <Button onClick={showModal2} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur
+                    Inviter un collaborateur
                     </Button>
                     </Col>
                     </Popover>
@@ -412,9 +412,11 @@ var handleStatsRoute = async () =>{
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
+                            
                              <Col span={4} offset={2}>
                         <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                         </Col>
+                        
                         </Popconfirm>
                         <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
@@ -425,7 +427,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 </Row>
-                <Row style={{marginTop:12}}>
+                <Row style={{marginTop:12, marginBottom:12}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal" >
@@ -447,16 +449,16 @@ var handleStatsRoute = async () =>{
                                 <Typography.Text style={{color:'#003566'}}>{item.firstName} {item.lastName}</Typography.Text>
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
-                                {tabGlobalListen[i]}
+                                {filteredTeam[i].listentag}
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
-                                {tabGlobalFeedback[i]}
+                                {filteredTeam[i].feedbacktag}
                                 </td>
                                 <td style={{width:90,textAlign:'center'}}>
-                                    <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
+                                    <EyeOutlined style={filteredTeam[i].iconStyleEye} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
-                                    <LockOutlined style={iconStyleCadena[i]}/>
-                                    <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={iconStyle[i]}/>
+                                    <LockOutlined style={filteredTeam[i].iconStyleCadena}/>
+                                    <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={filteredTeam[i].iconStyle}/>
                                 </td>
                                 </tr>
                                 </table>
@@ -486,7 +488,7 @@ var handleStatsRoute = async () =>{
                                         </Button>
                                         <Button key="submit" 
                                         style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
-                                        onClick={()=> handleOk1() }>
+                                        onClick={()=> handleOk1()}>
                                         Valider
                                         </Button>
                                 </Form.Item>

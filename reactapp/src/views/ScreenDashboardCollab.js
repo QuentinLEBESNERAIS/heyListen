@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Divider,Button,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
+import {Divider,Badge,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -54,35 +54,36 @@ function ScreenDashboardCollab(props) {
 
     if (listenToDo) {
         styleListenToDo = (<Link to="/listen" >
+          <Badge count={1}>
           <Card
         hoverable
-        style={{ filter:'drop-shadow(1px 1px 3px #555555)',marginTop:22, borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={opinions}/>}
+        style={{ filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        cover={<img alt="example" style={{height:'215px'}} src={opinions}/>}
       >
         <Card.Meta title="Faire mon listen"  />
-      </Card>,
+      </Card>
+      </Badge>
         </Link>)
     } else {
       styleListenToDo =(<Card
-      hoverable
       style={{backgroundColor:'#DDDDDD', filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-      cover={<img alt="example" src={opinions}/>}
+      cover={<img style={{height:'215px'}} alt="example" src={opinions}/>}
     >
-      <Card.Meta description="Faire mon listen"  />
+      <Card.Meta description="Pas de listen à faire pour le moment"  />
     </Card>)
     }
 
     if (listenToSee) {
         styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} 
         style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={reading}/>}>
+        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
         <Card.Meta title="Voir mon listen"  />
        </Card>)
     } else {
         styleListenToSee = (<Card 
         style ={{backgroundColor:'#DDDDDD',filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={reading}/>}>
-        <Card.Meta description="Voir mon listen"  />
+        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
+        <Card.Meta description="Le dernier listen n'est pas encore complet"  />
        </Card>)
     }
 
@@ -108,12 +109,12 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
+    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, height:'100vh', minHeight: '100vh'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-            icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+            icon={<Avatar style={{backgroundColor: '#f9fafd', color:'#00BFA6', border:'1px solid #00BFA6'}} size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
             <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
@@ -131,14 +132,14 @@ function ScreenDashboardCollab(props) {
         <Link to="/historique-collab" >
         <Card hoverable 
         style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={searching}/>}>
-        <Card.Meta title="Historique"  />
+        cover={<img alt="example" style={{height:'215px'}} src={searching}/>}>
+        <Card.Meta title="Mon historique"  />
        </Card>
        </Link>
        </Col>
        
       </Row>
-      <Modal className='center' width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
+      <Modal className='center' style={{borderRadius:100}} width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#00BFA6'}}>Votre feedback</h3>

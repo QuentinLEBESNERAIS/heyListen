@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Card, Col, Input, Row, Alert, Space, Button,message, Divider} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 
+
 function ScreenInfosPersonnelles(props) {
 
   const [firstName,setFirstName] = useState(props.user.firstName)
@@ -64,8 +65,8 @@ function ScreenInfosPersonnelles(props) {
         <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
       <Card style={{borderRadius:20}}>
       <Row justify="center" align="middle">
-        <Col span={16} align="middle" className="sign-up-title" style={{paddingTop:'2rem'}}>
-          <h3>Changer mes informations personnelles</h3>
+        <Col span={16} align="middle" className="sign-up-title" >
+          <h4 style={{margin:0}}>Changer mes informations personnelles</h4>
         </Col>
       </Row>
       <Divider/>
