@@ -78,7 +78,7 @@ var handleStatsRoute = async () =>{
 
 // Recherche collab
     useEffect(()=> {
-        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
+        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()) || person.lastName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
     },[search])
 
@@ -327,11 +327,7 @@ var handleStatsRoute = async () =>{
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     } 
-    
 
-    const handleOk4 =  () => {
-        setVisible4(false);
-    }
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -486,7 +482,7 @@ var handleStatsRoute = async () =>{
                                         </Button>
                                         <Button key="submit" 
                                         style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
-                                        onClick={()=> handleOk1() }>
+                                        onClick={()=> handleOk1()}>
                                         Valider
                                         </Button>
                                 </Form.Item>
