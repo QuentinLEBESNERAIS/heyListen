@@ -495,7 +495,7 @@ var handleStatsRoute = async () =>{
                     <Form layout="vertical" >
                         <h2 className='input-listen'> 
                             {<Image width='30px' src="./logo-transparent.png" />}
-                            Collaborateur à ajouter :
+                            Collaborateur à inviter
                         </h2>
                         <Form.Item  style={{marginTop:30,padding:0, width:400, marginLeft:50}}>
                             <Input placeholder='Email du collaborateur'
@@ -504,7 +504,7 @@ var handleStatsRoute = async () =>{
                         </Form.Item>
                         <Form.Item style={{marginTop:30}}>
                                 <Button key="back" htmlType="submit" 
-                                style={{marginLeft:150, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
+                                style={{marginLeft:150, borderColor:'grey', color:'grey',borderRadius:10,filter:'drop-shadow(1px 1px 1px grey)'}}
                                 onClick={handleCancel2}>
                                     Annuler
                                 </Button>
