@@ -32,8 +32,8 @@ function ScreenDashboard(props) {
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     const { Header, Footer, Sider, Content } = Layout;
-//Affichage collab 
-useEffect(()=> {
+    //Affichage collab 
+    useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
     var collabs = await rawResponse.json();

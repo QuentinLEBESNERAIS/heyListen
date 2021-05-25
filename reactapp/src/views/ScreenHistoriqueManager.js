@@ -98,9 +98,6 @@ function ScreenHistoriqueManager(props) {
             <div>
                 <Layout  style={{backgroundColor:'#007DB3'}}>
                     <Nav/>
-                            
-
-                            
                                 <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
                                 <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh'}}>
                                     <Row>
@@ -150,7 +147,7 @@ function ScreenHistoriqueManager(props) {
                                     {firstSelectedListen === true && 
                                     <Row>
                                         <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
-                                            <Typography.Text style={{color:'black'}}> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
+                                            <Typography.Text style={{color:'black'}}> Veuillez choisir un Collaborateur dans le menu déroulant à gauche</Typography.Text>
                                             
                                         </Col>
                                         <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>

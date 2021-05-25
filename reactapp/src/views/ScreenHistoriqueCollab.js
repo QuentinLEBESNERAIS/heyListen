@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import Nav from './Nav'
 import _, { isArguments } from 'lodash';
 import moment from 'moment';
+import rafiki from '../search-rafiki.png'
 
 function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
@@ -49,9 +50,6 @@ function ScreenHistoriqueCollab(props) {
 
     function handleChange(value) {
         console.log("MATRIOCHKA = ",dataCollabFromBack)
-        console.log("Test 2 = ", dataCollabFromBack.matriochka)
-        console.log("Test 3 = ", dataCollabFromBack.matriochka[0][2021][0])
-        console.log("year = ", year)
         setYear(value);
     }
 
@@ -68,7 +66,7 @@ function ScreenHistoriqueCollab(props) {
         <Menu>
             {dataCollabFromBack.matriochka[i][_.findKey(years)][o][_.findKey(months)][0].map((days, p) => (
                 <Menu.Item key={p}>
-                    <Typography.Text onClick={() => chooseListen(days)}>{moment(days.createdAt).format('DD')}/{_.findKey(months)}/{_.findKey(years)}</Typography.Text>
+                    <Typography.Text onClick={() => chooseListen(days)}><strong>{moment(days.createdAt).format('DD')} / {_.findKey(months)} / {_.findKey(years)}</strong></Typography.Text>
                 </Menu.Item>
             ))}
         </Menu>
@@ -78,11 +76,11 @@ function ScreenHistoriqueCollab(props) {
         <div>
             <Layout style={{backgroundColor:'#FFFFFF'}}>
                 <Nav/>
-                <Layout style={{backgroundColor:'#FFFFFF'}}>
-                    <Sider style={{backgroundColor:'#D8E3E7',height:"100vh"}}>
+                <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
+                    <Sider style={{backgroundColor:'#003376',height:"100vh" ,position: 'fixed', zIndex: 1}}>
                         <Row>
                             <Col span={22} offset={2}>
-                                <Select defaultValue="Année" style={{width: 160, marginTop:20}} onChange={handleChange}>
+                                <Select defaultValue="Année" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChange}>
                                     {dataCollabFromBack.matriochka.map((years, i) => (
                                         <Option value={i}>{_.findKey(years)}</Option>
                                     ))}
@@ -100,9 +98,11 @@ function ScreenHistoriqueCollab(props) {
                                     return dataCollabFromBack.matriochka[i][_.findKey(years)].map((months, o) => (
                                         <Col span={24} offset={0} style={{marginTop:20}} justify ="center" align="middle">
                                             <Dropdown overlay={menu(i, years, o, months)} trigger={['click']}>
-                                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                                    {_.findKey(months)}/{_.findKey(years)} <DownOutlined />
-                                                </a>
+                                                <Button type="primary">
+                                                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                                        <strong>{_.findKey(months)}/{_.findKey(years)} </strong><DownOutlined />
+                                                    </a>
+                                                </Button>
                                             </Dropdown>
                                         </Col>
                                     )) 
@@ -113,61 +113,66 @@ function ScreenHistoriqueCollab(props) {
                     </Sider>
                     <Content>
                         {firstSelectedListen === true &&
-                            <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:25}}>
-                                <Typography.Text> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
-                            </Col>
+                            <Row>
+                                <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
+                                    <Typography.Text> Veuillez choisir un Listen dans le menu déroulant à gauche</Typography.Text>
+                                </Col>
+                                <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
+                                    <img src={rafiki} width={400}/>
+                                </Col>
+                            </Row> 
                         }
                                 
                         {firstSelectedListen === false &&
                                 <Row>
-                                <Col span={24} offset={0} justify="center" align="middle" style={{marginTop:20}}>
+                                <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:20}}>
                                     <Typography.Text>{moment(selectedListen.createdAt).format('DD-MM-YYYY')}</Typography.Text>
                                 </Col>
-                                <Col span={24} offset={0}>
+                                <Col span={20} offset={4}>
                                     <div className="icon-wrapper">
                                         <FrownOutlined style={{color:'#A62626'}}/>
                                         <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={selectedListen.mood} min={1} max={5}/>
                                         <SmileOutlined style={{color:'#448f30'}}/>
                                     </div>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>Question 1</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse1: "Vide"} disabled="true"/>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>Question 2</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse2: "Vide"} disabled="true"/>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>Question 3</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse3: "Vide"} disabled="true"/>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>Question 4</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse4: "Vide"} disabled="true"/>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>Question 5</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse5: "Vide"} disabled="true"/>
                                 </Col>
-                                <Divider>FeedBack Manager</Divider>
-                                <Col span={22} offset={2}>
+                                <Divider style={{marginLeft:110}}>FeedBack Manager</Divider>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>FeedBack 1</Typography.Text>
                                     </Col>
                                     <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} placeholder={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback1: "Vide"} disabled="true"/>
                                 </Col>
-                                <Col span={22} offset={2}>
+                                <Col span={18} offset={6}>
                                     <Col style={{marginBottom:4}}>
                                         <Typography.Text>FeedBack 2</Typography.Text>
                                     </Col>
