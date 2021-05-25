@@ -38,7 +38,7 @@ function Nav(props) {
   console.log('testtestrest',props.user)
   if(props.user.type==="manager"){ 
     return (
-      <Menu mode="horizontal" className="navbar">
+      <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
         <img src={'./logo-transparent.png'} className='navLogo'></img>
         <Menu.Item key="équipe">
           <Link to="/dashboard" >Mon équipe</Link>
@@ -56,7 +56,7 @@ function Nav(props) {
     )
   } else {
     return (
-      <Menu mode="horizontal" className="navbar">
+      <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
         <Link to="/dashboard-collab" ><img src={'./logo-transparent.png'} className='navLogo'></img></Link>
         <Menu.Item key="historique" >
           <Link to="/historique-collab" >Historique</Link>
