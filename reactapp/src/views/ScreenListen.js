@@ -51,9 +51,9 @@ function ScreenListen(props) {
     return (
         <div>
             <Nav/>
-            <Row style={{backgroundColor:'#cbeef3', width:'100%', minHeight: '100vh'}}>
+            <Row style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
             <Col span={22} offset={1}> 
-            <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12}}>
+            <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12,marginTop:"60px"}}>
             <Row>
                 <Col span={4} offset={10}>    
                     <h4 style={{marginLeft:10, marginBottom:0}}>Mon humeur du moment</h4>
@@ -91,7 +91,7 @@ function ScreenListen(props) {
                         </Form.Item>
                         <Form.Item >
                             <Button htmlType="submit" className='input-button-listen'
-                             style={{marginLeft:220, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
+                             style={{marginLeft:220, borderColor:'#00BFA6',color:'#00BFA6',filter:'drop-shadow(1px 1px 1px #00BFA6)',borderRadius:40}}
                             onClick={showModal}>
                                 Valider
                             </Button>
@@ -101,6 +101,7 @@ function ScreenListen(props) {
             </Form>  
             </Card>
             </Col>
+        
             </Row>
             <Modal className='center' visible={visible} onCancel={handleCancel} footer={null}>
             <h2 className='input-listen'> 
@@ -113,24 +114,24 @@ function ScreenListen(props) {
                 <SmileOutlined style={{color:'#448f30'}}/>
             </div>
             <h4 style={{textDecoration:'underline'}}>Les points positifs de la période</h4>
-            <p style={{color:'#C66A70'}}>{responseOne}</p>
+            <p style={{color:'#00BFA6'}}>{responseOne}</p>
             <h4 style={{textDecoration:'underline'}}>Quelles ont été les difficultés de la période ?</h4>
-            <p style={{color:'#C66A70'}}>{responseTwo}</p>
+            <p style={{color:'#00BFA6'}}>{responseTwo}</p>
             <h4 style={{textDecoration:'underline'}}>Mon objectif prioritaire pour le mois prochain</h4>
-            <p style={{color:'#C66A70'}}>{responseThree}</p>
+            <p style={{color:'#00BFA6'}}>{responseThree}</p>
             <h4 style={{textDecoration:'underline'}}>Qu'attends-je de mon manager pour le mois prochain?</h4>
-            <p style={{color:'#C66A70'}}>{responseFour}</p>
+            <p style={{color:'#00BFA6'}}>{responseFour}</p>
             <h4 style={{textDecoration:'underline'}}>Un point sur lequel j'aimerais revenir</h4>
-            <p style={{color:'#C66A70'}}>{responseFive}</p>
+            <p style={{color:'#00BFA6'}}>{responseFive}</p>
             <div style={{display:'inline'}}>
             <Button key="back" htmlType="submit" 
-            style={{marginLeft:220, backgroundColor:'grey',color:'white',border:'none',borderRadius:240}}
+            style={{marginLeft:220, borderColor:'grey',color:'grey',borderRadius:240,filter:'drop-shadow(1px 1px 1px grey)'}}
             onClick={handleCancel}>
                 Annuler
             </Button>
             <Link to='/dashboard-collab'>
             <Button key="submit" 
-            style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
+            style={{marginLeft:20, borderColor:'#00BFA6',color:'#00BFA6',filter:'drop-shadow(1px 1px 1px #00BFA6)',borderRadius:40}}
             onClick={handleOk}>
                 Envoyer ce listen
             </Button>

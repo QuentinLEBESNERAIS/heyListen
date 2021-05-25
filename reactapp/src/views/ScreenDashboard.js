@@ -389,7 +389,7 @@ var handleStatsRoute = async () =>{
                     <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                     <Row >
                     <Col span={4} >
-                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
+                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)', marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
                     Relancer tous les collabs
                     </Button>
                    </Col>
@@ -397,7 +397,7 @@ var handleStatsRoute = async () =>{
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col span={4} offset={2}>
                     <Button onClick={showModal2} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
-                    Ajouter un collaborateur
+                    Inviter un collaborateur
                     </Button>
                     </Col>
                     </Popover>
@@ -409,9 +409,11 @@ var handleStatsRoute = async () =>{
                         okText="Je lance une nouvelle campagne"
                         cancelText="Retour"
                         >
+                            
                              <Col span={4} offset={2}>
                         <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                         </Col>
+                        
                         </Popconfirm>
                         <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
