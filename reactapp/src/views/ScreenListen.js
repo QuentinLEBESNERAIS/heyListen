@@ -45,7 +45,8 @@ function ScreenListen(props) {
     const handleCancel = () => {
         setVisible(false);
     };
-
+    
+    const {TextArea} = Input
     
 
     return (
@@ -69,13 +70,13 @@ function ScreenListen(props) {
                     <Col span={10} offset={2}>
                         <h3 className='input-listen'>Mon Listen</h3>
                         <Form.Item label="Les points positifs de la période" className='input-listen' >
-                            <Input onChange={(e) => setResponseOne(e.target.value)} value={responseOne}/>
+                            <TextArea rows={4} onChange={(e) => setResponseOne(e.target.value)} value={responseOne}/>
                         </Form.Item>
                         <Form.Item label="Quelles ont été les difficultés de la période ?" className='input-listen' >
-                            <Input onChange={(e) => setResponseTwo(e.target.value)} value={responseTwo}/>
+                            <TextArea rows={4} onChange={(e) => setResponseTwo(e.target.value)} value={responseTwo}/>
                         </Form.Item>
                         <Form.Item label="Mon objectif prioritaire pour le mois prochain" className='input-listen' >
-                            <Input onChange={(e) => setResponseThree(e.target.value)} value={responseThree}/>
+                            <TextArea rows={4} onChange={(e) => setResponseThree(e.target.value)} value={responseThree}/>
                         </Form.Item>
                     </Col>
                     <Col span={1}>
@@ -84,10 +85,10 @@ function ScreenListen(props) {
                     <Col span={10} offset={1}>
                         <h3 className='input-listen'>Mon manager et moi</h3>
                         <Form.Item label="Qu'attends-je de mon manager pour le mois prochain ?" className='input-listen' >
-                            <Input onChange={(e) => setResponseFour(e.target.value)} value={responseFour}/>
+                            <TextArea rows={4} onChange={(e) => setResponseFour(e.target.value)} value={responseFour}/>
                         </Form.Item>
                         <Form.Item label="Un point sur lequel j'aimerais revenir" className='input-listen' >
-                            <Input onChange={(e) => setResponseFive(e.target.value)} value={responseFive}/>
+                            <TextArea rows={4} onChange={(e) => setResponseFive(e.target.value)} value={responseFive}/>
                         </Form.Item>
                         <Form.Item >
                             <Button htmlType="submit" className='input-button-listen'
