@@ -52,10 +52,10 @@ var handleStatsRoute = async () =>{
     
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
   },[])
 
-  console.log('stats',stats)
+  
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
@@ -80,6 +80,7 @@ var handleStatsRoute = async () =>{
     useEffect(()=> {
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()) || person.lastName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
+        console.log("results",results)
     },[search])
 
 // Paramètres modale feedback manager
