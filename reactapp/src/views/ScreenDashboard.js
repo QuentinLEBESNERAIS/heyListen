@@ -379,14 +379,14 @@ var handleStatsRoute = async () =>{
                     <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                     <Row >
                     <Col span={4} >
-                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)', marginRight:60,borderColor:'#003566', color:'#003566',borderRadius:10}}>
-                    Relancer tous les collabs
+                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)', borderColor:'#003566', color:'#003566',borderRadius:10, width:'266px'}}>
+                    Relancer tous les collab.
                     </Button>
                    </Col>
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col span={4} offset={2}>
-                    <Button onClick={showModal2} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
+                    <Button onClick={showModal2} style={{ borderColor:'#003566', color:'#003566',borderRadius:10,width:'266px',filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
                     Inviter un collaborateur
                     </Button>
                     </Col>
@@ -401,13 +401,13 @@ var handleStatsRoute = async () =>{
                         >
                             
                              <Col span={4} offset={2}>
-                        <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button icon={<SyncOutlined />} style={{ borderColor:'#003566', color:'#003566',width:'266px',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une campagne Listen</Button>
                         </Col>
                         
                         </Popconfirm>
-                        <Col span={4} offset={4}>
-                        <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)}  style={{ width: 180,borderRadius: '5px'}} />
+                        <Col span={4} offset={2}>
+                        <Form style={{fontWeight:'500', display:'inline'}}>
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)}  style={{ width:'266px',borderRadius:10}} />
                         </Form>
                         </Col>
                       </Row>
@@ -469,12 +469,12 @@ var handleStatsRoute = async () =>{
                                 </Form.Item>
                                 <Form.Item layout="horizontal" style={{marginTop:30}}>
                                         <Button key="back" htmlType="submit" 
-                                        style={{backgroundColor:'grey',color:'white',marginLeft:250,borderRadius:40}}
+                                        style={{marginLeft:260,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}
                                         onClick={handleCancel1}>
                                             Annuler
                                         </Button>
                                         <Button key="submit" 
-                                        style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
+                                        style={{marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}
                                         onClick={()=> handleOk1()}>
                                         Valider
                                         </Button>
