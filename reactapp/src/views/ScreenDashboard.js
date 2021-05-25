@@ -339,7 +339,7 @@ var handleStatsRoute = async () =>{
         return (
             <Layout>  
                 <Nav/>
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', width:'100%', minHeight: '100vh'}}>
                 <div style={{marginTop:"60px"}}>
                 <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
@@ -421,7 +421,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 </Row>
-                <Row style={{marginTop:12}}>
+                <Row style={{marginTop:12, marginBottom:12}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal" >

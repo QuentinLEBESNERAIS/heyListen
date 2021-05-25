@@ -110,7 +110,7 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
+    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, width:'100%', minHeight: '100vh'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
