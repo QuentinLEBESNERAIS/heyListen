@@ -282,7 +282,32 @@ router.put('/delete-collab', async function(req,res,next){
 
   var listensCollab = await ListenModel.updateOne({collab: req.body.idCollab}, {isActive: false})
 
-res.json({newManagerTeam : newManagerTeam})
+  var collab=[]
+  
+  for (let i=0 ; i<newManagerTeam.length; i++){
+    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
+  }
+
+  for (let i=0; i<collab.length;i++){
+    var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
+    if(listensSearch){
+      if (listensSearch.answersCollab != null){
+       
+        collab[i].listen= true
+      }else{
+        
+        collab[i].listen= false
+      }
+      if (listensSearch.answersFeedback != null){
+        
+        collab[i].feedback = true
+      }else{
+        collab[i].feedback = false
+      }
+    }
+  }
+
+res.json({newManagerTeam : collab})
 })
 
 module.exports = router;
