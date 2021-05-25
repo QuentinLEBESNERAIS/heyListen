@@ -32,7 +32,7 @@ function ScreenHistoriqueManager(props) {
                 setVisibleModal(true)
                 }
             }
-            const data = await fetch('/find-Collab', {
+            const data = await fetch('/matriochka/find-Collab', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: `idFromFront=${props.userId._id}`
@@ -52,7 +52,7 @@ function ScreenHistoriqueManager(props) {
         setSelectedCollab(value);
         (console.log("Selected Collab ID = ", selectedCollab))
         const callMatriochka = ( async () => {
-            const data = await fetch('/matriochkaCollab', {
+            const data = await fetch('/matriochka/matriochka', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: `idFromFront=${value}`

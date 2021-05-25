@@ -28,7 +28,7 @@ function ScreenHistoriqueCollab(props) {
                 setVisibleModal(true)
                 }
             }
-            const data = await fetch('/matriochkaCollab', {
+            const data = await fetch('/matriochka/matriochka', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: `idFromFront=${props.userId._id}`
