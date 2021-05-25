@@ -64,7 +64,6 @@ function ScreenDashboardCollab(props) {
         </Link>)
     } else {
       styleListenToDo =(<Card
-      hoverable
       style={{backgroundColor:'#DDDDDD', filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
       cover={<img alt="example" src={opinions}/>}
     >
@@ -113,7 +112,7 @@ function ScreenDashboardCollab(props) {
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-            icon={<Avatar className="avatar" size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+            icon={<Avatar style={{backgroundColor: '#f9fafd', color:'#00BFA6', border:'1px solid #00BFA6'}} size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
             <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
@@ -138,7 +137,7 @@ function ScreenDashboardCollab(props) {
        </Col>
        
       </Row>
-      <Modal className='center' width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
+      <Modal className='center' style={{borderRadius:100}} width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#00BFA6'}}>Votre feedback</h3>
