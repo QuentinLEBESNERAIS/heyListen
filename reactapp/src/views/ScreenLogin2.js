@@ -44,12 +44,10 @@ function ScreenLogin2(props) {
             <p>powered by <img  width={55} src={"./uptoo.svg"}/></p> </div>
           </Col>
             
+            <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{color:'red'}}>
               {invalidPasswordMessage}
             </div>
-            
-            <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            
             <Form>
               <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
                 <Input disabled style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />

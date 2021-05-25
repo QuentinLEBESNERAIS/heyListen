@@ -4,7 +4,9 @@ import {Divider,Button,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,T
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-
+import opinions from '../post.svg'
+import reading from '../reading.svg'
+import searching from '../searching.svg'
 
 function ScreenDashboardCollab(props) {
 
@@ -51,26 +53,36 @@ function ScreenDashboardCollab(props) {
     },[props.user])
 
     if (listenToDo) {
-        styleListenToDo = (<Link to="/listen" ><Card hoverable style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <EditOutlined style={{ fontSize: '70px', color: '#59886b'}} />
-        <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px'}}>Faire mon listen</div>
-        </Card></Link>)
+        styleListenToDo = (<Link to="/listen" >
+          <Card
+        hoverable
+        style={{ filter:'drop-shadow(1px 1px 3px #555555)',marginTop:22, borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        cover={<img alt="example" src={opinions}/>}
+      >
+        <Card.Meta title="Faire mon listen"  />
+      </Card>,
+        </Link>)
     } else {
-        styleListenToDo = (<Card  style ={{filter:'drop-shadow(1px 1px 3px #555555)',backgroundColor:'#dddddd', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <EditOutlined style={{ fontSize: '70px', color: '#e8e8e8'}} />
-        <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px', color:'#aaaaaa'}}>Faire mon listen</div>
-        </Card>)
+      styleListenToDo =(<Card
+      hoverable
+      style={{backgroundColor:'#DDDDDD', filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+      cover={<img alt="example" src={opinions}/>}
+    >
+      <Card.Meta description="Faire mon listen"  />
+    </Card>)
     }
 
     if (listenToSee) {
-        styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <EyeOutlined style={{ fontSize: '70px', color: '#59886b'}}/>
-        <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px'}}>Voir mon listen</div>
+        styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} 
+        style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        cover={<img alt="example" src={reading}/>}>
+        <Card.Meta title="Voir mon listen"  />
        </Card>)
     } else {
-        styleListenToSee = (<Card style ={{filter:'drop-shadow(1px 1px 3px #555555', backgroundColor:'#dddddd', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <EyeOutlined style={{ fontSize: '70px', color: '#e8e8e8'}}/>
-        <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px', color:'#aaaaaa'}}>Voir mon listen</div>
+        styleListenToSee = (<Card 
+        style ={{backgroundColor:'#DDDDDD',filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        cover={<img alt="example" src={reading}/>}>
+        <Card.Meta description="Voir mon listen"  />
        </Card>)
     }
 
@@ -85,11 +97,6 @@ function ScreenDashboardCollab(props) {
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     }
-    
-
-    const handleOk4 =  () => {
-        setVisible4(false);
-    }
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -101,7 +108,7 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{background: 'linear-gradient(180deg, #BAE2A8, #51A750 50%, #3D8A3A)',height:'100vh', width:'100vw'}}>
+    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
@@ -122,22 +129,23 @@ function ScreenDashboardCollab(props) {
        </Col>
         <Col span={6}>
         <Link to="/historique-collab" >
-        <Card hoverable style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        <HistoryOutlined style={{ fontSize: '70px', color: '#59886b'}}/>
-        <div style={{textAlign:'center', fontSize: '25px', marginTop:'13px'}}>Historique</div>
+        <Card hoverable 
+        style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        cover={<img alt="example" src={searching}/>}>
+        <Card.Meta title="Historique"  />
        </Card>
        </Link>
        </Col>
        
       </Row>
-      <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
+      <Modal className='center' width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
-                    <h3 style={{color:'#59886b'}}>Votre feedback</h3>
+                    <h3 style={{color:'#00BFA6'}}>Votre feedback</h3>
                     <Divider/>
                     </Col>
                     <Col span={14} offset={2}>
-                    <h3 style={{color:'#59886b'}}>Son Listen</h3>
+                    <h3 style={{color:'#00BFA6'}}>Son Listen</h3>
                     <Divider/>
                     </Col>
                     </Row>
@@ -145,27 +153,27 @@ function ScreenDashboardCollab(props) {
                         <Col span={7} offset={1}>
                     
                     <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
-                    <p style={{color:'#59886b'}}>{seeFeedback.feedback1}</p>
+                    <p style={{color:'#00BFA6'}}>{seeFeedback.feedback1}</p>
                     <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
-                    <p style={{color:'#59886b'}}>{seeFeedback.feedback2}</p>
+                    <p style={{color:'#00BFA6'}}>{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={7} offset={1}>
                     
                     <h4>Humeur : {seeMood}</h4>
                     
                     <h4 >Les points positifs de la période:</h4>
-                    <p style={{color:'#59886b'}}>{seeListen.reponse1}</p>
+                    <p style={{color:'#00BFA6'}}>{seeListen.reponse1}</p>
                     <h4>Quelles ont été les difficultés de la période ?</h4>
-                    <p style={{color:'#59886b'}}>{seeListen.reponse2}</p>
+                    <p style={{color:'#00BFA6'}}>{seeListen.reponse2}</p>
                     
                     <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-                    <p style={{color:'#59886b'}}>{seeListen.reponse3}</p>
+                    <p style={{color:'#00BFA6'}}>{seeListen.reponse3}</p>
                     </Col>
                     <Col span={7} offset={1}> 
                     <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
-                    <p style={{color:'#59886b'}}>{seeListen.reponse4}</p>
+                    <p style={{color:'#00BFA6'}}>{seeListen.reponse4}</p>
                     <h4>Un point sur lequel j'aimerais revenir:</h4>
-                    <p style={{color:'#59886b'}}>{seeListen.reponse5}</p>
+                    <p style={{color:'#00BFA6'}}>{seeListen.reponse5}</p>
                     </Col>
                     </Row>
                 </Modal>

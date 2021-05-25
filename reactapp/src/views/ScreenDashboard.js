@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Layout,Header, Footer, Sider,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
+import {SyncOutlined, SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -120,7 +120,7 @@ var handleStatsRoute = async () =>{
 
     const handleOk2 = async () => {
         if (collabEmail) {
-            var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+            var emailReg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
             var valid = emailReg.test(collabEmail);
             if(!valid){
                 setErrorMessage("Veuillez entrer un email valide")
@@ -150,6 +150,7 @@ var handleStatsRoute = async () =>{
                 } 
                 await saveCollab()
                 setVisible2(false);
+                setErrorMessage('')
             }
         }
     };
@@ -157,6 +158,7 @@ var handleStatsRoute = async () =>{
     const handleCancel2 = () => {
         setVisible2(false);
         setCollabEmail('')
+        setErrorMessage('')
     };
 
 // NEW CAMPAIGN
@@ -411,12 +413,12 @@ var handleStatsRoute = async () =>{
                         cancelText="Retour"
                         >
                              <Col span={4} offset={2}>
-                        <Button style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                         </Col>
                         </Popconfirm>
                         <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180,borderRadius: '5px'}} />
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)}  style={{ width: 180,borderRadius: '5px'}} />
                         </Form>
                         </Col>
                       </Row>
@@ -449,9 +451,6 @@ var handleStatsRoute = async () =>{
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
                                 {tabGlobalFeedback[i]}
-                                </td>
-                                <td style={{width:110,textAlign:'center'}}>
-                                <HistoryOutlined style={{ fontSize: '24px',color:'#003566' }}/>
                                 </td>
                                 <td style={{width:90,textAlign:'center'}}>
                                     <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
@@ -516,12 +515,13 @@ var handleStatsRoute = async () =>{
                         </Form.Item>
                         <Form.Item style={{marginTop:30}}>
                                 <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:170,borderRadius:40}}
+                                style={{marginLeft:150, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={handleCancel2}>
                                     Annuler
                                 </Button>
                                 <Button key="submit" 
-                                style={{backgroundColor:'#C66A70',marginLeft:20,color:'white',border:'none',borderRadius:40}}
+                                icon={<UserAddOutlined />}
+                                style={{marginLeft:10, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={()=> handleOk2()}>
                                     Ajouter ce collaborateur
                                 </Button>
@@ -529,12 +529,12 @@ var handleStatsRoute = async () =>{
                     </Form>
                 </Modal>
 
-                <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
+                <Modal className='center' title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
                     Confirmer
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimer définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-                <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#006ba6'}}>Votre feedback</h3>
@@ -549,27 +549,27 @@ var handleStatsRoute = async () =>{
                         <Col span={7} offset={1}>
                     
                     <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback1}</p>
+                    <p style={{color:'#006ba6'}}>{seeFeedback.feedback1}</p>
                     <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback2}</p>
+                    <p style={{color:'#006ba6'}}>{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={7} offset={1}>
                     
-                    <h4>Humeur : {seeMood}</h4>
+                    <h4>Humeur :  <span style={{color:'#006ba6'}}> {seeMood}</span></h4>
                     
                     <h4 >Les points positifs de la période:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse1}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse1}</p>
                     <h4>Quelles ont été les difficultés de la période ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse2}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse2}</p>
                     
                     <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse3}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse3}</p>
                     </Col>
                     <Col span={7} offset={1}> 
                     <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse4}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse4}</p>
                     <h4>Un point sur lequel j'aimerais revenir:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse5}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse5}</p>
                     </Col>
                     </Row>
                 </Modal>
