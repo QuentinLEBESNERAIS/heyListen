@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
-
+import invite from '../Invite.svg'
 
 function ScreenDashboard(props) {
 
@@ -304,7 +304,7 @@ var handleStatsRoute = async () =>{
         }
     }
 
-    var completion = (listenCompleted / filteredTeam.length) * 100
+    var completion = (listenCompleted / team.length) * 100
 
     const showModal4 = () => {
        
@@ -488,21 +488,26 @@ var handleStatsRoute = async () =>{
                     </Col>
                 </Row> 
 
-                <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={550} height={500}>
+                <Modal visible={visible2} onCancel={handleCancel2} footer={null} width={850} height={500}>
                     <div style={{color:'red', display:'flex', justifyContent:'center'}}>
                         {errorMessage}
                     </div>
+                    <Row>
+                    <Col span={8}>
+                        <img src={invite} height={270}/>
+                        </Col>
+                        <Col span={16}>
                     <Form layout="vertical" >
                         <h2 className='input-listen'> 
                             {<Image width='30px' src="./logo-transparent.png" />}
                             Collaborateur à inviter
                         </h2>
-                        <Form.Item  style={{marginTop:30,padding:0, width:400, marginLeft:50}}>
+                        <Form.Item  style={{marginTop:45,padding:0, width:400, marginLeft:50}}>
                             <Input placeholder='Email du collaborateur'
                             onChange={(e) => setCollabEmail(e.target.value)}
                             value={collabEmail}/>
                         </Form.Item>
-                        <Form.Item style={{marginTop:30}}>
+                        <Form.Item style={{marginTop:40}}>
                                 <Button key="back" htmlType="submit" 
                                 style={{marginLeft:150, borderColor:'grey', color:'grey',borderRadius:10,filter:'drop-shadow(1px 1px 1px grey)'}}
                                 onClick={handleCancel2}>
@@ -516,6 +521,8 @@ var handleStatsRoute = async () =>{
                                 </Button>
                         </Form.Item>
                     </Form>
+                    </Col>
+                    </Row>
                 </Modal>
 
                 <Modal className='center' title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
