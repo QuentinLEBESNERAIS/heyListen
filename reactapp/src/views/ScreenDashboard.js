@@ -32,6 +32,18 @@ function ScreenDashboard(props) {
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     const { Header, Footer, Sider, Content } = Layout;
+<<<<<<< HEAD
+    //Affichage collab 
+    useEffect(()=> {
+    var getBddCollab = async () => {
+    var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
+    var collabs = await rawResponse.json();
+    setTeam(collabs.collabs)
+    setFilteredTeam(collabs.collabs)
+    setListenfromBack(collabs.collabsListen)
+    setFeedbackFromBack(collabs.collabFeedback)
+    }
+=======
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
@@ -41,6 +53,7 @@ useEffect(()=> {
   setFilteredTeam(collabs.collabs)
 
 }
+>>>>>>> 64fb53f3babb2f494a2defa5760bef7852d7424b
 
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
