@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mailRouter = require('./routes/mail')
+var matriochkaRouter = require('./routes/matriochka') 
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'reactapp/build')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/mail', mailRouter);
+app.use('/matriochka', matriochkaRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
