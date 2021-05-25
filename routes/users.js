@@ -140,7 +140,7 @@ router.post('/add-collab', async function(req, res, next) {
   console.log('savedUser', userExist)}
   
   if(userExist) {
-    console.log('userExist._id', userExist._id)
+    console.log('userExist._id', userExist._id) 
 
     await ListenModel.updateOne(
       { collab: userExist._id, isActive: true},
@@ -239,30 +239,29 @@ router.get('/find-collab', async function(req,res,next){
   var collab=[]
   
   for (let i=0 ; i<filteredTeam.length; i++){
-    collab.push(filteredTeam[i]._id)
+    collab.push({_id:filteredTeam[i]._id, lastName:filteredTeam[i].lastName,firstName:filteredTeam[i].firstName})
   }
-  var listen=[]
-  var feedback=[]
 
   for (let i=0; i<collab.length;i++){
-    var listensSearch  = await ListenModel.findOne({collab:collab[i], isActive : true})
+    var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
     if(listensSearch){
       if (listensSearch.answersCollab != null){
        
-        listen.push(listensSearch.answersCollab = true)
+        collab[i].listen= true
       }else{
         
-        listen.push(listensSearch.answersCollab = false)
+        collab[i].listen= false
       }
       if (listensSearch.answersFeedback != null){
         
-        feedback.push(listensSearch.answersFeedback = true)
+        collab[i].feedback = true
       }else{
-        feedback.push(listensSearch.answersFeedback = false)
+        collab[i].feedback = false
       }
     }
   }
-res.json({collabs: filteredTeam, collabsListen:listen, collabFeedback:feedback})
+  
+res.json({collabs:collab})
 })
 
 /*A ANNOTER */
@@ -283,7 +282,32 @@ router.put('/delete-collab', async function(req,res,next){
 
   var listensCollab = await ListenModel.updateOne({collab: req.body.idCollab}, {isActive: false})
 
-res.json({newManagerTeam : newManagerTeam})
+  var collab=[]
+  
+  for (let i=0 ; i<newManagerTeam.length; i++){
+    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
+  }
+
+  for (let i=0; i<collab.length;i++){
+    var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
+    if(listensSearch){
+      if (listensSearch.answersCollab != null){
+       
+        collab[i].listen= true
+      }else{
+        
+        collab[i].listen= false
+      }
+      if (listensSearch.answersFeedback != null){
+        
+        collab[i].feedback = true
+      }else{
+        collab[i].feedback = false
+      }
+    }
+  }
+
+res.json({newManagerTeam : collab})
 })
 
 module.exports = router;
