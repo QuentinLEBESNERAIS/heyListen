@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Layout,Header, Footer, Sider,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
+import {SyncOutlined, SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -411,12 +411,12 @@ var handleStatsRoute = async () =>{
                         cancelText="Retour"
                         >
                              <Col span={4} offset={2}>
-                        <Button style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                         </Col>
                         </Popconfirm>
                         <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180,borderRadius: '5px'}} />
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)}  style={{ width: 180,borderRadius: '5px'}} />
                         </Form>
                         </Col>
                       </Row>
@@ -516,12 +516,13 @@ var handleStatsRoute = async () =>{
                         </Form.Item>
                         <Form.Item style={{marginTop:30}}>
                                 <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:170,borderRadius:40}}
+                                style={{marginLeft:150, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={handleCancel2}>
                                     Annuler
                                 </Button>
                                 <Button key="submit" 
-                                style={{backgroundColor:'#C66A70',marginLeft:20,color:'white',border:'none',borderRadius:40}}
+                                icon={<UserAddOutlined />}
+                                style={{marginLeft:10, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={()=> handleOk2()}>
                                     Ajouter ce collaborateur
                                 </Button>
