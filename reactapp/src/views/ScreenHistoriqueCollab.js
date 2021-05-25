@@ -78,7 +78,7 @@ function ScreenHistoriqueCollab(props) {
         <div>
             <Layout style={{backgroundColor:'#FFFFFF'}}>
                 <Nav/>
-                <Layout style={{backgroundColor:'#FFFFFF'}}>
+                <Layout style={{backgroundColor:'#FFFFFF',marginTop:"48px"}}>
                     <Sider style={{backgroundColor:'#D8E3E7',height:"100vh"}}>
                         <Row>
                             <Col span={22} offset={2}>
