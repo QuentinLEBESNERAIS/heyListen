@@ -98,123 +98,119 @@ function ScreenHistoriqueManager(props) {
             <div>
                 <Layout  style={{backgroundColor:'#007DB3', width:'100%', minHeight: '100vh'}}>
                     <Nav/>
-                        <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
-                            <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh',position: 'fixed', zIndex: 1}}>
+                    <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
+                        <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh',position: 'fixed', zIndex: 1}}>
+                            <Row>
+                                <Col span={22} offset={2}>
+                                    <Select defaultValue="Collaborateur" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChangeCollaborateur}>
+                                        {myTeamFromBack.map((collab, i) => (
+                                            <Option value={collab._id}>{collab.firstName} {collab.lastName}</Option>
+                                        ))}
+                                    </Select>
+                                        {firstSelectedCollab === false &&
+                                            <Select value={yearDropdown} defaultValue="Année" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChange}>
+                                                <Option value="default" disabled>Année</Option>
+                                                {dataCollabFromBack.matriochka.map((years, i) => (
+                                                    <Option value={i}>{_.findKey(years)}</Option>
+                                                ))}
+                                            </Select>
+                                        }
+                                </Col>
+                            </Row>
+                            <Row type="flex" align-item="center">
+                                {dataCollabFromBack.matriochka.map((years, i) => {
+                                    if (year === i) {
+                                        return dataCollabFromBack.matriochka[i][_.findKey(years)]?.map((months, o) => (
+                                            <Col span={24} offset={0} style={{marginTop:10, marginBottom:10}} justify ="center" align="middle">
+                                                <Dropdown overlay={menu(i, years, o, months)} trigger={['click']}>
+                                                    <Button type="primary">
+                                                        <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                                            <strong>{_.findKey(months)} / {_.findKey(years)} </strong><DownOutlined />
+                                                        </a>
+                                                    </Button>
+                                                </Dropdown>
+                                            </Col>
+                                        )) 
+                                    }
+                                })}
+                            </Row>
+                        </Sider>
+                        <Content>
+                            {firstSelectedListen === true && 
                                 <Row>
-                                    <Col span={22} offset={2}>
-                                        <Select defaultValue="Collaborateur" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChangeCollaborateur}>
-                                            {myTeamFromBack.map((collab, i) => (
-                                                <Option value={collab._id}>{collab.firstName} {collab.lastName}</Option>
-                                            ))}
-                                        </Select>
-                                            {firstSelectedCollab === false &&
-                                                <Select value={yearDropdown} defaultValue="Année" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChange}>
-                                                    <Option value="default" disabled>Selectioner une année</Option>
-                                                    {dataCollabFromBack.matriochka.map((years, i) => (
-                                                        <Option value={i}>{_.findKey(years)}</Option>
-                                                    ))}
-                                                </Select>
-                                            }
+                                    <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
+                                        <Typography.Text style={{color:'black'}}> Veuillez choisir un Collaborateur dans le menu déroulant à gauche</Typography.Text>
+                                    </Col>
+                                    <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
+                                        <img src={rafiki} width={400}/>
                                     </Col>
                                 </Row>
-                                <Row type="flex" align-item="center">
-                                    {dataCollabFromBack.matriochka.map((years, i) => {
-                                        if (year === i) {
-                                            return dataCollabFromBack.matriochka[i][_.findKey(years)]?.map((months, o) => (
-                                                <Col span={24} offset={0} style={{marginTop:10, marginBottom:10}} justify ="center" align="middle">
-                                                    <Dropdown overlay={menu(i, years, o, months)} trigger={['click']}>
-                                                        <Button type="primary">
-                                                            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                                                <strong>{_.findKey(months)} / {_.findKey(years)} </strong><DownOutlined />
-                                                            </a>
-                                                        </Button>
-                                                    </Dropdown>
-                                                </Col>
-                                            )) 
-                                        }
-                                    })}
-                                </Row>
-                            </Sider>
-                            <Content>
-                                {firstSelectedListen === true && 
-                                    <Row>
-                                        <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
-                                            <Typography.Text style={{color:'black'}}> Veuillez choisir un Collaborateur dans le menu déroulant à gauche</Typography.Text>
+                            }
+                            {firstSelectedListen === false &&
+                                <Row>
+                                    <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:20}}>
+                                        <Typography.Text><strong>{moment(selectedListen.createdAt).format('DD-MM-YYYY')}</strong></Typography.Text>
+                                    </Col>
+                                    <Col span={20} offset={4}>
+                                        <div className="icon-wrapper">
+                                            <FrownOutlined style={{color:'#A62626'}}/>
+                                            <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={selectedListen.mood} min={1} max={5}/>
+                                            <SmileOutlined style={{color:'#448f30'}}/>
+                                        </div>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>Question 1</strong></Typography.Text>
                                         </Col>
-                                        <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:25}}>
-                                            <img src={rafiki} width={400}/>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse1: "Vide"} readOnly/>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>Question 2</strong></Typography.Text>
                                         </Col>
-                                    </Row>
-                                }
-                                {firstSelectedListen === false &&
-                                        <Row>
-                                            <Col span={20} offset={4} justify="center" align="middle" style={{marginTop:20}}>
-                                                <Typography.Text><strong>{moment(selectedListen.createdAt).format('DD-MM-YYYY')}</strong></Typography.Text>
-                                            </Col>
-                                            <Col span={20} offset={4}>
-                                                <div className="icon-wrapper">
-                                                    <FrownOutlined style={{color:'#A62626'}}/>
-                                                    <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={selectedListen.mood} min={1} max={5}/>
-                                                    <SmileOutlined style={{color:'#448f30'}}/>
-                                                </div>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>Question 1</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse1: "Vide"} readOnly/>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>Question 2</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse2: "Vide"} readOnly/>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>Question 3</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse3: "Vide"} readOnly/>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>Question 4</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse4: "Vide"} readOnly/>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>Question 5</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse5: "Vide"} readOnly/>
-                                            </Col>
-                                            <Divider style={{marginLeft:110}}><strong>FeedBack Manager</strong></Divider>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>FeedBack 1</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback1: "Vide"} readOnly/>
-                                            </Col>
-                                            <Col span={18} offset={6}>
-                                                <Col style={{marginBottom:4}}>
-                                                    <Typography.Text><strong>FeedBack 2</strong></Typography.Text>
-                                                </Col>
-                                                <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback2: "Vide"} readOnly/>
-                                            </Col>
-                                        </Row>
-                                }
-                            </Content>
-                                
-                                <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
-                                    Remplir mon listen
-                                    </Button></Link>} width={700} height={500}>
-                                    <div style={{color:'red', display:'flex', justifyContent:'center'}}>
-                                        Bonjour, veuillez remplir votre Listen !
-                                    </div>
-                                </Modal>
-                            </Layout>
-                            
-            </Layout>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse2: "Vide"} readOnly/>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>Question 3</strong></Typography.Text>
+                                        </Col>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse3: "Vide"} readOnly/>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>Question 4</strong></Typography.Text>
+                                        </Col>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse4: "Vide"} readOnly/>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>Question 5</strong></Typography.Text>
+                                        </Col>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse5: "Vide"} readOnly/>
+                                    </Col>
+                                    <Divider style={{marginLeft:110}}><strong>FeedBack Manager</strong></Divider>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>FeedBack 1</strong></Typography.Text>
+                                        </Col>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback1: "Vide"} readOnly/>
+                                    </Col>
+                                    <Col span={18} offset={6}>
+                                        <Col style={{marginBottom:4}}>
+                                            <Typography.Text><strong>FeedBack 2</strong></Typography.Text>
+                                        </Col>
+                                        <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback2: "Vide"} readOnly/>
+                                    </Col>
+                                </Row>        
+                            }
+                        </Content>
+
+                        <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" >
+                            <Button key="back" onClick={props.modalState()}>Remplir mon listen</Button></Link>} width={700} height={500}>
+                            <div style={{color:'red', display:'flex', justifyContent:'center'}}>Bonjour, veuillez remplir votre Listen !</div>
+                        </Modal>
+                    </Layout>
+                </Layout>
             </div>
         )
     } else {

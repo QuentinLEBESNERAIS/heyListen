@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Card, Col, Input, Row, Alert, Space, Button,message, Divider} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
-
+import information from '../information.svg'
+import information2 from '../information2.svg'
 
 function ScreenInfosPersonnelles(props) {
 
@@ -55,23 +56,32 @@ function ScreenInfosPersonnelles(props) {
         setMessageError('Merci de remplir tous les champs')
     }
     }
+
+// Styles background selon type
+var backgroundStyle = {background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height:'100vh', minHeight: '100vh'}
+var image = <img src={information} width={400}/>
+var buttonStyle = {marginLeft:'15px', borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}
+if (props.user.type == 'collab'){
+backgroundStyle = {background: 'linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)', height:'100vh', minHeight: '100vh'}
+image =  <img src={information2} width={400}/>
+buttonStyle = {marginLeft:'15px', borderColor:'#84CD98', color:'#84CD98',borderRadius:10,filter:'drop-shadow(1px 1px 1px #84CD98)'}
+} 
 // Une fois le user modifié, l'utilisateur est renvoyé vers le dashboard
   if(userModified){
     return <Redirect to="/dashboard"/>
   }
   return (
-    <div className='background'>
+    <div style={backgroundStyle}>
       <Row>
         <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
       <Card style={{borderRadius:20}}>
-      <Row justify="center" align="middle">
-        <Col span={16} align="middle" className="sign-up-title" >
-          <h4 style={{margin:0}}>Changer mes informations personnelles</h4>
-        </Col>
-      </Row>
-      <Divider/>
       <Row justify="center" align="top">
-        <Col span={16}>
+      <Col span={9} >
+          {image}
+        </Col>
+        <Col span={14}offset={1}>
+        <h2 style={{margin:0}}>Changer mes informations personnelles</h2>
+        <Divider/>
           <div style={{color:'red'}}>
             {messageError}
           </div>
@@ -89,13 +99,11 @@ function ScreenInfosPersonnelles(props) {
           <div>
             <Input value={jobTitle} onChange={(e)=>setJobTitle(e.target.value)} className="sign-up-inputs sign-up-bottom-input-width" placeholder="Intitulé du poste" />
           </div>
+          <Link to='/dashboard'><Button style={{marginTop:'30px',marginLeft:'420px',borderColor:'grey', color:'grey',borderRadius:10,filter:'drop-shadow(1px 1px 1px grey)'}}>Retour</Button></Link>
+          <Button onClick={()=>handleClickModifInfos()} style={buttonStyle}>Modifier</Button>
+        
         </Col>
-      </Row>
-      <Row justify="center" align="center">
-        <Col span={16} className="sign-up-button-div">
-          <Link to='/dashboard'><Button style={{borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Retour</Button></Link>
-          <Button style={{marginLeft:'4px'}} onClick={()=>handleClickModifInfos()} style={{marginLeft:'10px', borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Modifier</Button>
-        </Col>
+        
       </Row>
       </Card>
       </Col>
