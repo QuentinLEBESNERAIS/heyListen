@@ -101,7 +101,7 @@ function ScreenHistoriqueManager(props) {
                             
 
                             
-                                <Layout style={{backgroundColor:'#FFFFFF',height:'100vh'}}>
+                                <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
                                 <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh'}}>
                                     <Row>
                                         <Col span={22} offset={2}>

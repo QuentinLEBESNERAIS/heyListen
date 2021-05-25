@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
+import {Layout,Header, Footer, Sider,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+
 
 function ScreenDashboard(props) {
 
@@ -30,7 +31,7 @@ function ScreenDashboard(props) {
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
-
+    const { Header, Footer, Sider, Content } = Layout;
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
@@ -338,18 +339,20 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+            <Layout>  
                 <Nav/>
-                <Row style={{height:205, marginTop:10}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+                <div style={{marginTop:"60px"}}>
+                <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
-                        <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
+                        <Card style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion
                             <Divider style={{marginTop:7, marginBottom:27}}/>        
                         <Progress strokeColor={{'0%': '#003566','100%': '#70B48B',}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
-                <Col span={18}>
+                    <Col span={18}>
                     <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
@@ -420,7 +423,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 </Row>
-                <Row style={{marginTop:15}}>
+                <Row style={{marginTop:12}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal" >
@@ -571,6 +574,9 @@ var handleStatsRoute = async () =>{
                     </Row>
                 </Modal>
                 </div>
+                </div>
+                
+                </Layout>
             )
         }
         else {
