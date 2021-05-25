@@ -21,6 +21,7 @@ function Nav(props) {
         setListenToDo(true)
         if (foundListen.listenToSee){
         setListenToSee(true)  
+        
         }
         
     }
@@ -58,19 +59,17 @@ function Nav(props) {
     return (
       <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
         <Link to="/dashboard-collab" ><img src={'./logo-transparent.png'} className='navLogo'></img></Link>
-        <Menu.Item key="historique" >
-          <Link to="/historique-collab" >Historique</Link>
+        <Menu.Item key="listen" >
+          <Badge>
+            <Link to="/dashboard-collab">Menu principal</Link>
+          </Badge>
         </Menu.Item>
         <Menu.Item disabled={!listenToDo} key="listen" >
           <Badge dot style={badgeListenToDo} >
             <Link to="/listen" >Faire mon Listen</Link>
           </Badge>
         </Menu.Item>
-        <Menu.Item disabled={!listenToSee} key="listen" >
-          <Badge dot style={badgeListenToSee} >
-            <Link>Voir mon listen</Link>
-          </Badge>
-        </Menu.Item>
+        
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
             icon={<Avatar style={{backgroundColor: '#f9fafd', color:'#00BFA6', border:'1px solid #00BFA6'}} size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >

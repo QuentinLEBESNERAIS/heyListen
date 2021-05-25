@@ -52,7 +52,7 @@ function ScreenListen(props) {
     return (
         <div>
             <Nav/>
-            <Row style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
+            <Row style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, width:'100%', minHeight: '100vh'}}>
             <Col span={22} offset={1}> 
             <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20, margin:12,marginTop:"60px"}}>
             <Row>

@@ -83,7 +83,7 @@ function ScreenDashboardCollab(props) {
         styleListenToSee = (<Card 
         style ={{backgroundColor:'#DDDDDD',filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
         cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
-        <Card.Meta description="Le dernier listen n'est pas encore complet"  />
+        <Card.Meta description="Listen incomplet"  />
        </Card>)
     }
 
@@ -142,11 +142,11 @@ function ScreenDashboardCollab(props) {
       <Modal className='center' style={{borderRadius:100}} width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
-                    <h3 style={{color:'#00BFA6'}}>Votre feedback</h3>
+                    <h3 style={{color:'#00BFA6'}}>Feedback Manager</h3>
                     <Divider/>
                     </Col>
                     <Col span={14} offset={2}>
-                    <h3 style={{color:'#00BFA6'}}>Son Listen</h3>
+                    <h3 style={{color:'#00BFA6'}}>Votre Listen</h3>
                     <Divider/>
                     </Col>
                     </Row>
