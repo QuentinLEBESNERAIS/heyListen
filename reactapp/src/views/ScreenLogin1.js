@@ -73,7 +73,7 @@ function ScreenLogin1(props) {
               </div>
               
               <Input style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onChange={(e) => setEmail(e.target.value)} value={email}/>
-              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:10}} onClick={() => handleCheckEmail()}>
+              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}} onClick={() => handleCheckEmail()}>
                 Valider
               </Button>
             </div>

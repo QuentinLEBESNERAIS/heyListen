@@ -5,6 +5,7 @@ var bcrypt = require("bcrypt");
 var UserModel = require('../models/users');
 var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
+const { remove } = require('lodash');
 
 /*Fonction pour passer la premiere lettre en majuscule*/
 function firstMaj(a){return (a+'').charAt(0).toUpperCase()+a.substr(1);}
@@ -24,7 +25,7 @@ router.post('/check-email', async function(req, res, next) {
     if (searchUserByEmail.password){
       res.json({response: 'login2'})
     } else {
-      res.json({response: 'signUpCollab', token:'token'})
+      res.json({response: 'signUpCollab'})
     }
   } else {
     res.json({response: 'signUpManager'})
@@ -33,14 +34,17 @@ router.post('/check-email', async function(req, res, next) {
 
 /* Check user account (sign-in) | Body : email (sorayacantos@gmail.com), password (1234) | Response : response(), user, team */
 router.post('/sign-in', async function(req, res, next) { 
-  var searchUserByEmail = await UserModel.findOne({
+  let searchUserByEmail = await UserModel.findOne({
     email: req.body.email
   })
-  console.log('searchUserByEmail', searchUserByEmail)
+
   var result = false
   if(searchUserByEmail && bcrypt.compareSync(req.body.password, searchUserByEmail.password)){
     result = true
   }
+
+  searchUserByEmail.password = undefined;
+
   if(result){
     res.json({response: 'connect', user: searchUserByEmail})
   } else {
@@ -66,7 +70,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
       var newUser = new UserModel({
         lastName: firstMaj(req.body.lastName),
         firstName: firstMaj(req.body.firstName),
-        email: email,
+        email: req.body.email,
         password: hash,
         token: uid2(32),
         createdAt:new Date(),
@@ -76,14 +80,15 @@ router.post('/sign-up-manager',async function(req, res, next) {
         type: "manager",
       })
       var savedUser = await newUser.save()
+      savedUser.password = undefined
+
       //Création de la team en BDD
       var newTeam = new TeamModel({
         manager: savedUser._id,
         collab: []
       })
       var savedNewTeam = await newTeam.save()
-      console.log(savedUser)
-      console.log(savedNewTeam)
+
       res.json({response:"compte crée", user:savedUser, team:savedNewTeam})
     } else {
       res.json({response: 'les mots de passe ne correspondent pas'})
@@ -117,6 +122,8 @@ router.post('/sign-up-collab',async function(req, res, next) {
         isActive:true
       })
       var newUser = await UserModel.findOne({email:req.body.email})
+      newUser.password = undefined
+
       res.json({response:"compte crée",user:newUser})
     } else {
       res.json({response: 'les mots de passe ne correspondent pas'})
@@ -226,6 +233,7 @@ router.post('/modification-infos', async function(req, res, next) {
   var modifiedUser = await UserModel.findOne({
     token: req.body.token
   })
+  modifiedUser.password = undefined;
   
   res.json({response:'Informations modifiées', user: modifiedUser})
 });
