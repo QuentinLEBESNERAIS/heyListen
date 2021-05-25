@@ -102,11 +102,16 @@ function ScreenListen(props) {
             </Card>
             </Col>
             </Row>
-            <Modal visible={visible} onCancel={handleCancel} footer={null}>
+            <Modal className='center' visible={visible} onCancel={handleCancel} footer={null}>
             <h2 className='input-listen'> 
                 {<Image width='30px' src="./logo-transparent.png" />}
                 Souhaitez-vous envoyer ce listen ? 
             </h2>
+            <div className="icon-wrapper">
+                <FrownOutlined style={{color:'#A62626'}}/>
+                <Slider marks={{1:'1',2:'2',3:'3',4:'4',5:'5'}} step={1} value={moodValue} min={1} max={5}/>
+                <SmileOutlined style={{color:'#448f30'}}/>
+            </div>
             <h4 style={{textDecoration:'underline'}}>Les points positifs de la période</h4>
             <p style={{color:'#C66A70'}}>{responseOne}</p>
             <h4 style={{textDecoration:'underline'}}>Quelles ont été les difficultés de la période ?</h4>

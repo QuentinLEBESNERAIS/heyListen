@@ -177,7 +177,7 @@ function ScreenHistoriqueCollab(props) {
                         }
                     </Content>
                     
-                    <Modal visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
+                    <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
                         Remplir mon listen
                         </Button></Link>} width={700} height={500}>
                         <div style={{color:'red', display:'flex', justifyContent:'center'}}>

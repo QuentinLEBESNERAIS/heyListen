@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Layout,Header, Footer, Sider,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
+import {SyncOutlined, SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
 import {Line} from 'react-chartjs-2';
+
 
 function ScreenDashboard(props) {
 
@@ -30,7 +31,7 @@ function ScreenDashboard(props) {
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
-
+    const { Header, Footer, Sider, Content } = Layout;
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
@@ -119,7 +120,7 @@ var handleStatsRoute = async () =>{
 
     const handleOk2 = async () => {
         if (collabEmail) {
-            var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+            var emailReg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
             var valid = emailReg.test(collabEmail);
             if(!valid){
                 setErrorMessage("Veuillez entrer un email valide")
@@ -149,6 +150,7 @@ var handleStatsRoute = async () =>{
                 } 
                 await saveCollab()
                 setVisible2(false);
+                setErrorMessage('')
             }
         }
     };
@@ -156,6 +158,7 @@ var handleStatsRoute = async () =>{
     const handleCancel2 = () => {
         setVisible2(false);
         setCollabEmail('')
+        setErrorMessage('')
     };
 
 // NEW CAMPAIGN
@@ -338,18 +341,20 @@ var handleStatsRoute = async () =>{
       if(props.userId.type==="manager"){
         if (pageLoaded){
         return (
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+            <Layout>  
                 <Nav/>
-                <Row style={{height:205, marginTop:10}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+                <div style={{marginTop:"60px"}}>
+                <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
-                        <Card style ={{textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
+                        <Card style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion
                             <Divider style={{marginTop:7, marginBottom:27}}/>        
                         <Progress strokeColor={{'0%': '#003566','100%': '#70B48B',}} percent={completion} type='circle' status="active" />
                         </h4> 
                         </Card>
                     </Col>
-                <Col span={18}>
+                    <Col span={18}>
                     <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
@@ -408,19 +413,19 @@ var handleStatsRoute = async () =>{
                         cancelText="Retour"
                         >
                              <Col span={4} offset={2}>
-                        <Button style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
+                        <Button icon={<SyncOutlined />} style={{marginRight:60, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une nouvelle campagne Listen</Button>
                         </Col>
                         </Popconfirm>
                         <Col span={4} offset={4}>
                         <Form style={{marginRight:60,fontWeight:'500', width:200,display:'inline'}}>
-                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)} style={{ width: 180,borderRadius: '5px'}} />
+                            <Input.Search placeholder="Collaborateur" allowClear onChange={(e) => setSearch(e.target.value)}  style={{ width: 180,borderRadius: '5px'}} />
                         </Form>
                         </Col>
                       </Row>
                         </Card>
                     </Col>
                 </Row>
-                <Row style={{marginTop:15}}>
+                <Row style={{marginTop:12}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal" >
@@ -446,9 +451,6 @@ var handleStatsRoute = async () =>{
                                 </td>
                                 <td style={{width:250,textAlign:'center'}}>
                                 {tabGlobalFeedback[i]}
-                                </td>
-                                <td style={{width:110,textAlign:'center'}}>
-                                <HistoryOutlined style={{ fontSize: '24px',color:'#003566' }}/>
                                 </td>
                                 <td style={{width:90,textAlign:'center'}}>
                                     <EyeOutlined style={iconStyleEye[i]} onClick={async() => {await getSeeListen(item._id);showModal4()}}
@@ -513,12 +515,13 @@ var handleStatsRoute = async () =>{
                         </Form.Item>
                         <Form.Item style={{marginTop:30}}>
                                 <Button key="back" htmlType="submit" 
-                                style={{backgroundColor:'grey',color:'white',marginLeft:170,borderRadius:40}}
+                                style={{marginLeft:150, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={handleCancel2}>
                                     Annuler
                                 </Button>
                                 <Button key="submit" 
-                                style={{backgroundColor:'#C66A70',marginLeft:20,color:'white',border:'none',borderRadius:40}}
+                                icon={<UserAddOutlined />}
+                                style={{marginLeft:10, borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}
                                 onClick={()=> handleOk2()}>
                                     Ajouter ce collaborateur
                                 </Button>
@@ -526,12 +529,12 @@ var handleStatsRoute = async () =>{
                     </Form>
                 </Modal>
 
-                <Modal title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
+                <Modal className='center' title="Suppression" visible={visible3} onCancel={handleCancelDelete} footer={<Link to="/dashboard"> <Button key="delete" onClick={suppressionCollab}>
                     Confirmer
                     </Button></Link>}>
                     <p>Souhaitez-vous supprimer définitivement ce collaborateur de votre équipe ?</p>
                 </Modal>
-                <Modal width= {1200} height= {900} visible={visible4} onCancel={handleCancel4} onOk={handleOk4}>
+                <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#006ba6'}}>Votre feedback</h3>
@@ -546,31 +549,34 @@ var handleStatsRoute = async () =>{
                         <Col span={7} offset={1}>
                     
                     <h4>Qu'avez-vous pensé de la performance de ce collaborateur ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback1}</p>
+                    <p style={{color:'#006ba6'}}>{seeFeedback.feedback1}</p>
                     <h4>Qu'attendez-vous de ce collaborateur pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeFeedback.feedback2}</p>
+                    <p style={{color:'#006ba6'}}>{seeFeedback.feedback2}</p>
                     </Col>
                     <Col span={7} offset={1}>
                     
-                    <h4>Humeur : {seeMood}</h4>
+                    <h4>Humeur :  <span style={{color:'#006ba6'}}> {seeMood}</span></h4>
                     
                     <h4 >Les points positifs de la période:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse1}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse1}</p>
                     <h4>Quelles ont été les difficultés de la période ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse2}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse2}</p>
                     
                     <h4>Mon objectif prioritaire pour le mois prochain:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse3}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse3}</p>
                     </Col>
                     <Col span={7} offset={1}> 
                     <h4>Qu'attends-je de mon manager pour le mois prochain ?</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse4}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse4}</p>
                     <h4>Un point sur lequel j'aimerais revenir:</h4>
-                    <p style={{color:'#C66A70'}}>{seeListen.reponse5}</p>
+                    <p style={{color:'#006ba6'}}>{seeListen.reponse5}</p>
                     </Col>
                     </Row>
                 </Modal>
                 </div>
+                </div>
+                
+                </Layout>
             )
         }
         else {

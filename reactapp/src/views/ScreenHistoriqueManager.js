@@ -101,7 +101,7 @@ function ScreenHistoriqueManager(props) {
                             
 
                             
-                                <Layout style={{backgroundColor:'#FFFFFF',height:'100vh'}}>
+                                <Layout style={{marginTop:"48px", backgroundColor:'#FFFFFF',height:'100vh'}}>
                                 <Sider minHeight={100} style={{backgroundColor:'#003376',height:'100vh'}}>
                                     <Row>
                                         <Col span={22} offset={2}>
@@ -218,7 +218,7 @@ function ScreenHistoriqueManager(props) {
                                     }
                                 </Content>
                                 
-                                <Modal visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
+                                <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" ><Button key="back" onClick={props.modalState()}>
                                     Remplir mon listen
                                     </Button></Link>} width={700} height={500}>
                                     <div style={{color:'red', display:'flex', justifyContent:'center'}}>
