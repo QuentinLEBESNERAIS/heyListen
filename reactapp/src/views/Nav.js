@@ -59,7 +59,7 @@ function Nav(props) {
     return (
       <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
         <Link to="/dashboard-collab" ><img src={'./logo-transparent.png'} className='navLogo'></img></Link>
-        <Menu.Item key="listen" >
+        <Menu.Item key="menu" >
           <Badge>
             <Link to="/dashboard-collab">Menu principal</Link>
           </Badge>
