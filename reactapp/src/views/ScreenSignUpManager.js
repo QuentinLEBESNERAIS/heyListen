@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Card,Col, Input, Row, Alert, Space, Button,message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
 import { set } from 'mongoose';
+import login from '../login.svg'
 
 function ScreenSignUpManager(props) {
   const [firstName,setFirstName] = useState("")
@@ -60,21 +61,21 @@ closable
     return <Redirect to="/dashboard"/>
   }
   return (
-    <div style={{backgroundColor:'#B7D3E4', width:'100%', minHeight: '100vh'}}>
+    <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height:'100vh', minHeight: '100vh'}}>
       <Row>
-        <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
+        <Col span={20} offset={2} style={{marginTop:45,filter:'drop-shadow(1px 2px 5px #555555)'}}>
       <Card style={{borderRadius:80}}>
       <Row justify="center" align="middle" style={{height:'20%'}}>
         <Col span={16}>
           
           <Alert style={{borderRadius: '5px'}}
-            message="Bienvenu ! Veuillez remplir les informations ci-dessous pour vous inscrire."
-            type="warning"
+            message="Bienvenu(e) ! Veuillez remplir les informations ci-dessous pour vous inscrire."
+            type="info"
             action={
               <Space>
                 <Link to={'/'}>
                 <Button size="small" type="ghost">
-                  Je suis déjà inscrit
+                  Je suis déjà inscrit(e)
                 </Button>
                 </Link>
               </Space>
@@ -84,16 +85,16 @@ closable
           
         </Col>
       </Row>
-      <Row justify="center" align="middle">
-        <Col span={16} align="middle" className="sign-up-title">
-         <h4>Mes informations personnelles</h4>
-        </Col>
-      </Row>
+
       <Row justify="center" align="top">
+      <Col span={8} >
+      <img src={login} width={400}/>
+        </Col>
         <Col span={16}>
           <div style={{color:'red'}}>
           {alerte}
           </div>
+          <h3 style={{marginTop:50}}>Mes informations personnelles</h3>
           <div className="sign-up-input-group"> 
             <Input value={lastName} onChange={(e)=>setLastName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Nom" />
             <Input value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="sign-up-inputs sign-up-top-input-width" placeholder="Prénom" />
@@ -108,13 +109,10 @@ closable
           <div>
             <Input value={jobTitle} onChange={(e)=>setJobTitle(e.target.value)} className="sign-up-inputs sign-up-bottom-input-width" placeholder="Intitulé du poste" />
           </div>
+          <Button onClick={()=>handleClickSignUp()} style={{marginTop:'30px',marginLeft:'580px',borderColor:'#003566', color:'#003566',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>S'inscrire</Button>
         </Col>
       </Row>
-      <Row justify="center" align="center">
-        <Col span={16} className="sign-up-button-div">
-          <Button onClick={()=>handleClickSignUp()} style={{backgroundColor:'#C66A70',border:'none',borderRadius:40,color:'white'}}>S'inscrire</Button>
-        </Col>
-      </Row>
+      
       </Card>
       </Col>
       </Row>
