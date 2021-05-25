@@ -85,11 +85,6 @@ function ScreenDashboardCollab(props) {
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     }
-    
-
-    const handleOk4 =  () => {
-        setVisible4(false);
-    }
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -130,7 +125,7 @@ function ScreenDashboardCollab(props) {
        </Col>
        
       </Row>
-      <Modal width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
+      <Modal className='center' width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#59886b'}}>Votre feedback</h3>
