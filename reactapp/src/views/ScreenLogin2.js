@@ -55,7 +55,7 @@ function ScreenLogin2(props) {
               <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
                 <Input.Password style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
               </Form.Item>
-              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:10}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
+              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
             </Form>
             <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
               <div style={{fontStyle: 'italic'}}>L'application pour les managers VRAIMENT bienveillants !</div>

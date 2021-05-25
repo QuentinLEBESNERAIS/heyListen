@@ -109,7 +109,7 @@ function ScreenHistoriqueManager(props) {
                                     </Select>
                                         {firstSelectedCollab === false &&
                                             <Select value={yearDropdown} defaultValue="Année" style={{width: 160, marginTop:20, filter:'drop-shadow(1px 1px 1px #003566)',marginRight:60,borderColor:'#003566', color:'#003566'}} onChange={handleChange}>
-                                                <Option value="default" disabled>Selectioner une année</Option>
+                                                <Option value="default" disabled>Année</Option>
                                                 {dataCollabFromBack.matriochka.map((years, i) => (
                                                     <Option value={i}>{_.findKey(years)}</Option>
                                                 ))}
