@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Card,Col, Row, Input, Button} from 'antd';
 import {Redirect} from 'react-router-dom';
-import heylisten from '../heylisten.png';
+import heylisten from '../heylistenuni.png';
 function ScreenLogin1(props) {
 
   const [email, setEmail] = useState('')
