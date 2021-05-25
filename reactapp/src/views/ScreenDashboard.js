@@ -30,6 +30,7 @@ function ScreenDashboard(props) {
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
     const [isNewCampaign, setIsNewCampaign] = useState(false)
+    const [nameToDisplay,setNameToDisplay] = useState("")
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
     const { Header, Footer, Sider, Content } = Layout;
 //Affichage collab 
@@ -81,7 +82,8 @@ var handleStatsRoute = async () =>{
     },[search])
 
 // Paramètres modale feedback manager
-    const showModal1 = () => {
+    const showModal1 = (name) => {
+        setNameToDisplay(name)
         setVisible1(true);
     };
 
@@ -304,7 +306,7 @@ var handleStatsRoute = async () =>{
         }
     }
 
-    var completion = (listenCompleted / filteredTeam.length) * 100
+    var completion = Math.floor((listenCompleted / filteredTeam.length) * 100)
 
     const showModal4 = () => {
        
@@ -445,7 +447,7 @@ var handleStatsRoute = async () =>{
                                     <EyeOutlined style={filteredTeam[i].iconStyleEye} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
                                     <LockOutlined style={filteredTeam[i].iconStyleCadena}/>
-                                    <EditOutlined onClick={() => {showModal1(); setCollabIDFeedback(item._id)}} style={filteredTeam[i].iconStyle}/>
+                                    <EditOutlined onClick={() => {showModal1(item.firstName); setCollabIDFeedback(item._id)}} style={filteredTeam[i].iconStyle}/>
                                 </td>
                                 </tr>
                                 </table>
@@ -455,7 +457,7 @@ var handleStatsRoute = async () =>{
                                         <Form layout="vertical" >
                                             <h2 className='input-listen'> 
                                             {<Image width='30px' src="./logo-transparent.png" />}
-                                            Concernant ce collaborateur 
+                                            Concernant {nameToDisplay}
                                     </h2>
                                 <Form.Item label="Qu'avez-vous pensé de la performance de ce collaborateur ?" 
                                 className='input-listen' >
