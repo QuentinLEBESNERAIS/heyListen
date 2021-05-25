@@ -2,8 +2,8 @@ import React,{useEffect,useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import '../App.css';
-import {Button,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Menu,Badge} from 'antd';
-import {SettingOutlined} from '@ant-design/icons';
+import {Avatar,Menu,Badge} from 'antd';
+
 
 function Nav(props) {
   const [listenToDo,setListenToDo] = useState(false)
