@@ -60,7 +60,7 @@ closable
     return (<Redirect to="/dashboard-collab"/>)
   }
   return (
-    <div style={{backgroundColor:'#C66A70',height: '100vh'}}>
+    <div style={{backgroundColor:'#C66A70', width:'100%', minHeight: '100vh'}}>
       <Row>
         <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
       <Card style={{borderRadius:80}}>

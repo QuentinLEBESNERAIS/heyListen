@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Divider,Button,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
+import {Divider,Badge,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
 import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -54,13 +54,15 @@ function ScreenDashboardCollab(props) {
 
     if (listenToDo) {
         styleListenToDo = (<Link to="/listen" >
+          <Badge count={1}>
           <Card
         hoverable
-        style={{ filter:'drop-shadow(1px 1px 3px #555555)',marginTop:22, borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
+        style={{ filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
         cover={<img alt="example" src={opinions}/>}
       >
         <Card.Meta title="Faire mon listen"  />
-      </Card>,
+      </Card>
+      </Badge>
         </Link>)
     } else {
       styleListenToDo =(<Card
@@ -107,7 +109,7 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`,height:'100vh', width:'100vw'}}>
+    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, width:'100%', minHeight: '100vh'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>

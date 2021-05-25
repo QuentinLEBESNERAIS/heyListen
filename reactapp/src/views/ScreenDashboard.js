@@ -52,10 +52,10 @@ var handleStatsRoute = async () =>{
     
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute();console.log('stats',stats)}
+ if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
   },[])
 
-  console.log('stats',stats)
+  
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
@@ -78,8 +78,9 @@ var handleStatsRoute = async () =>{
 
 // Recherche collab
     useEffect(()=> {
-        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()));
+        const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()) || person.lastName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
+        console.log("results",results)
     },[search])
 
 // Paramètres modale feedback manager
@@ -327,11 +328,7 @@ var handleStatsRoute = async () =>{
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     } 
-    
 
-    const handleOk4 =  () => {
-        setVisible4(false);
-    }
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -343,7 +340,7 @@ var handleStatsRoute = async () =>{
         return (
             <Layout>  
                 <Nav/>
-            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height: '100vh', minHeight: '100vh'}}>
+            <div style={{background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', width:'100%', minHeight: '100vh'}}>
                 <div style={{marginTop:"60px"}}>
                 <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
@@ -427,7 +424,7 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                 </Row>
-                <Row style={{marginTop:12}}>
+                <Row style={{marginTop:12, marginBottom:12}}>
                     <Col span={22} offset={1}>
                         <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)',borderRadius:20}}>
                         <List itemLayout="horizontal" >
@@ -488,7 +485,7 @@ var handleStatsRoute = async () =>{
                                         </Button>
                                         <Button key="submit" 
                                         style={{marginLeft:20, backgroundColor:'#C66A70',color:'white',border:'none',borderRadius:40}}
-                                        onClick={()=> handleOk1() }>
+                                        onClick={()=> handleOk1()}>
                                         Valider
                                         </Button>
                                 </Form.Item>
