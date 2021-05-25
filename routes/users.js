@@ -137,10 +137,10 @@ router.post('/add-collab', async function(req, res, next) {
     type: "collab",
   });
   userExist = await newUser.save()
-  console.log('savedUser', userExist)}
+  }
   
   if(userExist) {
-    console.log('userExist._id', userExist._id) 
+    
 
     await ListenModel.updateOne(
       { collab: userExist._id, isActive: true},
@@ -148,10 +148,10 @@ router.post('/add-collab', async function(req, res, next) {
     ); 
     
   var previousTeam = await TeamModel.findOne({collab: userExist._id})
-  console.log('previousTeam', previousTeam);
+
   if (previousTeam) {
     var newTeam = previousTeam.collab.filter(element => element != `${userExist._id}`);
-    console.log('newTeam', newTeam)
+    
     await TeamModel.updateOne({collab: userExist._id},{collab: newTeam})
   }
   }
@@ -172,7 +172,7 @@ router.post('/add-collab', async function(req, res, next) {
    var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
-  console.log('managerTeam', managerTeam);
+ 
   var tabOfCollabs = managerTeam.collab;
   tabOfCollabs.push(userExist._id)
   await TeamModel.updateOne({manager: req.body.userId},{
@@ -187,31 +187,29 @@ router.post('/add-collab', async function(req, res, next) {
   var collab=[]
   
   for (let i=0 ; i<newManagerTeam.length; i++){
-    collab.push(newManagerTeam[i]._id)
+    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
   }
-  var listen=[]
-  var feedback=[]
 
   for (let i=0; i<collab.length;i++){
-    var listensSearch  = await ListenModel.findOne({collab:collab[i], isActive : true})
+    var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
     if(listensSearch){
       if (listensSearch.answersCollab != null){
        
-        listen.push(listensSearch.answersCollab = true)
+        collab[i].listen= true
       }else{
         
-        listen.push(listensSearch.answersCollab = false)
+        collab[i].listen= false
       }
       if (listensSearch.answersFeedback != null){
         
-        feedback.push(listensSearch.answersFeedback = true)
+        collab[i].feedback = true
       }else{
-        feedback.push(listensSearch.answersFeedback = false)
+        collab[i].feedback = false
       }
     }
   }
-  console.log("listenSaved",listenSaved)
-  res.json({response:'Collaborateur ajouté', newManagerTeam: newManagerTeam, collabsListen:listen, collabFeedback:feedback })
+  
+  res.json({response:'Collaborateur ajouté', newManagerTeam: collab})
 });
 
 /*A ANNOTER */
@@ -228,7 +226,7 @@ router.post('/modification-infos', async function(req, res, next) {
   var modifiedUser = await UserModel.findOne({
     token: req.body.token
   })
-  console.log('modifiedUser', modifiedUser)
+  
   res.json({response:'Informations modifiées', user: modifiedUser})
 });
 
@@ -285,7 +283,7 @@ router.put('/delete-collab', async function(req,res,next){
   var collab=[]
   
   for (let i=0 ; i<newManagerTeam.length; i++){
-    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
+    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:filteredTeam[i].firstName})
   }
 
   for (let i=0; i<collab.length;i++){
