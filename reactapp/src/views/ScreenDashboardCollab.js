@@ -58,7 +58,7 @@ function ScreenDashboardCollab(props) {
           <Card
         hoverable
         style={{ filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={opinions}/>}
+        cover={<img alt="example" style={{height:'215px'}} src={opinions}/>}
       >
         <Card.Meta title="Faire mon listen"  />
       </Card>
@@ -67,23 +67,23 @@ function ScreenDashboardCollab(props) {
     } else {
       styleListenToDo =(<Card
       style={{backgroundColor:'#DDDDDD', filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-      cover={<img alt="example" src={opinions}/>}
+      cover={<img style={{height:'215px'}} alt="example" src={opinions}/>}
     >
-      <Card.Meta description="Faire mon listen"  />
+      <Card.Meta description="Pas de listen à faire pour le moment"  />
     </Card>)
     }
 
     if (listenToSee) {
         styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} 
         style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={reading}/>}>
+        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
         <Card.Meta title="Voir mon listen"  />
        </Card>)
     } else {
         styleListenToSee = (<Card 
         style ={{backgroundColor:'#DDDDDD',filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={reading}/>}>
-        <Card.Meta description="Voir mon listen"  />
+        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
+        <Card.Meta description="Le dernier listen n'est pas encore complet"  />
        </Card>)
     }
 
@@ -109,7 +109,7 @@ function ScreenDashboardCollab(props) {
     } else {
      if (pageLoaded){
       return (
-    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, width:'100%', minHeight: '100vh'}}>
+    <div style={{background: `linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)`, height:'100vh', minHeight: '100vh'}}>
               <Menu mode="horizontal" className="navbar">
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
@@ -132,8 +132,8 @@ function ScreenDashboardCollab(props) {
         <Link to="/historique-collab" >
         <Card hoverable 
         style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" src={searching}/>}>
-        <Card.Meta title="Historique"  />
+        cover={<img alt="example" style={{height:'215px'}} src={searching}/>}>
+        <Card.Meta title="Mon historique"  />
        </Card>
        </Link>
        </Col>
