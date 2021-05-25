@@ -55,12 +55,18 @@ function ScreenInfosPersonnelles(props) {
         setMessageError('Merci de remplir tous les champs')
     }
     }
+
+// Styles background selon type
+var backgroundStyle = {background: 'linear-gradient(180deg, #007DB3, #005295 50%, #003376)', height:'100vh', minHeight: '100vh'}
+if (props.user.type == 'collab'){
+backgroundStyle = {background: 'linear-gradient(180deg, #FFFFFF, #00BFA6 90%, #00a38d)', height:'100vh', minHeight: '100vh'}
+} 
 // Une fois le user modifié, l'utilisateur est renvoyé vers le dashboard
   if(userModified){
     return <Redirect to="/dashboard"/>
   }
   return (
-    <div className='background'>
+    <div style={backgroundStyle}>
       <Row>
         <Col span={20} offset={2} style={{marginTop:70,filter:'drop-shadow(1px 2px 5px #555555)'}}>
       <Card style={{borderRadius:20}}>
