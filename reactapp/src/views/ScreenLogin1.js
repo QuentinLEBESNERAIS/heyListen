@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useRef,useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Card,Col, Row, Input, Button} from 'antd';
 import {Redirect} from 'react-router-dom';
@@ -45,6 +45,20 @@ function ScreenLogin1(props) {
       setinvalidEmailMessage('Veuillez rentrer un email')
     }
   } 
+  //EnterPress handler
+  var handleKeyPress = (event) => {
+    if(event.charCode === 13){
+      handleCheckEmail()
+    }
+  }
+  // Focus email
+  const focusEmail= React.useRef(null);
+  
+  useEffect( async () => {
+    focusEmail.current.focus({
+      cursor: 'start',
+    });
+}, [])
 
   if (loginState == 'login2') {
     return (<Redirect to='/login2'/>)
@@ -72,8 +86,8 @@ function ScreenLogin1(props) {
                 {invalidEmailMessage}
               </div>
               
-              <Input style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onChange={(e) => setEmail(e.target.value)} value={email}/>
-              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}} onClick={() => handleCheckEmail()}>
+              <Input ref={focusEmail} style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem', marginRight:'4px'}} placeholder="Votre email" onKeyPress={(e)=>handleKeyPress(e)} onChange={(e) => setEmail(e.target.value)} value={email}/>
+              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:5,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}  onClick={() => handleCheckEmail()}>
                 Valider
               </Button>
             </div>
