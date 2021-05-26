@@ -33,7 +33,6 @@ function ScreenLogin2(props) {
   } 
 //EnterPress handler
 var handleKeyPress = (event) => {
-  console.log(event)
   if(event.charCode === 13){
     handleClickSignIn()
   }
