@@ -586,8 +586,10 @@ var handleStatsRoute = async () =>{
          }}
 
         
- else {
+ else if(props.userId.type==="collab"){ 
         return (<Redirect to='/dashboard-collab'/>)
+    } else {
+        return (<Redirect to='/'/>)
     }
 }
 

@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import '../App.css';
 import {Row,Col,Input,Typography,Slider,Layout,Select,Divider,Modal,Button,Menu,Dropdown} from 'antd'
 import {FrownOutlined,SmileOutlined,DownOutlined} from '@ant-design/icons';
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Nav from './Nav'
 import _, { isArguments } from 'lodash';
@@ -68,6 +68,7 @@ function ScreenHistoriqueCollab(props) {
         </Menu>
     );
 
+    if(!props.user.email){return (<Redirect to='/'/>)} else {
     return (
         <div>
             <Layout style={{backgroundColor:'#FFFFFF', width:'100%', minHeight: '100vh'}}>
@@ -177,6 +178,7 @@ function ScreenHistoriqueCollab(props) {
             </Layout>
         </div>
     );
+}
 }
 
 function mapStateToProps(state) {

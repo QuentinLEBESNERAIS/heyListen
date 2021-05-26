@@ -213,8 +213,10 @@ function ScreenHistoriqueManager(props) {
                 </Layout>
             </div>
         )
-    } else {
+    } else if (props.userId.type==="collab") {
         return <Redirect to='/historique-collab'/> 
+    } else {
+        return <Redirect to='/'/> 
     };
 }
 
