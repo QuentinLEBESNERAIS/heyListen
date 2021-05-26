@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Input, Button, Form} from 'antd';
 import {Redirect} from 'react-router-dom';
@@ -31,6 +31,21 @@ function ScreenLogin2(props) {
       setinvalidPasswordMessage('Veuillez entrer un mot de passe')
     }
   } 
+//EnterPress handler
+var handleKeyPress = (event) => {
+  console.log(event)
+  if(event.charCode === 13){
+    handleClickSignIn()
+  }
+}
+  //Focus Password
+  const focusPassword= React.useRef(null);
+  
+  useEffect( async () => {
+    focusPassword.current.focus({
+      cursor: 'start',
+    });
+}, [])
 
   if (loginState == 'dashboard') {
     return (<Redirect to='/dashboard'/>)
@@ -53,7 +68,7 @@ function ScreenLogin2(props) {
                 <Input disabled style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />
               </Form.Item>
               <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                <Input.Password style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
+                <Input.Password ref={focusPassword} style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onKeyPress={(e)=>handleKeyPress(e)} onChange={(e) => setPassword(e.target.value)} />
               </Form.Item>
               <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
             </Form>
