@@ -7,23 +7,14 @@ import {Avatar,Menu,Badge} from 'antd';
 
 function Nav(props) {
   const [listenToDo,setListenToDo] = useState(false)
-  const [listenToSee,setListenToSee] = useState(false)
-  
   
   const { SubMenu } = Menu;
-
+// ----- Affichage du badge dans faire mon Listen de la navbar
   useEffect( async () => {
-    console.log("chargementnavbar")
         var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
         var foundListen = await rawResponse.json();
-        console.log("finListenResponse", foundListen)
         if (foundListen.listenToDo){
         setListenToDo(true)
-        if (foundListen.listenToSee){
-        setListenToSee(true)  
-        
-        }
-        
     }
     },[])
 
@@ -32,14 +23,13 @@ function Nav(props) {
  
   var badgeListenToDo
   if(listenToDo===false){badgeListenToDo={display:"none"}}
-  var badgeListenToSee
-  if(listenToSee===false){badgeListenToSee={display:"none"}}
-  
-  if(!props.user.email){console.log("if");return (<Redirect to='/'/>)}
-  console.log('testtestrest',props.user)
+ 
+  //----Redirection si le store est vide pour empecher de taper l'url directement
+  if(!props.user.email){return (<Redirect to='/'/>)}
+
   if(props.user.type==="manager"){ 
     return (
-      <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
+      <Menu mode="horizontal" className="navbar">
         <img src={'./logo-transparent.png'} className='navLogo'></img>
         <Menu.Item key="équipe">
           <Link to="/dashboard" >Mon équipe</Link>
@@ -57,7 +47,7 @@ function Nav(props) {
     )
   } else {
     return (
-      <Menu style={{ position: 'fixed', zIndex: 1, width: '100%' }} mode="horizontal" className="navbar">
+      <Menu mode="horizontal" className="navbar">
         <Link to="/dashboard-collab" ><img src={'./logo-transparent.png'} className='navLogo'></img></Link>
         <Menu.Item key="menu" >
           <Badge>
@@ -71,7 +61,7 @@ function Nav(props) {
         </Menu.Item>
         
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-            icon={<Avatar style={{backgroundColor: '#f9fafd', color:'#00BFA6', border:'1px solid #00BFA6'}} size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+            icon={<Avatar className='avatarCollab' size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
             <Menu.Item key="déconnexion" onClick={() => props.handleClickLogOut()}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
