@@ -10,7 +10,7 @@ import searching from '../searching.svg'
 
 function ScreenDashboardCollab(props) {
 
-    const [visible4, setVisible4] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [seeListen,setSeeListen] = useState({reponse1: "", reponse2: "", reponse3: "", reponse4: "", reponse5: ""})
     const [seeFeedback,setSeeFeedback] = useState({feedback1: "", feedback2: ""})
     const [seeMood,setSeeMood] = useState(0)
@@ -23,10 +23,11 @@ function ScreenDashboardCollab(props) {
     var styleListenToDo;
     var styleListenToSee;
 
+    //----- Au chargement de la page fetch en BDD pour voir si listen à faire et à voir
     useEffect( async () => {
             var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
             var foundListen = await rawResponse.json();
-            console.log("finListenResponse", foundListen)
+           
             if (foundListen.listenToDo){
             setListenToDo(true)
             }
@@ -36,10 +37,11 @@ function ScreenDashboardCollab(props) {
             setPageLoaded(true)      
         }, [])
 
+    //------- Au changement de l'état 'listenToDo' fetch en BDD pour voir si listen à faire et à voir pour permettre le temps réel
         useEffect( async () => {
             var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
             var foundListen = await rawResponse.json();
-            console.log("finListenResponse", foundListen)
+            
             if (foundListen.listenToDo){
             setListenToDo(true)
             }
@@ -49,16 +51,17 @@ function ScreenDashboardCollab(props) {
             setPageLoaded(true)    
         }, [listenToDo])
 
+ //------- Au changement du store rerender pour voir si listen à faire et à voir pour permettre le temps réel
     useEffect(()=>{
     },[props.user])
-
+/// ----- Gestion affichage/style card listen à faire
     if (listenToDo) {
         styleListenToDo = (<Link to="/listen" >
           <Badge count={1}>
           <Card
         hoverable
-        style={{ filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" style={{height:'215px'}} src={opinions}/>}
+        className='card'
+        cover={<img alt="Faire mon listen" style={{height:'215px'}} src={opinions}/>}
       >
         <Card.Meta title="Faire mon listen"  />
       </Card>
@@ -66,31 +69,36 @@ function ScreenDashboardCollab(props) {
         </Link>)
     } else {
       styleListenToDo =(<Card
-      style={{backgroundColor:'#DDDDDD', filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-      cover={<img style={{height:'215px'}} alt="example" src={opinions}/>}
+      className='card-disabled'
+      cover={<img style={{height:'215px'}} alt="Faire mon listen" src={opinions}/>}
     >
       <Card.Meta description="Pas de listen à faire pour le moment"  />
     </Card>)
     }
-
+/// ----- Gestion affichage/style card listen à voir
     if (listenToSee) {
-        styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal4()}} 
-        style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
+        styleListenToSee = (<Card hoverable onClick={async() => {await getSeeListen(props.user._id);showModal()}} 
+        className='card'
+        cover={<img style={{height:'215px'}} alt="Voir mon listen" src={reading}/>}>
         <Card.Meta title="Voir mon listen"  />
        </Card>)
     } else {
         styleListenToSee = (<Card 
-        style ={{backgroundColor:'#DDDDDD',filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img style={{height:'215px'}} alt="example" src={reading}/>}>
+        className='card-disabled'
+        cover={<img style={{height:'215px'}} alt="Voir mon listen" src={reading}/>}>
         <Card.Meta description="Listen incomplet"  />
        </Card>)
     }
 
-    const showModal4 = () => {
-        setVisible4(true);
+    //----------Gestion Modal pour voir son listen
+    const showModal = () => {
+        setVisible(true);
     };
 
+    const handleCancel = () => {
+      setVisible(false);
+  };
+  //------Fetch en BDD pour récuperer les reponses collab et manager pour affichage dans modal
     var getSeeListen = async (value) => {
         var Response = await fetch(`/see-listen?collab=${value}`);
         var listens = await Response.json();
@@ -99,9 +107,7 @@ function ScreenDashboardCollab(props) {
         setSeeMood(listens.listenCompleted.mood)
     }
 
-    const handleCancel4 = () => {
-        setVisible4(false);
-    };
+    
 
     if(!props.user.email){return (<Redirect to='/'/>)}
     if(props.user.type === 'manager'){
@@ -114,7 +120,7 @@ function ScreenDashboardCollab(props) {
        <img src={'./logo-transparent.png'} className='navLogo'></img>
        <span style={{marginLeft:'6px'}}>Hey Listen ! </span>
           <SubMenu style={{position:'absolute', top:'0', right:'0'}} key="SubMenu" 
-            icon={<Avatar style={{backgroundColor: '#f9fafd', color:'#00BFA6', border:'1px solid #00BFA6'}} size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
+            icon={<Avatar className='avatarCollab' size={33}>{props.user.firstName[0]}{props.user.lastName[0]}</Avatar>}
           >
             <Menu.Item key="déconnexion" onClick={() => {props.handleClickLogOut()}}>Me déconnecter</Menu.Item>
             <Menu.Item key="informations personnelles"><Link to="/informations-personnelles">Informations personnelles</Link></Menu.Item>
@@ -131,15 +137,15 @@ function ScreenDashboardCollab(props) {
         <Col span={6}>
         <Link to="/historique-collab" >
         <Card hoverable 
-        style ={{filter:'drop-shadow(1px 1px 3px #555555)', borderRadius:10, height: '250px', display:'flex', flexDirection:'column', justifyContent:'center'}}
-        cover={<img alt="example" style={{height:'215px'}} src={searching}/>}>
+        className='card'
+        cover={<img alt="Mon historique" style={{height:'215px'}} src={searching}/>}>
         <Card.Meta title="Mon historique"  />
        </Card>
        </Link>
        </Col>
        
       </Row>
-      <Modal className='center' style={{borderRadius:100}} width= {1200} height= {900} visible={visible4} footer={null} onCancel={handleCancel4}>
+      <Modal style={{borderRadius:100}} width= {1200} height= {900} visible={visible} footer={null} onCancel={handleCancel}>
                     <Row>
                     <Col span={6} offset={1}>
                     <h3 style={{color:'#00BFA6'}}>Feedback Manager</h3>
