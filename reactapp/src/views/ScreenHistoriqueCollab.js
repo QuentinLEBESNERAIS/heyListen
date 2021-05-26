@@ -68,7 +68,7 @@ function ScreenHistoriqueCollab(props) {
         </Menu>
     );
 
-    if(!props.user.email){return (<Redirect to='/'/>)} else {
+    if(!props.userId.email){return (<Redirect to='/'/>)} else {
     return (
         <div>
             <Layout style={{backgroundColor:'#FFFFFF', width:'100%', minHeight: '100vh'}}>
