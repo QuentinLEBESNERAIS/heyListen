@@ -160,44 +160,44 @@ function ScreenHistoriqueManager(props) {
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>Question 1</strong></Typography.Text>
+                                            <Typography.Text><strong>Quels sont les points positifs de la période passée ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse1: "Vide"} readOnly/>
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>Question 2</strong></Typography.Text>
+                                            <Typography.Text><strong>Quelles ont été les difficultés de la période passée ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse2: "Vide"} readOnly/>
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>Question 3</strong></Typography.Text>
+                                            <Typography.Text><strong>Quel est mon objectif prioritaire pour la prériode à venir ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse3: "Vide"} readOnly/>
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>Question 4</strong></Typography.Text>
+                                            <Typography.Text><strong>Qu'attends-je de mon manager pour la période à venir ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse4: "Vide"} readOnly/>
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>Question 5</strong></Typography.Text>
+                                            <Typography.Text><strong>Un point sur lequel j'aimerais revenir :</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersCollab ? selectedListen.answersCollab[0].reponse5: "Vide"} readOnly/>
                                     </Col>
                                     <Divider style={{marginLeft:110}}><strong>FeedBack Manager</strong></Divider>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>FeedBack 1</strong></Typography.Text>
+                                            <Typography.Text><strong>Qu'avez-vous pensé de la performance de ce collaborateur ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback1: "Vide"} readOnly/>
                                     </Col>
                                     <Col span={18} offset={6}>
                                         <Col style={{marginBottom:4}}>
-                                            <Typography.Text><strong>FeedBack 2</strong></Typography.Text>
+                                            <Typography.Text><strong>Qu'attendez-vous de ce collaborateur pour la période à venir ?</strong></Typography.Text>
                                         </Col>
                                         <Input style={{borderRadius: '5px', width:'90%', marginBottom:10}} value={selectedListen.answersFeedback ? selectedListen.answersFeedback[0].feedback2: "Vide"} readOnly/>
                                     </Col>
