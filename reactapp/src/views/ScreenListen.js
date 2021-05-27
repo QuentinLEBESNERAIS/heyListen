@@ -28,7 +28,7 @@ function ScreenListen(props) {
     
     const handleOk = async () => {
         var saveListenCollab = async () => {
-            console.log('testid',props.userId._id)
+            
             await fetch('/save-listen', {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
