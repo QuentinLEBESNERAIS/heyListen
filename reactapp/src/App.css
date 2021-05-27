@@ -11,6 +11,12 @@
   border:1px solid #003566
 }
 
+.avatarCollab {
+  background-color: #f9fafd;
+  color:#00BFA6;
+  border:1px solid #00BFA6;
+}
+
 .ant-badge-count, .ant-badge-dot, .ant-badge .ant-scroll-number-custom-component {
     position: absolute;
     top: 0;
@@ -54,9 +60,12 @@
 }
 
 .navbar {
-  background-color: 'white-smoke';
+  background-color: white-smoke;
   text-align: left;
   box-shadow: 0 4px 4px -2px rgba(0,0,0,.2);
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 }
 
 .navLogo {
@@ -156,4 +165,23 @@
 .sign-up-button-div {
   display: flex;
   justify-content: flex-end;
+}
+
+.card {
+  filter:drop-shadow(1px 1px 3px #555555);
+  border-radius:10px; 
+  height: 250px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+
+.card-disabled {
+  background-color:#DDDDDD;
+  filter:drop-shadow(1px 1px 3px #555555);
+  border-radius:10px; 
+  height: 250px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
 }

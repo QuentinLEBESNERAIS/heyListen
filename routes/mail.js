@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const nodemailer = require("nodemailer");
-var UserModel = require('../models/users');
-var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
 
 let transporter = nodemailer.createTransport({
@@ -56,9 +54,9 @@ router.post('/welcome',async function(req, res, next) {
   router.post('/relaunch',async function(req, res, next) {
     let userId = req.body.idFromFront // du reduceur
     let listen = await ListenModel.find({manager: userId,isActive:true,completedByCollabAt:null}).populate('collab').exec()
-    console.log("listenlength",listen.length)
+    
     for(let i=0;i<listen.length;i++){
-        console.log("email:",listen[i].collab.email)
+        
         let Info = await transporter.sendMail({
             from: '"Hey Listen 👻" <team.heylisten@gmail.com>', // sender address
             to: listen[i].collab.email, // list of receivers

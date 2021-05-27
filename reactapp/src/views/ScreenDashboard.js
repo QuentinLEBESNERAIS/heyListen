@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Layout,Header, Footer, Sider,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
-import {SyncOutlined, SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Layout,Divider,Button,Card,Row,Col,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover} from 'antd'
+import {SyncOutlined, SendOutlined,EditOutlined,EyeOutlined,LockOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link, Redirect} from 'react-router-dom'
 import Nav from './Nav'
 import {connect} from 'react-redux';
@@ -19,8 +19,6 @@ function ScreenDashboard(props) {
     const [collabEmail,setCollabEmail] = useState ('');
     const [errorMessage, setErrorMessage] = useState('');
     const [team,setTeam] = useState([]);
-    const[listenfromBack,setListenfromBack] = useState([]);
-    const [feedbackfromBack,setFeedbackFromBack] = useState([])
     const [collabIDFeedback,setCollabIDFeedback] = useState('')
     const [idCollab, setIdCollab] = useState('')
     const [search,setSearch] = useState('')
@@ -32,7 +30,14 @@ function ScreenDashboard(props) {
     const [isNewCampaign, setIsNewCampaign] = useState(false)
     const [nameToDisplay,setNameToDisplay] = useState("")
     const [stats,setStats] = useState([{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1},{date: "N/A", mood: 1}])
-    const { Header, Footer, Sider, Content } = Layout;
+
+//Initiales avatar liste collab
+var firstMaj = (a) =>{
+    return ( 
+        (a+'').charAt(0).toUpperCase()
+        );
+}
+
 //Affichage collab 
 useEffect(()=> {
   var getBddCollab = async () => {
@@ -40,22 +45,18 @@ useEffect(()=> {
   var collabs = await rawResponse.json();
   setTeam(collabs.collabs)
   setFilteredTeam(collabs.collabs)
-
 }
-
+//Fetch en BDD pour récuperer les stats pour le graphique
 var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    
-   
         setStats(statsListen.monthFinal)
-    
     setPageLoaded(true)
 }
- if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
+ if(props.userId.type === 'manager'){getBddCollab();handleStatsRoute()}
   },[])
 
-  
+//Fetch en BDD pour affichage en temps réel pour lancement d'une nouvelle campagne
   useEffect(()=> {
     var getBddCollab = async () => {
     var rawResponse = await fetch(`/users/find-collab?manager=${props.userId._id}`);
@@ -67,21 +68,18 @@ var handleStatsRoute = async () =>{
   var handleStatsRoute = async () =>{
     var response = await fetch(`/get-stats?manager=${props.userId._id}`);
     var statsListen = await response.json();
-    
-        setStats(statsListen.monthFinal)
-    
+    setStats(statsListen.monthFinal)
 }
-   if(props.userId.type == 'manager'){getBddCollab();handleStatsRoute()}
+   if(props.userId.type === 'manager'){getBddCollab();handleStatsRoute()}
     },[isNewCampaign])
 
-// Recherche collab
+// Recherche collab dans input search qui se MAJ à chaque changement de l'état 'search'
     useEffect(()=> {
         const results = team.filter(person => person.firstName.toLowerCase().includes(search.toLocaleLowerCase()) || person.lastName.toLowerCase().includes(search.toLocaleLowerCase()));
         setFilteredTeam(results)
-        console.log("results",results)
     },[search])
 
-// Paramètres modale feedback manager
+// Paramètres modale feedback manager/ de nouveau fetch en BDD pour affichage en temps réel
     const showModal1 = (name) => {
         setNameToDisplay(name)
         setVisible1(true);
@@ -104,7 +102,6 @@ var handleStatsRoute = async () =>{
             var collabs = await rawResponse.json();
             setTeam(collabs.collabs)
             setFilteredTeam(collabs.collabs)
-            
         }
         if(props.userId.type == 'manager'){getBddCollab()}
     };
@@ -113,7 +110,7 @@ var handleStatsRoute = async () =>{
         setVisible1(false);
     };
 
-// Paramètres modale ajout de collab
+// Paramètres modale ajout de collab avec vérifaction que l'email est valide
     const showModal2 = () => {
         setVisible2(true);
     };
@@ -131,7 +128,7 @@ var handleStatsRoute = async () =>{
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
                         body: `collabEmail=${collabEmail}&userId=${props.userId._id}`
                     });
-                    var responseMailRaw = await fetch('/mail/invite', {
+                    await fetch('/mail/invite', {
                         method: 'POST',
                         headers: {'Content-Type':'application/x-www-form-urlencoded'},
                         body: `collabEmail=${collabEmail}`
@@ -141,11 +138,7 @@ var handleStatsRoute = async () =>{
                         message.info(response.response);
                     }
                     info();
-                    console.log('response.newManagerTeam', response.newManagerTeam)
                     setFilteredTeam(response.newManagerTeam)
-
-                    setListenfromBack(response.collabsListen)
-                    setFeedbackFromBack(response.collabFeedback)
                     setCollabEmail('')
                 } 
                 await saveCollab()
@@ -172,7 +165,7 @@ var handleStatsRoute = async () =>{
             message.info('Nouvelle campagne lancée avec succés !');
         }
         info();
-        const body = await data.json()
+        await data.json()
         setIsNewCampaign(true)
     }
 
@@ -181,7 +174,7 @@ var handleStatsRoute = async () =>{
         newCampaignLaunch()
     }
 
-    //FONCTION POUR RELANCER TOUS LES COLLAB 
+    //FONCTION POUR RELANCER TOUS LES COLLAB PAR MAIL
     const relaunch = async () => {
         const rawRelaunchData = await fetch('/mail/relaunch', {
             method: 'POST',
@@ -193,7 +186,6 @@ var handleStatsRoute = async () =>{
             message.info('Vos collaborateurs ont été relancé');
         }
         if(relaunchData==="relancé"){info()}
-
     }
     // Fonctions pour suppression d'un collab 
 
@@ -223,13 +215,10 @@ var handleStatsRoute = async () =>{
 
     };
 
-// Charts
- var month = stats.map((item,i)=>(
-     item.date
- ));
- var data = stats.map((item,i)=>(
-    item.mood
-));
+// Charts stat de la moyenne des humeurs de l'équipe pour les 6 derniers mois
+ var month = stats.map(item => item.date);
+ var data = stats.map(item => item.mood);
+
     const state = {
         labels: month,
         datasets: [
@@ -237,14 +226,8 @@ var handleStatsRoute = async () =>{
         ]
     }
 
-//Initiales avatar liste collab
-    var firstMaj = (a) =>{
-        return ( 
-            (a+'').charAt(0).toUpperCase()
-            );
-    }
 
-//changement couleur Tab collab
+//changement couleur Tag collab
     
     for(var i=0; i<filteredTeam.length;i++){
     var color
@@ -257,13 +240,11 @@ var handleStatsRoute = async () =>{
             color = 'rgba(43,147,72,0.6)'
             text = "Ce collaborateur a rempli son Listen"
         }
-        filteredTeam[i].listentag = <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{text}</Tag>
-        
+        filteredTeam[i].listentag = <Tag color={color} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{text}</Tag> 
     }
 
-//changement couleur et icon cadena/edit Tab collab
+//changement couleur et icon cadena/crayon Tab collab
     
-   
     for(var i=0; i<filteredTeam.length;i++){
         var colorFeedback
         var textFeedback
@@ -281,7 +262,6 @@ var handleStatsRoute = async () =>{
             iconDisplayCadena = { fontSize: '24px',color:'#003566' }
         }
         filteredTeam[i].feedbacktag= <Tag color={colorFeedback} style={{width:250,borderRadius:'10px',textAlign:'center'}}>{textFeedback}</Tag>
-        
         filteredTeam[i].iconStyle = iconDisplay
         filteredTeam[i].iconStyleCadena = iconDisplayCadena
     }
@@ -305,8 +285,9 @@ var handleStatsRoute = async () =>{
             listenCompleted += 1
         }
     }
-
     var completion = Math.floor((listenCompleted / team.length) * 100)
+
+// Affichage modal visionnage du listen
 
     const showModal4 = () => {
        
@@ -320,7 +301,6 @@ var handleStatsRoute = async () =>{
         setSeeFeedback(listens.feedbacks)
         setSeeMood(listens.listenCompleted.mood)
     } 
-
 
     const handleCancel4 = () => {
         setVisible4(false);
@@ -336,7 +316,8 @@ var handleStatsRoute = async () =>{
                 <div style={{marginTop:"60px"}}>
                 <Row style={{height:205, marginTop:0}}>
                     <Col span={4} offset={1} >
-                        <Card style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
+                        <Card 
+                        style ={{ textAlign:'center', filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                         <h4 >Taux de complétion
                             <Divider style={{marginTop:7, marginBottom:27}}/>        
                         <Progress strokeColor={{'0%': '#003566','100%': '#00BFA6',}} percent={completion} type='circle' status="active" />
@@ -344,7 +325,8 @@ var handleStatsRoute = async () =>{
                         </Card>
                     </Col>
                     <Col span={18}>
-                    <Card style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
+                    <Card 
+                    style={{filter:'drop-shadow(1px 2px 5px #555555)',height:233, borderRadius:20, marginLeft:18}}>
                         <h4 style={{marginLeft:5}}>Humeur de mon équipe</h4>
                         <Divider style={{margin:4}}/>
                         <div style={{height:170}}>
@@ -381,14 +363,16 @@ var handleStatsRoute = async () =>{
                     <Card style ={{filter:'drop-shadow(1px 2px 5px #555555)', borderRadius:20}}>
                     <Row >
                     <Col span={4} >
-                   <Button onClick={relaunch}  icon={<SendOutlined />} style={{filter:'drop-shadow(1px 1px 1px #003566)', borderColor:'#003566', color:'#003566',borderRadius:10, width:'266px'}}>
+                   <Button onClick={relaunch}  icon={<SendOutlined />} 
+                   style={{filter:'drop-shadow(1px 1px 1px #003566)', borderColor:'#003566', color:'#003566',borderRadius:10, width:'266px'}}>
                     Relancer tous les collab.
                     </Button>
                    </Col>
 
                     <Popover content={"Le collaborateur sera ajouté à la liste, dès qu'il aura créé son compte"}>
                     <Col span={4} offset={2}>
-                    <Button onClick={showModal2} style={{ borderColor:'#003566', color:'#003566',borderRadius:10,width:'266px',filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
+                    <Button onClick={showModal2} 
+                    style={{ borderColor:'#003566', color:'#003566',borderRadius:10,width:'266px',filter:'drop-shadow(1px 1px 1px #003566)'}} icon={<UserAddOutlined />}>
                     Inviter un collaborateur
                     </Button>
                     </Col>
@@ -403,7 +387,8 @@ var handleStatsRoute = async () =>{
                         >
                             
                              <Col span={4} offset={2}>
-                        <Button icon={<SyncOutlined />} style={{ borderColor:'#003566', color:'#003566',width:'266px',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une campagne Listen</Button>
+                        <Button icon={<SyncOutlined />} 
+                        style={{ borderColor:'#003566', color:'#003566',width:'266px',borderRadius:10,filter:'drop-shadow(1px 1px 1px #003566)'}}>Lancer une campagne Listen</Button>
                         </Col>
                         
                         </Popconfirm>
@@ -434,16 +419,16 @@ var handleStatsRoute = async () =>{
                                 {firstMaj(item.firstName)}{firstMaj(item.lastName)}
                                 </Avatar>
                                 </td> 
-                                <td style={{width:200,textAlign:'center'}}>
+                                <td style={{width:250,textAlign:'center'}}>
                                 <Typography.Text style={{color:'#003566'}}>{item.firstName} {item.lastName}</Typography.Text>
                                 </td>
-                                <td style={{width:250,textAlign:'center'}}>
+                                <td style={{width:300,textAlign:'center'}}>
                                 {filteredTeam[i].listentag}
                                 </td>
-                                <td style={{width:250,textAlign:'center'}}>
+                                <td style={{width:300,textAlign:'center'}}>
                                 {filteredTeam[i].feedbacktag}
                                 </td>
-                                <td style={{width:90,textAlign:'center'}}>
+                                <td style={{width:200,textAlign:'center'}}>
                                     <EyeOutlined style={filteredTeam[i].iconStyleEye} onClick={async() => {await getSeeListen(item._id);showModal4()}}
                                     />
                                     <LockOutlined style={filteredTeam[i].iconStyleCadena}/>

@@ -20,7 +20,7 @@ router.post('/check-email', async function(req, res, next) {
   var searchUserByEmail = await UserModel.findOne({
     email: req.body.email
   })
-  console.log('searchUserByEmail', searchUserByEmail)
+ 
   if(searchUserByEmail){
     if (searchUserByEmail.password){
       res.json({response: 'login2'})
@@ -54,7 +54,7 @@ router.post('/sign-in', async function(req, res, next) {
 
 /*Create user account type manager (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
 router.post('/sign-up-manager',async function(req, res, next) {
-  console.log(req.body)
+  
   let email = req.body.email
   let lastName = firstMaj(req.body.lastName)
   let firstName = firstMaj(req.body.firstName)
@@ -62,7 +62,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
   let password2 = req.body.password2
   let company = firstMaj(req.body.company)
   let jobTitle = firstMaj(req.body.jobTitle)
-  let type = 'manager'
+
   if(lastName && firstName && password && password2 && company && jobTitle && email ){
     if (password == password2){
       //Création du user Manager en BDD
@@ -100,7 +100,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
 
 /*Create user account type collab préinscrit (sign-up) | Body : lastName (Cantos), firstName(Soraya), password(1234), password2(1234), company(LaCapsule), jobTitle(developper) | Response : "" */
 router.post('/sign-up-collab',async function(req, res, next) {
-  console.log(req.body)
+  
   let email = req.body.email
   let lastName = req.body.lastName
   let firstName = req.body.firstName
@@ -108,6 +108,7 @@ router.post('/sign-up-collab',async function(req, res, next) {
   let password2 = req.body.password2
   let company = req.body.company
   let jobTitle = req.body.jobTitle
+
   if(lastName && firstName && password && password2 && company && jobTitle && email ){
     if (password == password2){
       //Création du user Collab en BDD
@@ -122,6 +123,7 @@ router.post('/sign-up-collab',async function(req, res, next) {
         isActive:true
       })
       var newUser = await UserModel.findOne({email:req.body.email})
+      //pour ne pas renvoyer le mot de passe au front :
       newUser.password = undefined
 
       res.json({response:"compte crée",user:newUser})
@@ -136,6 +138,8 @@ router.post('/sign-up-collab',async function(req, res, next) {
 /*Ajout d'un collab par le manager */
 router.post('/add-collab', async function(req, res, next) {
   var userExist = await UserModel.findOne({ email:req.body.collabEmail})
+
+  // Si le collab n'existe pas on crée le user
   if(!userExist)
   {var newUser = new UserModel({
     email: req.body.collabEmail,
@@ -146,23 +150,23 @@ router.post('/add-collab', async function(req, res, next) {
   userExist = await newUser.save()
   }
   
+  // Si le user existe on passe ses listen à isActive = false
   if(userExist) {
-    
-
     await ListenModel.updateOne(
       { collab: userExist._id, isActive: true},
       { isActive: false }
     ); 
-    
+  
+  // On élimine le collab de son ancienne team
   var previousTeam = await TeamModel.findOne({collab: userExist._id})
 
   if (previousTeam) {
     var newTeam = previousTeam.collab.filter(element => element != `${userExist._id}`);
-    
     await TeamModel.updateOne({collab: userExist._id},{collab: newTeam})
   }
   }
 
+  // On crée un listen pour ce collab
   var newListen = new ListenModel ({
     collab: userExist._id,
     manager: req.body.userId,
@@ -172,10 +176,10 @@ router.post('/add-collab', async function(req, res, next) {
     answersCollab: null,
     answersFeedback: null,
   });
-  var listenSaved = await newListen.save();
+  await newListen.save();
 
 
-
+  // Ajout du collab dans la team du manager connecté
    var managerTeam = await TeamModel.findOne({
     manager: req.body.userId
   })
@@ -186,11 +190,13 @@ router.post('/add-collab', async function(req, res, next) {
     collab: tabOfCollabs
   })
  
+  // Populate pour accéder aux informations des collaborateurs pour ne filtrer que les collabs actifs
   var newManagerTeam = await TeamModel.findOne({
     manager: req.body.userId
   }).populate('collab').exec()
   newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
 
+  // Reconstitution d'un tableau avec les ids, les prénoms et les noms des collabs de la team auquel on associe la réponse du collab et le feedback du manager des listen actifs
   var collab=[]
   
   for (let i=0 ; i<newManagerTeam.length; i++){
@@ -219,9 +225,11 @@ router.post('/add-collab', async function(req, res, next) {
   res.json({response:'Collaborateur ajouté', newManagerTeam: collab})
 });
 
-/*A ANNOTER */
+/*Modification des informations personnelles */
 router.post('/modification-infos', async function(req, res, next) {
   hash = bcrypt.hashSync(req.body.password,10)
+
+  // Modification après soumission du formulaire 
   await UserModel.updateOne({token: req.body.token},{
     lastName: firstMaj(req.body.lastName),
     firstName: firstMaj(req.body.firstName),
@@ -230,6 +238,8 @@ router.post('/modification-infos', async function(req, res, next) {
     jobTitle: firstMaj(req.body.jobTitle),
     isActive: true
   })
+
+  // Recherche pour renvoie au front
   var modifiedUser = await UserModel.findOne({
     token: req.body.token
   })
@@ -238,10 +248,13 @@ router.post('/modification-infos', async function(req, res, next) {
   res.json({response:'Informations modifiées', user: modifiedUser})
 });
 
-/*A ANNOTER */
+// Pour constituer la liste affichée dans le dashboard
 router.get('/find-collab', async function(req,res,next){
+  //Recherche de la team du manager connecté avec infos des collabs
   var team = await TeamModel.findOne({ manager:req.query.manager}).populate('collab').exec();
   var filteredTeam = team.collab.filter( e => e.isActive == true)
+
+  // Reconstitution d'un tableau avec les ids, les prénoms et les noms des collabs de la team auquel on associe la réponse du collab et le feedback du manager des listen actifs
   var collab=[]
   
   for (let i=0 ; i<filteredTeam.length; i++){
@@ -270,24 +283,29 @@ router.get('/find-collab', async function(req,res,next){
 res.json({collabs:collab})
 })
 
-/*A ANNOTER */
+/*Suppression d'un collaborateur de la team */
 router.put('/delete-collab', async function(req,res,next){
 
+// Recherche de la team du manager connecté
   var managerTeam = await TeamModel.findOne({
     manager: req.body.idManager
   })
 
+// Suppression du collaborateur sélectionné
   var filteredTeam = managerTeam.collab.filter(element => element != req.body.idCollab);
 
   filteredManagerTeam = await TeamModel.updateOne({manager: req.body.idManager}, {collab: filteredTeam})
 
+// Recherche de la team du manager + infos collab pour renvoie au front
   var newManagerTeam = await TeamModel.findOne({
     manager: req.body.idManager
   }).populate('collab').exec()
   newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
 
-  var listensCollab = await ListenModel.updateOne({collab: req.body.idCollab}, {isActive: false})
+// On passe ses listens actifs avec ce manager à false
+  await ListenModel.updateOne({collab: req.body.idCollab}, {isActive: false})
 
+  // Reconstitution d'un tableau avec les ids, les prénoms et les noms des collabs de la team auquel on associe la réponse du collab et le feedback du manager des listen actifs
   var collab=[]
   
   for (let i=0 ; i<newManagerTeam.length; i++){

@@ -12,41 +12,28 @@ import rafiki2 from '../Search-rafiki2.png'
 function ScreenHistoriqueCollab(props) {
     const {Sider, Content} = Layout;
     const {Option} = Select;
-    const [visibleModal, setVisibleModal] = useState(false);
     const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[{}]});
     const [year, setYear] = useState('')
     const [selectedListen, setSelectedListen] = useState({})
     const [firstSelectedListen, setFirstSelectedListen] = useState(true)
 
+    //--------Au chargement de la page fetch en BDD des listens inactifs par année et par mois
     useEffect(() => {
         const startPage = ( async () => {
-            if (props.shownModal == false){
-                var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
-                var foundListen = await rawResponse.json();
-                if (foundListen.response == true){
-                    console.log('foundListen.response', foundListen.response)
-                    setVisibleModal(true)
-                }
-            }
             const data = await fetch('/matriochka/matriochka', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: `idFromFront=${props.userId._id}`
             })
             const body = await data.json()
-            console.log(body)
             setDataCollabFromBack(body)
         })
         startPage();
     },[])
 
-    const handleCancel = () => {
-        props.modalState()
-        setVisibleModal(false);
-    };
+
 
     function handleChange(value) {
-        console.log("MATRIOCHKA = ",dataCollabFromBack)
         setYear(value);
     }
 
@@ -54,8 +41,6 @@ function ScreenHistoriqueCollab(props) {
         let listenTemp = listen
         setFirstSelectedListen(false)
         setSelectedListen(listenTemp)
-        console.log("SELECTED LISTEN = ", selectedListen)
-
     }
 
     const menu = (i, years, o, months) => (
@@ -169,11 +154,6 @@ function ScreenHistoriqueCollab(props) {
                             </Row>
                         }
                     </Content>
-                    
-                    <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" >
-                        <Button key="back" onClick={props.modalState()}>Remplir mon listen</Button></Link>} width={700} height={500}>
-                        <div style={{color:'red', display:'flex', justifyContent:'center'}}>Bonjour, veuillez remplir votre Listen !</div>
-                    </Modal>
                 </Layout>
             </Layout>
         </div>
@@ -186,15 +166,8 @@ function mapStateToProps(state) {
     return { userId: state.user }
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        modalState: function(){
-            dispatch({type:"modalState"})
-        }
-    }
-}
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(ScreenHistoriqueCollab);

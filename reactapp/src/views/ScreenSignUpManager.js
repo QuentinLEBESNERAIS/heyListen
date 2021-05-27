@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Card,Col, Input, Row, Alert, Space, Button,message} from 'antd';
 import {Link,Redirect} from 'react-router-dom';
-import { set } from 'mongoose';
 import login from '../login.svg'
 
 function ScreenSignUpManager(props) {
@@ -15,11 +14,16 @@ function ScreenSignUpManager(props) {
   const [signUpError,setSignUpError] = useState("")
   const [userCreated,setUserCreated] = useState(false)
 
+  // Fonction gestion des informations du sign-up
   var handleClickSignUp = ()=>{
+
+    // Vérification de la validité du mot de passe
     var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
     var valid = passwordReg.test(password);
     if(!valid){setSignUpError("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
     } else {
+
+      // Enregistrement des informations en bdd
       async function signUp(){
         var response = await fetch('/users/sign-up-manager',{
           method:"POST",
@@ -28,13 +32,13 @@ function ScreenSignUpManager(props) {
         })
         response=await response.json()
         
-        var responseMail = await fetch('/mail/welcome',{
+        // Envoi d'un email de bienvenu  
+        await fetch('/mail/welcome',{
           method:"POST",
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         
-        console.log("reponsemail",responseMail)
         setSignUpError(response.response)
         if(response.user)
         {props.userToReducer(response.user)
@@ -49,7 +53,7 @@ function ScreenSignUpManager(props) {
     }
   }
 
-/*Alerte signUp*/
+//Alerte sign-up
 let alerte 
 if(signUpError){alerte=<Alert style={{borderRadius: '5px'}}
 message={signUpError}

@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
-var TemplateModel = require('../models/templates');
 var moment = require('moment');
 var _ = require('lodash');
 const { kebabCase } = require('lodash');
@@ -12,28 +11,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* GET TO-DASHBOARD page. */
-router.get('/to-dashboard', function(req, res, next) {
-  let token = req.query.token // du reduceur
-  let idManager = req.query.id
-    // Find by Id du manager
-    // Find listen by Id du manager dont isActive == true
-    //Calcul completion rate 
-    // Mettre listen dans le reduceur au click sur l'oeil on récupère 
-  res.json ({response: 'Nouvelle campagne lancée', listen, completionRate})
-});
-
 /* POST NEW-CAMPAIGN function-route. */
 router.post('/new-campaign', async function(req, res, next) {
   let userId = req.body.idFromFront // du reduceur
-  console.log("mon userId =",userId)
-
   let team = await TeamModel.find({manager: userId}).populate('collab').exec()
-  console.log("ma Team =",team)
-  console.log("mes Collabs =",team[0].collab)
-  console.log("combien de Collabs ? ", team[0].collab.length)
 
-  // Update ancienne campagne, tous les listen dont managerId et isActive =true ==> isActive = false
+  // Update ancienne campagne, tous les listen dont managerId et isActive = true ==> isActive = false
   await ListenModel.updateMany(
     { manager: userId, isActive: true},
     { isActive: false }
@@ -41,7 +24,6 @@ router.post('/new-campaign', async function(req, res, next) {
   
   // Création listens avec managerId from team et collabId from team
   for(i=0; i<team[0].collab.length; i++){
-    //if (team[i].collab.isActive) {
     var newListen = new ListenModel ({
       collab: team[0].collab[i],
       manager: userId,
@@ -51,8 +33,7 @@ router.post('/new-campaign', async function(req, res, next) {
       answersCollab: null,
       answersFeedback: null,
     });
-    var listenSaved = await newListen.save();
-  //}
+    await newListen.save();
   }
   res.json ({response: 'Nouvelle campagne lancée'})
 });
@@ -70,7 +51,7 @@ router.put('/save-listen', async function(req, res, next) {
 
 /* PUT SAVE-FEEDBACK function-route. */
 router.put('/save-feedback', async function(req, res, next) {
-  console.log('testfeedback',req.body.feedback1)
+  
   await ListenModel.updateOne({collab:req.body.id, isActive : true},{
     completedByManagerAt: new Date(),
     answersFeedback: [{feedback1: req.body.feedback1, feedback2: req.body.feedback2}]
@@ -79,18 +60,12 @@ router.put('/save-feedback', async function(req, res, next) {
   res.json ({response: saveNewFeedback})
 });
 
-/* POST INITLISTENDB function-route. */
-router.post('/initListenDB', async function(req,res,next){
-  var ListenFromDB = await ListenModel.find({ token: req.body.tokenFromFront})
-  res.json(ListenFromDB)
-})
-
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
+
   var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
   var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
-  console.log('isListenToDo', isListenToDo);
-  console.log('isListenToSee', isListenToSee);
+
   res.json({listenToDo: isListenToDo, listenToSee:isListenToSee})
 })
 
@@ -99,28 +74,34 @@ router.get('/see-listen', async function(req,res,next){
   
   var listenCompleted = await ListenModel.findOne({collab: req.query.collab, isActive:true});
  
- 
   var answers = listenCompleted.answersCollab[0]
   var feedbacks = listenCompleted.answersFeedback[0]
-    res.json({listenCompleted, answers,feedbacks})
+  res.json({listenCompleted, answers,feedbacks})
   
 })
 
 /* GET GET-STATS function-route. */
 router.get('/get-stats', async function(req,res,next){
+
+  //Date il y a six mois en millisecondes => pour calcul de la date d'il y 6 mois de façon dynamique
   var dateOffset = (24*60*60*1000)*151
   var myDate = new Date()
   myDate.setTime(myDate.getTime() - dateOffset)
   myDate.setDate(1)
   var statsListen = await ListenModel.find({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}, answersCollab:{ $ne: null }});
+  
+  // Création d'un tableau d'objets avec dates + mood
   var statsMood = []
   for(let i=0;i<statsListen.length;i++){
     statsMood.push({date:statsListen[i].createdAt,mood:statsListen[i].mood})
   }
+  // Classement par date ascendante
   statsMood.sort((a, b) => a.date - b.date)
+  
+  // Fonction pour calcul de la moyenne des mood
   function numAverage(a) {
     var b = a.length,
-        c = 0, i;
+        c = 0,i;
     for (i = 0; i < b; i++){
       c += Number(a[i]);
     }
@@ -139,6 +120,7 @@ router.get('/get-stats', async function(req,res,next){
   var tempOctobre = []
   var tempNovembre =[]
   
+  // Changement du nom du mois et ajout du mood dans le tableau correspondant au mois en question
   for(let i= 0 ; i<statsMood.length;i++){
     if(statsMood[i].date.getMonth()== 00){
       statsMood[i].date = 'Janvier'
@@ -203,6 +185,7 @@ router.get('/get-stats', async function(req,res,next){
    
   }
 
+  // Création d'un tableau avec un object par mois et mood moyen associé
   var monthFinal = _.uniqBy(statsMood,'date')
 
   for(let i=0; i<monthFinal.length;i++){

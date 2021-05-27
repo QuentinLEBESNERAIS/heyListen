@@ -14,11 +14,15 @@ function ScreenSignUpCollab(props) {
   const [signUpError,setSignUpError] = useState("")
   const [userCreated,setUserCreated] = useState(false)
 
+  //Fonction gestion des infos de sing-up
   var handleClickSignUp = ()=>{
+    
+    // Vérification de la validité du mot de passe
     var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
     var valid = passwordReg.test(password);
     if(!valid){setSignUpError("Le mot de passe est incorrect, il doit contenir au minimum 8 caractères dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
     }else{
+    // Enregistrement des informations en bdd
       async function signUp(){
         var response = await fetch('/users/sign-up-collab',{
           method:"POST",
@@ -26,30 +30,31 @@ function ScreenSignUpCollab(props) {
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         response = await response.json()
-        console.log('response', response)
-        var responseMail = await fetch('/mail/activate',{
+
+    // Envoi d'un email de bienvenu   
+        await fetch('/mail/activate',{
           method:"POST",
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
           body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
         })
         setSignUpError(response.response)
-        console.log('response.response', response.response)
+        
         if(response.user)
         {props.userToReducer(response.user)
         if(response.response==="compte crée"){
-          console.log('avant set état dans condition if')
+        
           setUserCreated(true)
           const info = () => {
             message.info('Compte crée avec succès');
           }
           info();}}
       }
-      console.log('fin de la fonction sign up')
+      
     signUp()
     }
   }
 
-  /*Alerte signUp*/
+  //Alerte sign-up
 let alerte 
 if(signUpError){alerte=<Alert style={{borderRadius: '5px'}}
 message={signUpError}
