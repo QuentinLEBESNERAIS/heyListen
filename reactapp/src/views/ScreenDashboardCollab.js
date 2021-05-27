@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import '../App.css';
-import {Divider,Badge,Card,Row,Col,Menu,Space,Progress,Input,Form,List,Avatar,Tag,Typography,Modal,Image, message, Popconfirm,Popover,Search} from 'antd'
-import { SendOutlined,HistoryOutlined,EditOutlined,EyeOutlined,LockOutlined,PlusOutlined,UserAddOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Divider,Badge,Card,Row,Col,Menu,Avatar,Modal} from 'antd'
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import opinions from '../post.svg'

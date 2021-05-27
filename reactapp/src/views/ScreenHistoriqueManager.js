@@ -10,6 +10,7 @@ import moment from 'moment';
 import rafiki from '../search-rafiki.png'
 
 function ScreenHistoriqueManager(props) {
+
     const {Sider, Content} = Layout;
     const {Option} = Select;
     const [visibleModal, setVisibleModal] = useState(false);

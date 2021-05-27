@@ -15,14 +15,12 @@ router.get('/', function(req, res, next) {
 router.post('/new-campaign', async function(req, res, next) {
   let userId = req.body.idFromFront // du reduceur
   let team = await TeamModel.find({manager: userId}).populate('collab').exec()
-
-  // Update ancienne campagne, tous les listen dont managerId et isActive = true ==> isActive = false
+// Update ancienne campagne, tous les listen dont managerId et isActive = true ==> isActive = false
   await ListenModel.updateMany(
     { manager: userId, isActive: true},
     { isActive: false }
   ); 
-  
-  // Création listens avec managerId from team et collabId from team
+// Création listens avec managerId from team et collabId from team
   for(i=0; i<team[0].collab.length; i++){
     var newListen = new ListenModel ({
       collab: team[0].collab[i],
@@ -51,7 +49,6 @@ router.put('/save-listen', async function(req, res, next) {
 
 /* PUT SAVE-FEEDBACK function-route. */
 router.put('/save-feedback', async function(req, res, next) {
-  
   await ListenModel.updateOne({collab:req.body.id, isActive : true},{
     completedByManagerAt: new Date(),
     answersFeedback: [{feedback1: req.body.feedback1, feedback2: req.body.feedback2}]
@@ -62,43 +59,35 @@ router.put('/save-feedback', async function(req, res, next) {
 
 /* GET FIND-LISTEN function-route. */
 router.get('/find-listen', async function(req,res,next){
-
   var isListenToDo = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:null});
   var isListenToSee = await ListenModel.findOne({collab: req.query.id,isActive:true,answersCollab:{ $ne: null },answersFeedback:{ $ne: null }});
-
   res.json({listenToDo: isListenToDo, listenToSee:isListenToSee})
 })
 
 /* GET SEE-LISTEN function-route. */
 router.get('/see-listen', async function(req,res,next){
-  
   var listenCompleted = await ListenModel.findOne({collab: req.query.collab, isActive:true});
- 
   var answers = listenCompleted.answersCollab[0]
   var feedbacks = listenCompleted.answersFeedback[0]
   res.json({listenCompleted, answers,feedbacks})
-  
 })
 
 /* GET GET-STATS function-route. */
 router.get('/get-stats', async function(req,res,next){
-
-  //Date il y a six mois en millisecondes => pour calcul de la date d'il y 6 mois de façon dynamique
+//Date il y a six mois en millisecondes => pour calcul de la date d'il y 6 mois de façon dynamique
   var dateOffset = (24*60*60*1000)*151
   var myDate = new Date()
   myDate.setTime(myDate.getTime() - dateOffset)
   myDate.setDate(1)
   var statsListen = await ListenModel.find({manager:req.query.manager, isActive:false, createdAt:{$gte:myDate}, answersCollab:{ $ne: null }});
-  
-  // Création d'un tableau d'objets avec dates + mood
+// Création d'un tableau d'objets avec dates + mood
   var statsMood = []
   for(let i=0;i<statsListen.length;i++){
     statsMood.push({date:statsListen[i].createdAt,mood:statsListen[i].mood})
   }
-  // Classement par date ascendante
+// Classement par date ascendante
   statsMood.sort((a, b) => a.date - b.date)
-  
-  // Fonction pour calcul de la moyenne des mood
+// Fonction pour calcul de la moyenne des mood
   function numAverage(a) {
     var b = a.length,
         c = 0,i;
@@ -119,15 +108,13 @@ router.get('/get-stats', async function(req,res,next){
   var tempSeptembre =[]
   var tempOctobre = []
   var tempNovembre =[]
-  
-  // Changement du nom du mois et ajout du mood dans le tableau correspondant au mois en question
+// Changement du nom du mois et ajout du mood dans le tableau correspondant au mois en question
   for(let i= 0 ; i<statsMood.length;i++){
     if(statsMood[i].date.getMonth()== 00){
       statsMood[i].date = 'Janvier'
       tempJanvier.push(statsMood[i].mood)
-      
     }
-   else if(statsMood[i].date.getMonth()== 01){
+    else if(statsMood[i].date.getMonth()== 01){
       statsMood[i].date = 'Février'
       tempFévrier.push(statsMood[i].mood)
       statsMood[i].mood = numAverage(tempFévrier)
@@ -182,40 +169,36 @@ router.get('/get-stats', async function(req,res,next){
       tempDecembre.push(statsMood[i].mood)
       statsMood[i].mood = numAverage(tempDecembre)
     }
-   
   }
-
-  // Création d'un tableau avec un object par mois et mood moyen associé
+// Création d'un tableau avec un object par mois et mood moyen associé
   var monthFinal = _.uniqBy(statsMood,'date')
-
   for(let i=0; i<monthFinal.length;i++){
     if(monthFinal[i].date == 'Janvier'){
       monthFinal[i].mood = numAverage(tempJanvier)
-  }else if(monthFinal[i].date == 'Février'){
-    monthFinal[i].mood = numAverage(tempFévrier)
-}else if(monthFinal[i].date == 'Mars'){
-  monthFinal[i].mood = numAverage(tempMars)
-}else if(monthFinal[i].date == 'Avril'){
-  monthFinal[i].mood = numAverage(tempAvril)
-}else if(monthFinal[i].date == 'Mai'){
-  monthFinal[i].mood = numAverage(tempMai)
-}else if(monthFinal[i].date == 'Juin'){
-  monthFinal[i].mood = numAverage(tempJuin)
-}else if(monthFinal[i].date == 'Juillet'){
-  monthFinal[i].mood = numAverage(tempJuillet)
-}else if(monthFinal[i].date == 'Août'){
-  monthFinal[i].mood = numAverage(tempAout)
-}else if(monthFinal[i].date == 'Septembre'){
-  monthFinal[i].mood = numAverage(tempSeptembre)
-}else if(monthFinal[i].date == 'Octobre'){
-  monthFinal[i].mood = numAverage(tempOctobre)
-}else if(monthFinal[i].date == 'Novembre'){
-  monthFinal[i].mood = numAverage(tempNovembre)
-}else if(monthFinal[i].date == 'Décembre'){
-  monthFinal[i].mood = numAverage(tempDecembre)
-}}
- 
-
+    }else if(monthFinal[i].date == 'Février'){
+      monthFinal[i].mood = numAverage(tempFévrier)
+    }else if(monthFinal[i].date == 'Mars'){
+      monthFinal[i].mood = numAverage(tempMars)
+    }else if(monthFinal[i].date == 'Avril'){
+      monthFinal[i].mood = numAverage(tempAvril)
+    }else if(monthFinal[i].date == 'Mai'){
+      monthFinal[i].mood = numAverage(tempMai)
+    }else if(monthFinal[i].date == 'Juin'){
+      monthFinal[i].mood = numAverage(tempJuin)
+    }else if(monthFinal[i].date == 'Juillet'){
+      monthFinal[i].mood = numAverage(tempJuillet)
+    }else if(monthFinal[i].date == 'Août'){
+      monthFinal[i].mood = numAverage(tempAout)
+    }else if(monthFinal[i].date == 'Septembre'){
+      monthFinal[i].mood = numAverage(tempSeptembre)
+    }else if(monthFinal[i].date == 'Octobre'){
+      monthFinal[i].mood = numAverage(tempOctobre)
+    }else if(monthFinal[i].date == 'Novembre'){
+      monthFinal[i].mood = numAverage(tempNovembre)
+    }else if(monthFinal[i].date == 'Décembre'){
+      monthFinal[i].mood = numAverage(tempDecembre)
+    }
+  }
   res.json({monthFinal})
 })
 

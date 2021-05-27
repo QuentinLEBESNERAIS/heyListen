@@ -12,7 +12,7 @@ function ScreenLogin2(props) {
 // Fonction gestion du sign-in 
   var handleClickSignIn = async() => {
     if (password){
-  // S'il y a un mot de passe, requête vers la base de données
+// S'il y a un mot de passe, requête vers la base de données
       var resultRaw = await fetch('/users/sign-in', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -20,7 +20,7 @@ function ScreenLogin2(props) {
       });
       var resultSignIn = await resultRaw.json();
   
-  // Retour backend, si mot de passe correct, user enregistré dans le reduceur
+// Retour backend, si mot de passe correct, user enregistré dans le reduceur
       if (resultSignIn.response == 'connect'){
         props.saveUser(resultSignIn.user)
         setLoginState('dashboard')
@@ -32,19 +32,19 @@ function ScreenLogin2(props) {
     }
   } 
 //EnterPress handler
-var handleKeyPress = (event) => {
-  if(event.charCode === 13){
-    handleClickSignIn()
+  var handleKeyPress = (event) => {
+    if(event.charCode === 13){
+      handleClickSignIn()
+    }
   }
-}
-  //Focus Password
+//Focus Password
   const focusPassword= React.useRef(null);
   
   useEffect( async () => {
     focusPassword.current.focus({
       cursor: 'start',
     });
-}, [])
+  }, [])
 
   if (loginState == 'dashboard') {
     return (<Redirect to='/dashboard'/>)
@@ -55,27 +55,26 @@ var handleKeyPress = (event) => {
         <Col span={4} style={{height:'70%', backgroundColor:'#eeeeee',borderRadius:'20px 0 0 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
           <img width={120} src={'./logo-transparent.png'}/>
           <div style={{height: '20%', display: 'flex', alignItems: 'flex-end'}}>
-            <p>powered by <img  width={55} src={"./uptoo.svg"}/></p> </div>
+            <p>powered by <img  width={55} src={"./uptoo.svg"}/></p> 
+          </div>
           </Col>
-            
             <Col span={10} style={{filter:'drop-shadow(-15px 0px 15px -3px #bbbbbb)',height:'70%', backgroundColor:'white',borderRadius:'0 20px 20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <div style={{color:'red'}}>
-              {invalidPasswordMessage}
-            </div>
-            <Form>
-              <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                <Input disabled style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />
-              </Form.Item>
-              <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
-                <Input.Password ref={focusPassword} style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onKeyPress={(e)=>handleKeyPress(e)} onChange={(e) => setPassword(e.target.value)} />
-              </Form.Item>
-              <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
-            </Form>
-            <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-              <div style={{fontStyle: 'italic'}}>L'application pour les managers VRAIMENT bienveillants !</div>
-            </div>
+              <div style={{color:'red'}}>
+                {invalidPasswordMessage}
+              </div>
+              <Form>
+                <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
+                  <Input disabled style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder={props.email} />
+                </Form.Item>
+                <Form.Item layout="horizontal" style={{marginTop:30,padding:0}}>
+                  <Input.Password ref={focusPassword} style={{borderRadius: '5px',borderColor:'#0065A2', width:'18rem',marginLeft:"5px", marginRight:'4px'}} placeholder="Mot de passe" onKeyPress={(e)=>handleKeyPress(e)} onChange={(e) => setPassword(e.target.value)} />
+                </Form.Item>
+                <Button style={{filter:'drop-shadow(5px 5px 15px 5px #0065A2)',marginLeft:175,marginTop:10,borderColor:'#0065A2', color:'#0065A2',borderRadius:'5px'}}  onClick={() => handleClickSignIn()} >Me connecter</Button>
+              </Form>
+              <div style={{height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
+                <div style={{fontStyle: 'italic'}}>L'application pour les managers VRAIMENT bienveillants !</div>
+              </div>
           </Col>
-         
         </Row>
       </div>
     );
