@@ -13,7 +13,6 @@ function ScreenHistoriqueManager(props) {
 
     const {Sider, Content} = Layout;
     const {Option} = Select;
-    const [visibleModal, setVisibleModal] = useState(false);
     const [myTeamFromBack, setMyTeamFromBack] = useState ([])
     const [dataCollabFromBack, setDataCollabFromBack] = useState({matriochka:[{}]});
     const [selectedCollab, setSelectedCollab] = useState('')
@@ -25,13 +24,6 @@ function ScreenHistoriqueManager(props) {
 
     useEffect(() => {
         const startPage = ( async () => {
-            if (props.shownModal == false){
-                var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
-                var foundListen = await rawResponse.json();
-                if (foundListen.response == true){
-                    setVisibleModal(true)
-                }
-            }
             const data = await fetch('/matriochka/find-Collab', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -82,11 +74,6 @@ function ScreenHistoriqueManager(props) {
             ))}
         </Menu>
     );
-
-    const handleCancel = () => {
-        props.modalState()
-        setVisibleModal(false);
-    };
 
 
     if(props.userId.type==="manager"){
@@ -201,10 +188,6 @@ function ScreenHistoriqueManager(props) {
                             }
                         </Content>
 
-                        <Modal className='center' visible={visibleModal} onCancel={handleCancel} footer={<Link to="/listen" >
-                            <Button key="back" onClick={props.modalState()}>Remplir mon listen</Button></Link>} width={700} height={500}>
-                            <div style={{color:'red', display:'flex', justifyContent:'center'}}>Bonjour, veuillez remplir votre Listen !</div>
-                        </Modal>
                     </Layout>
                 </Layout>
             </div>
@@ -220,15 +203,7 @@ function mapStateToProps(state) {
     return { userId: state.user }
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        modalState: function(){
-            dispatch({type:"modalState"})
-        }
-    }
-}
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(ScreenHistoriqueManager);
