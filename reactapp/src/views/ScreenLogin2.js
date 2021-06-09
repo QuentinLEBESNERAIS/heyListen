@@ -41,14 +41,16 @@ function ScreenLogin2(props) {
   const focusPassword= React.useRef(null);
   
   useEffect( async () => {
+    if (props.email){
     focusPassword.current.focus({
       cursor: 'start',
     });
+  }
   }, [])
 
   if (loginState == 'dashboard') {
     return (<Redirect to='/dashboard'/>)
-  } else {
+  } else if (props.email) {
     return (
       <div className="background">
         <Row justify="center" align="middle" style={{height:'100%'}}>
@@ -78,6 +80,8 @@ function ScreenLogin2(props) {
         </Row>
       </div>
     );
+  } else {
+    return (<Redirect to='/'/>)
   }
 }
 
