@@ -134,7 +134,7 @@ function ScreenListen(props) {
     );
 }
 
-function mapStateToProps(state) {console.log('testStore',state.user._id )
+function mapStateToProps(state) {
     return { userId: state.user }
 }
 

@@ -161,7 +161,6 @@ function ScreenHistoriqueCollab(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('test userStore',state.user._id)
     return { userId: state.user }
 }
 

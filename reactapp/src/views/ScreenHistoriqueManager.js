@@ -49,7 +49,6 @@ function ScreenHistoriqueManager(props) {
         setYear('')
         setDataCollabFromBack({matriochka:[{}]})
         setSelectedCollab(value);
-        (console.log("Selected Collab ID = ", selectedCollab))
         const callMatriochka = ( async () => {
             const data = await fetch('/matriochka/matriochka', {
                 method: 'POST',
@@ -218,7 +217,6 @@ function ScreenHistoriqueManager(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('test userStore',state.user._id)
     return { userId: state.user }
 }
 

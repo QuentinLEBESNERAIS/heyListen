@@ -173,6 +173,7 @@ router.post('/add-collab', async function(req, res, next) {
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
+/*  
 // Populate pour accéder aux informations des collaborateurs pour ne filtrer que les collabs actifs
   var newManagerTeam = await TeamModel.findOne({
     manager: req.body.userId
@@ -197,8 +198,8 @@ router.post('/add-collab', async function(req, res, next) {
         collab[i].feedback = false
       }
     }
-  }
-  res.json({response:'Collaborateur ajouté', newManagerTeam: collab})
+  }*/
+  res.json({response:'Collaborateur ajouté'})
 });
 
 /*Modification des informations personnelles */

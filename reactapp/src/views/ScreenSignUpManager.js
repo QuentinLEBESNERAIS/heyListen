@@ -34,7 +34,7 @@ function ScreenSignUpManager(props) {
         await fetch('/mail/welcome',{
           method:"POST",
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
-          body:`email=${props.email}&firstName=${firstName}&lastName=${lastName}&password=${password}&password2=${password2}&company=${company}&jobTitle=${jobTitle}`
+          body:`email=${props.email}&firstName=${firstName}`
         })
         setSignUpError(response.response)
         if(response.user)

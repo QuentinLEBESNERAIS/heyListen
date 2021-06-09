@@ -138,7 +138,6 @@ function ScreenDashboard(props) {
                         message.info(response.response);
                     }
                     info();
-                    setFilteredTeam(response.newManagerTeam)
                     setCollabEmail('')
                 } 
                 await saveCollab()
