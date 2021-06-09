@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var TeamModel = require('../models/teams');
 var ListenModel = require('../models/listens');
-var TemplateModel = require('../models/templates');
 var moment = require('moment');
 var _ = require('lodash');
 const { kebabCase } = require('lodash');

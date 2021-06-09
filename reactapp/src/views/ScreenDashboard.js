@@ -183,7 +183,7 @@ function ScreenDashboard(props) {
         }) 
         let relaunchData = await rawRelaunchData.json()
         const info = () => {
-            message.info('Vos collaborateurs ont été relancé');
+            message.info('Vos collaborateurs ont été relancés');
         }
         if(relaunchData==="relancé"){info()}
     }

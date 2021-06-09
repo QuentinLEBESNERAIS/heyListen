@@ -60,8 +60,8 @@ router.post('/relaunch',async function(req, res, next) {
           from: '"Hey Listen 👻" <team.heylisten@gmail.com>', // sender address
           to: listen[i].collab.email, // list of receivers
           subject: "Relance Hey Listen", // Subject line
-          text: "Tu n'a pas rempli ton listen. C'est pas bien.", // plain text body
-          html: "<b>Tu n'a pas rempli ton listen. C'est pas bien.</b>", // html body
+          text: "Tu n'as pas rempli ton listen. C'est pas bien.", // plain text body
+          html: "<b>Tu n'as pas rempli ton listen. C'est pas bien.</b>", // html body
         });
       
   }

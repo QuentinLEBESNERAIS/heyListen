@@ -29,7 +29,6 @@ function ScreenHistoriqueManager(props) {
                 var rawResponse = await fetch(`/find-listen?id=${props.user._id}`);
                 var foundListen = await rawResponse.json();
                 if (foundListen.response == true){
-                    console.log('foundListen.response', foundListen.response)
                     setVisibleModal(true)
                 }
             }
@@ -39,7 +38,6 @@ function ScreenHistoriqueManager(props) {
                 body: `idFromFront=${props.userId._id}`
             })
             const body = await data.json()
-            console.log("MyTeamFromBack = ", body.myTeam.collab)
             setMyTeamFromBack(body.myTeam.collab)
         })
         startPage();
@@ -59,7 +57,6 @@ function ScreenHistoriqueManager(props) {
                 body: `idFromFront=${value}`
             })
             const body2 = await data.json()
-            console.log(body2)
             setDataCollabFromBack(body2)
         })
         callMatriochka();
@@ -75,7 +72,6 @@ function ScreenHistoriqueManager(props) {
         let listenTemp = listen
         setFirstSelectedListen(false)
         setSelectedListen(listenTemp)
-        console.log("SELECTED LISTEN = ", selectedListen)
     }
 
     const menu = (i, years, o, months) => (

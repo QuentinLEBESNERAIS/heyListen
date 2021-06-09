@@ -9,18 +9,16 @@ import ScreenDashboard from './views/ScreenDashboard'
 import ScreenListen from './views/ScreenListen';
 import ScreenHistoriqueCollab from './views/ScreenHistoriqueCollab';
 import ScreenHistoriqueManager from './views/ScreenHistoriqueManager';
-//import ScreenMyAcount from './views/ScreenMyAcount';
 import ScreenInfosPersonnelles from './views/ScreenInfosPersonnelles';
 import ScreenDashboardCollab from './views/ScreenDashboardCollab';
 
 import email from './reducers/email';
 import user from './reducers/user';
-import shownModal from './reducers/shownModal';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers({email, user, shownModal}));
+const store = createStore(combineReducers({email, user}));
 
 function App() {
   return (
