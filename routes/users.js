@@ -82,7 +82,7 @@ router.post('/sign-up-manager',async function(req, res, next) {
         collab: []
       })
       var savedNewTeam = await newTeam.save()
-      res.json({response:"compte crée", user:savedUser, team:savedNewTeam})
+      res.json({response:"compte crée", user:savedUser})
     } else {
       res.json({response: 'les mots de passe ne correspondent pas'})
     } 

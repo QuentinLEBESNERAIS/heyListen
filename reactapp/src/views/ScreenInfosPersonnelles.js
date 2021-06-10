@@ -20,7 +20,6 @@ function ScreenInfosPersonnelles(props) {
   var handleClickModifInfos = ()=> {
 // On vérifie que tous les champs sont remplis
     if (firstName && lastName && password && password2 && company && jobTitle){
-      console.log('helllo', firstName, lastName, password, password2)
 // On vérifie que le mot de passe respecte les standards de sécurité
     var passwordReg = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i);
     var valid = passwordReg.test(password);
