@@ -206,6 +206,7 @@ function ScreenDashboard(props) {
             });
             var team = await managerTeam.json()
             setFilteredTeam(team.newManagerTeam)
+            setTeam(team.newManagerTeam)
         } 
         suppCollab();
         setVisible3(false);

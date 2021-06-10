@@ -173,32 +173,7 @@ router.post('/add-collab', async function(req, res, next) {
   await TeamModel.updateOne({manager: req.body.userId},{
     collab: tabOfCollabs
   })
-/*  
-// Populate pour accéder aux informations des collaborateurs pour ne filtrer que les collabs actifs
-  var newManagerTeam = await TeamModel.findOne({
-    manager: req.body.userId
-  }).populate('collab').exec()
-  newManagerTeam = newManagerTeam.collab.filter( e => e.isActive == true)
-// Reconstitution d'un tableau avec les ids, les prénoms et les noms des collabs de la team auquel on associe la réponse du collab et le feedback du manager des listen actifs
-  var collab=[]
-  for (let i=0 ; i<newManagerTeam.length; i++){
-    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
-  }
-  for (let i=0; i<collab.length;i++){
-    var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
-    if(listensSearch){
-      if (listensSearch.answersCollab != null){
-        collab[i].listen= true
-      }else{
-        collab[i].listen= false
-      }
-      if (listensSearch.answersFeedback != null){
-        collab[i].feedback = true
-      }else{
-        collab[i].feedback = false
-      }
-    }
-  }*/
+
   res.json({response:'Collaborateur ajouté'})
 });
 
@@ -275,7 +250,7 @@ router.put('/delete-collab', async function(req,res,next){
 // Reconstitution d'un tableau avec les ids, les prénoms et les noms des collabs de la team auquel on associe la réponse du collab et le feedback du manager des listen actifs
   var collab=[]
   for (let i=0 ; i<newManagerTeam.length; i++){
-    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:filteredTeam[i].firstName})
+    collab.push({_id:newManagerTeam[i]._id, lastName:newManagerTeam[i].lastName,firstName:newManagerTeam[i].firstName})
   }
   for (let i=0; i<collab.length;i++){
     var listensSearch  = await ListenModel.findOne({collab:collab[i]._id, isActive : true})
